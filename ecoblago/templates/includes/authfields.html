@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block links %}
+	<link rel="stylesheet" href="{% static 'css/authfields.css' %}">
+{% endblock %}
+
+{% block body %}
+	<div class="row authbar">
+		<div class="col-8 col-md-5 col-xl-3 fields-wrapper">
+			<div class="col-4 col-md-4 col-xl-4">
+				<img src="{% static 'img/logo.png' %}" alt="logo" class="img-fluid logo">
+			</div>
+
+			<form class="auth-option-wrapper" method="POST" action="{% url 'loginpage:login' %}" name="auth-option-wrapper">
+				{% csrf_token %}
+				<button class="auth-option-button" name="auth-option-login" {% if auth_option == 0 %}style="color: #007bff!important; border-bottom: 3px solid #007bff!important;"{% endif %}>Вход</button>
+				<button class="auth-option-button" name="auth-option-signup" {% if auth_option == 1 %}style="color: #007bff!important; border-bottom: 3px solid #007bff!important;"{% endif %}>Регистрация</button>
+			</form>
+
+			<form class="auth-form" method="POST" action="{% url 'loginpage:login' %}" name="auth-form">
+				{% csrf_token %}
+				{% for field in form %}
+					{{ field }}
+				{% endfor %}
+				{{ form.errors }}
+				{% if errors %} {{ errors }} {% endif %}
+				<button name="commit-button" class="commit-button" type="submit">
+					<p class="button-text h5">{{ button_text }}</p>
+					<img src="{% static 'img/right_arrow.png' %}" alt="->" class="right-arrow" id="login-status">
+				</button>
+			</form>
+		</div>
+	</div>
+
+	<style>
+		.auth-option-button {
+			background-color: transparent; /* Makes the button transparent */
+			border: none; /* Removes default border */
+			outline: none; /* Removes default outline */
+			padding: 10px 20px; /* Add padding for button size */
+			color: gray; /* Set text color */
+			border-bottom: 3px solid rgb(230, 230, 230); /* Add a blue bottom outline */
+			cursor: pointer; /* Change cursor to a pointer on hover */
+			font-size: 20px;
+			width: 100%;
+		}
+
+		.auth-option-button:hover {
+			color: rgb(50, 50, 50);
+			border-bottom: 3px solid rgb(200, 200, 200);
+		}
+
+		.auth-option-wrapper {
+			width: 100%;
+			display: flex;
+			flex-direction: row;
+		}
+
+		body {
+			background-color: rgb(233, 233, 233);
+		}
+
+		.auth-form {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 20px;
+		}
+
+		.authbar {
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	
+		.right-arrow {
+			width: 30px;
+			height: 30px;   
+		}
+
+		.fields-wrapper {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 30px;
+			padding-top: 40px;
+			padding-right: 15px;
+			padding-bottom: 40px;
+			padding-left: 15px;
+			background-color: white;
+			border-radius: 10px;
+		}
+
+		.input-field {
+			background: rgb(249, 249, 249);
+	
+			outline: none;
+			border-radius: 10px;
+			border: solid rgb(200, 200, 200) 2px;
+			
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			
+			padding-left: 10px;
+	
+			font-family: Inter, sans-serif;
+			font-weight: 400;
+			font-size: 12px;
+			width: 100%;
+
+			transition: all 0.1s ease-in-out;
+			padding: 10px;
+		}
+
+		.input-field:hover {
+			border: solid #06D602 2px;
+		}
+		
+		.input-field::placeholder {
+			color: #aaa;
+		}
+
+		.commit-button {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+	
+			background: linear-gradient(to bottom, #05eb01, #049b01);
+			outline: none;
+			border: none;
+			border-radius: 6px;
+	
+			transition: all 0.1s ease-in-out;
+			padding: 5px;
+			width: 100%;
+		}
+
+		.commit-button:hover {
+				background: linear-gradient(to bottom, #32b100, #1f6d00);
+		}
+	
+
+		.button-text {
+			color: white;
+		}
+
+		.main-text {
+			font-family: Inter, sans-serif;
+			font-weight: 700;
+			color: black;
+			font-size: 50px;
+		}
+	</style>
+{% endblock %}

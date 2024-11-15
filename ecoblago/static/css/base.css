@@ -1,0 +1,24 @@
+button:hover {
+    cursor: pointer;
+}
+
+html {
+    width: 100vw;
+    height: 100vh;
+}
+
+body {
+    background-image: url('img/background_light.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100%; /* Ensures the body takes the full height of the viewport */
+    width: 100%;
+    margin: 0; /* Removes default margin */
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
