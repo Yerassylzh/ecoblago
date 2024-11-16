@@ -7,10 +7,22 @@
 
 {% block body %}
 	<div class="row authbar">
-		<div class="col-8 col-md-5 col-xl-3 fields-wrapper">
-			<div class="col-4 col-md-4 col-xl-4">
-				<img src="{% static 'img/logo.png' %}" alt="logo" class="img-fluid logo">
+		<div class="col-8 col-md-5 col-xl-4 fields-wrapper">
+			<div class="col-4 col-md-4 col-xl-4 logo-wrapper">
+				<img src="{% static 'img/logo_icon.png' %}" alt="logo" class="img-fluid logo">
 			</div>
+
+            <p class="main-text">
+                ЭкоБлаго
+            </p>
+
+            <p class="current-auth-text">
+                {% if auth_option == 0 %}
+                    Вход
+                {% else %}
+                    Регистрация
+                {% endif %}
+            </p>
 
 			<form class="auth-option-wrapper" method="POST" action="{% url 'loginpage:login' %}" name="auth-option-wrapper">
 				{% csrf_token %}
@@ -23,10 +35,14 @@
 				{% for field in form %}
 					{{ field }}
 				{% endfor %}
-				{{ form.errors }}
-				{% if errors %} {{ errors }} {% endif %}
+
+                {% if error_message %}
+                    <p class="error-message">{{ error_message }}</p>
+                {% endif %}
+
+                {% if errors %} {{ errors }} {% endif %}
 				<button name="commit-button" class="commit-button" type="submit">
-					<p class="button-text h5">{{ button_text }}</p>
+					<p class="button-text">{{ button_text }}</p>
 					<img src="{% static 'img/right_arrow.png' %}" alt="->" class="right-arrow" id="login-status">
 				</button>
 			</form>
@@ -34,6 +50,38 @@
 	</div>
 
 	<style>
+        .logo {
+            border-radius: 15px;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            {% comment %} aspect-ratio : 1 / 1; {% endcomment %}
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .current-auth-text {
+            color: #000;
+            text-align: center;
+            font-family: Inter;
+            font-size: 45px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+
+        .error-message {
+            color: rgb(220, 79, 79);
+            font-family: Inter, sans-serif;
+			font-weight: 100;
+			font-size: 12px;
+        }
+
 		.auth-option-button {
 			background-color: transparent; /* Makes the button transparent */
 			border: none; /* Removes default border */
@@ -83,6 +131,10 @@
 		}
 
 		.fields-wrapper {
+            {% comment %} height: 80vh; {% endcomment %}
+            {% comment %} scroll-snap-type: y mandatory;
+            overflow-y: scroll; {% endcomment %}
+
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -94,7 +146,7 @@
 			padding-left: 15px;
 			background-color: white;
 			border-radius: 10px;
-		}
+        }
 
 		.input-field {
 			background: rgb(249, 249, 249);
@@ -147,13 +199,17 @@
 
 		.button-text {
 			color: white;
+            font-size: 20px;
 		}
 
 		.main-text {
-			font-family: Inter, sans-serif;
-			font-weight: 700;
-			color: black;
-			font-size: 50px;
+            color: #000;
+            text-align: center;
+            font-family: Inter;
+            font-size: 50px;
+            font-style: normal;
+            font-weight: 900;
+            line-height: normal;
 		}
 	</style>
 {% endblock %}
