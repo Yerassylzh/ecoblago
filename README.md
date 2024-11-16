@@ -14,15 +14,19 @@
 ```bash
 git clone https://github.com/Yerassylzh/ecoblago.git
 cd ecoblago
+```
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate  # Для Windows используйте `venv\Scripts\activate`
+```
 
 ```bash
 pip install -r requirements.txt
+```
 
 ```bash
 python manage.py runserver
+```
 
 Теперь перейдите по 'localhost:8000'
