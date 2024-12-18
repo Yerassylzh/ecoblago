@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "loginpage.apps.LoginpageConfig",
+    "authpage.apps.AuthpageConfig",
     "django_cleanup.apps.CleanupConfig",
     "sorl.thumbnail",
 ]

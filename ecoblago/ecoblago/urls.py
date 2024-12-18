@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
 
-import ecoblago, loginpage.urls
+import ecoblago, authpage.urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include(loginpage.urls)),
+    path("", include(authpage.urls)),
 ]
 
 if ecoblago.settings.DEBUG:

@@ -1,3 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: calc(2rem + 1.2vw); /* Scales from 2rem to a larger size */
+}
+
+h2 {
+    font-size: calc(1.75rem + 1vw); /* Slightly smaller than h1 */
+}
+
+h3 {
+    font-size: calc(1.5rem + 0.9vw); /* Balanced scaling for h3 */
+}
+
+h4 {
+    font-size: calc(1.25rem + 0.8vw); /* Smaller and scales proportionally */
+}
+
+h5 {
+    font-size: calc(1rem + 0.7vw); /* Compact but still fluid */
+}
+
+h6 {
+    font-size: calc(0.875rem + 0.6vw); /* The smallest heading */
+}
+
 button:hover {
     cursor: pointer;
 }
@@ -5,20 +34,4 @@ button:hover {
 html {
     width: 100vw;
     height: 100vh;
-}
-
-body {
-    background-image: url('img/background_light.png');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    background-attachment: fixed;
-    height: 100%; /* Ensures the body takes the full height of the viewport */
-    width: 100%;
-    margin: 0; /* Removes default margin */
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
 }
