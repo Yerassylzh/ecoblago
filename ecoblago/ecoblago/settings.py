@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "authpage.apps.AuthpageConfig",
+    "catalog.apps.CatalogConfig",
     "django_cleanup.apps.CleanupConfig",
     "sorl.thumbnail",
 ]

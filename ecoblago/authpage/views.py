@@ -14,7 +14,7 @@ from authpage.models import User
 
 class AuthpageView(View):
     authpage_template_url = "authpage/authpage.html"
-    homepage_url_name = "ecoblago:homepage"
+    homepage_url_name = "catalog:catalog"
 
     LOGIN_OPTION = 0
     SIGNUP_OPTION = 1
@@ -56,7 +56,6 @@ class AuthpageView(View):
 
         request.session.update({
             "username": username,
-            "password": password,
         })
 
     def login_user(self, request: HttpRequest, context) -> JsonResponse:

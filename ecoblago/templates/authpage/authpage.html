@@ -6,41 +6,43 @@
 {% endblock %}
 
 {% block main %}
-<div class="row main-inner">
-  <div class="col-8 col-md-5 col-xl-4 authbar">
-    <div class="col-4 col-md-4 col-xl-4 logo-container">
-      <img src="{% static 'img/ecoblago.png' %}" alt="logo" class="img-fluid logo">
-    </div>
-
-    <p class="company-name-text">
-      Экоблаго
-    </p>
-
-    <p class="current-auth-type-text" id="current-auth-type-text">Вход</p>
-
-    <div class="auth-options-container" name="auth-options-container" id="auth-options-container" data-current-auth-type="0">
-      <button class="auth-type-button-selected" data-auth-type="login" name="auth-option-login" id="auth-login">Вход</button>
-      <button class="auth-type-button" data-auth-type="signup" name="auth-option-signup" id="auth-signup">Регистрация</button>
-    </div>
-
-    <div class="auth-form" id="auth-form" name="auth-form">
-      <div class="input-fields-container" id="input-fields-container">
-        {% for input_field in input_fields %}
-          {{ input_field }}
-        {% endfor %}
-      </div>
-      <div class="remember-me-container">
-        {{ form.remember_me }}
-        {{ form.remember_me.label }}
+<main>
+  <div class="row main-inner">
+    <div class="col-8 col-md-5 col-xl-4 authbar">
+      <div class="col-4 col-md-4 col-xl-4 logo-container">
+        <img src="{% static 'img/ecoblago.png' %}" alt="logo" class="img-fluid logo">
       </div>
 
-      <button name="commit-button" class="commit-button" id="auth-submit" type="submit">
-        <p class="button-text">Продолжить</p>
-        <img src="{% static 'img/right_arrow.png' %}" alt="->" class="right-arrow">
-      </button>
+      <p class="company-name-text">
+        Экоблаго
+      </p>
+
+      <p class="current-auth-type-text" id="current-auth-type-text">Вход</p>
+
+      <div class="auth-options-container" name="auth-options-container" id="auth-options-container" data-current-auth-type="0">
+        <button class="auth-type-button-selected" data-auth-type="login" name="auth-option-login" id="auth-login">Вход</button>
+        <button class="auth-type-button" data-auth-type="signup" name="auth-option-signup" id="auth-signup">Регистрация</button>
+      </div>
+
+      <div class="auth-form" id="auth-form" name="auth-form">
+        <div class="input-fields-container" id="input-fields-container">
+          {% for input_field in input_fields %}
+            {{ input_field }}
+          {% endfor %}
+        </div>
+        <div class="remember-me-container">
+          {{ form.remember_me }}
+          {{ form.remember_me.label }}
+        </div>
+
+        <button name="commit-button" class="commit-button" id="auth-submit" type="submit">
+          <p class="button-text">Продолжить</p>
+          <img src="{% static 'img/right_arrow.png' %}" alt="->" class="right-arrow">
+        </button>
+      </div>
     </div>
   </div>
-</div>
+</main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{% static 'js/authpage/authpage.js' %}"></script>
