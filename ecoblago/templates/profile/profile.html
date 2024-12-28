@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block links %}
+  <link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile/profile.css' %}">
+  <link rel="stylesheet" href="{% static 'css/includes/profile/personal_info.css' %}">
+  <link rel="stylesheet" href="{% static 'css/includes/profile/feedback_bar.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock links %}
+
+{% block navbar %}
+  {% include 'includes/navbar.html' %}
+{% endblock navbar %}
+
+{% block main %}
+<main>
+  <div class="row main-row">
+    <div class="profile-bar col-12 col-md-10 col-xl-9">
+      <div class="primary-data">
+        <div class="personal-data">
+          {% include 'includes/profile/personal_info.html' %}
+          {% include 'includes/profile/personal_info.html' %}
+          {% include 'includes/profile/personal_info.html' %}
+          {% include 'includes/profile/personal_info.html' %}
+        </div>
+        <div class="personal-image-wrapper">
+          <img src="personal-image.png" alt="personal image" class="personal-img">
+        </div>
+      </div>
+
+      <div class="additional-data">
+        <div class="additional-info">
+          <p class="additional-info-tag">О себе</p>
+          <hr class="additional-info-hr">
+          <p class="additional-info-text">С 10-летним опытом работы в сфере продажи птичьих кормов, я обладаю глубокими знаниями о потребностях различных видов птиц и могу предложить оптимальные решения для их питания.
+            Мой опыт позволяет мне эффективно консультировать клиентов, помогать в выборе подходящих кормов и обеспечивать высокое качество обслуживания.
+            Я стремлюсь к постоянному совершенствованию своих знаний и навыков, чтобы предоставлять актуальную информацию и лучшие продукты для здоровья и благополучия ваших пернатых друзей.</p>
+        </div>
+      </div>
+
+      <div class="additional-data">
+        <div class="additional-info">
+          <p class="additional-info-tag">Отзывы</p>
+          <hr class="additional-info-hr">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-7 col-md-4 col-xl-3">
+                {% include 'includes/profile/feedback_bar.html' %}
+              </div>
+              <div class="col-7 col-md-4 col-xl-3">
+                {% include 'includes/profile/feedback_bar.html' %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock main %}
