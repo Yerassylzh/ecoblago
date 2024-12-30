@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "authpage.apps.AuthpageConfig",
     "catalog.apps.CatalogConfig",
+    "profilepage.apps.ProfilepageConfig",
     "django_cleanup.apps.CleanupConfig",
     "sorl.thumbnail",
 ]

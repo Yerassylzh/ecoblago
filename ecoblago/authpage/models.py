@@ -3,10 +3,23 @@ from django.core.validators import EmailValidator
 from authpage.validators import PhoneNumberValidator
 
 class User(models.Model):
-    username = models.CharField(
+    name = models.CharField(
         verbose_name="имя пользователя",
+        name="name",
+        max_length=255,
+    )
+
+    surname = models.CharField(
+        verbose_name="фамилия пользователя",
+        name="surname",
+        max_length=255,
+    )
+
+    username = models.CharField(
+        verbose_name="хэндл пользователя",
         name="username",
         max_length=255,
+        unique=True,
     )
 
     phone_number = models.CharField(
@@ -31,6 +44,13 @@ class User(models.Model):
         verbose_name="пароль",
         name="password",
         max_length=255,
+    )
+
+    about = models.TextField(
+        verbose_name="О себе",
+        name="about",
+        default="",
+        null=True,
     )
 
     class Meta:

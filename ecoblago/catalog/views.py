@@ -4,6 +4,8 @@ from django.shortcuts import render
 from django.views import View
 from django.http import HttpRequest, HttpResponse, JsonResponse
 
+from authpage.models import User
+
 
 class CatalogView(View):
     template_url = "catalog/catalog.html"
@@ -12,4 +14,8 @@ class CatalogView(View):
         pass
 
     def get(self, request: HttpRequest) -> Union[HttpResponse, JsonResponse]:
-        return render(request, self.template_url)
+        context = {
+            "my_id": User.objects.get(username=request.session.get("username")).pk,
+        }
+
+        return render(request, self.template_url, context)

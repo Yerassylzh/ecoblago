@@ -48,17 +48,47 @@ class LoginForm(Form):
 
 
 class SignupForm(Form):
-    username = CharField(
+    name = CharField(
         widget=TextInput(
             attrs={
                 "placeholder": "Имя пользователя",
+                "class": "input-field",
+                "type": "name",
+                "id": "name",
+            }
+        ),
+        validators=[
+            MinLengthValidator(3, "Имя пользователя слишком короткое"),
+        ],
+        required=True,
+    )
+
+    surname = CharField(
+        widget=TextInput(
+            attrs={
+                "placeholder": "Фамилия пользователя",
+                "class": "input-field",
+                "type": "surname",
+                "id": "surname",
+            }
+        ),
+        validators=[
+            MinLengthValidator(3, "Фамлилия пользователя слишком короткое"),
+        ],
+        required=True,
+    )    
+
+    username = CharField(
+        widget=TextInput(
+            attrs={
+                "placeholder": "Уникальный хэндл (имя)",
                 "class": "input-field",
                 "type": "username",
                 "id": "username",
             }
         ),
         validators=[
-            MinLengthValidator(10, "Имя пользователя слишком короткое"),
+            MinLengthValidator(10, "Хэндл пользователя слишком короткое"),
         ],
         required=True,
     )

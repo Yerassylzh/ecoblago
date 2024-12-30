@@ -53,9 +53,13 @@ document.addEventListener("click", e => {
     if (isSignup) {
         let phone_number = $("#phone-number").val()
         let email = $("#email").val()
+        let name = $("#name").val()
+        let surname = $("#surname").val()
 
         data["phone_number"] = phone_number
         data["email"] = email
+        data["name"] = name
+        data["surname"] = surname
     }
 
     $.ajax({

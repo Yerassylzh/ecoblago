@@ -87,6 +87,8 @@ class AuthpageView(View):
         form = SignupForm(request.POST)
 
         if form.is_valid():
+            name = form.cleaned_data["name"].strip()
+            surname = form.cleaned_data["surname"].strip()
             username = form.cleaned_data["username"].strip()
             password = form.cleaned_data["password"].strip()
             phone_number = form.cleaned_data["phone_number"].strip()
@@ -98,7 +100,7 @@ class AuthpageView(View):
                 auth_errors.append("Пользователь с таким именем уже существует.")
 
             else:
-                User.objects.create(username=username, phone_number=phone_number, email=email, password=password_hash)
+                User.objects.create(name=name, surname=surname, username=username, phone_number=phone_number, email=email, password=password_hash)
                 context["success"] = True
                 context["redirect_to"] = reverse(self.homepage_url_name)
     
@@ -151,6 +153,8 @@ class AuthpageView(View):
         else:
             form: SignupForm = SignupForm()
             form_fields = [
+                form["name"].as_widget(),
+                form["surname"].as_widget(),
                 form["username"].as_widget(),
                 form["phone_number"].as_widget(),
                 form["email"].as_widget(),
