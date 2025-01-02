@@ -6,13 +6,21 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 
 from authpage.models import User
 
+from django.contrib.auth.models import AbstractUser 
+
 
 class ProfilepageView(View):
     template_url = "profilepage/profilepage.html"
-    
+
     def setup(self, request, *args, **kwargs):
         self.pk = kwargs.get("pk")
         return super().setup(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs) -> dict:
+        context = super().get_context_data(**kwargs)
+        print(kwargs)
+        context["pk"] = self.request.my_id
+        return context
 
     def post(self, request: HttpRequest, **kwargs) -> Union[HttpResponse, JsonResponse]:
         pass

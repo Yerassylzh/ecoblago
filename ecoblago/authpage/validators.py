@@ -4,7 +4,7 @@ from django.utils.deconstruct import deconstructible
 @deconstructible
 class PhoneNumberValidator:
     def __call__(self, number: str):
-        chrs = list(filter(lambda c: c != ' ', number))
+        chrs = list(filter(lambda c: c not in {" ", "(", ")", "-"}, number))
         if chrs[0] == '+':
             chrs.pop(0)
 

@@ -6,203 +6,177 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, JsonResponse, Http404
 from django.urls import reverse
 from django.middleware.csrf import get_token
-from django.views import View
+from django.views.generic.base import TemplateView
+from django.contrib.auth import login, authenticate
 
-from authpage.forms import LoginForm, SignupForm
+from authpage.forms import LoginForm, RegistrationForm
 from authpage.models import User
 
 
-class AuthpageView(View):
-    authpage_template_url = "authpage/authpage.html"
-    homepage_url_name = "catalog:catalog"
+class AuthpageView(TemplateView):
+    template_name = "authpage/authpage.html"
 
-    LOGIN_OPTION = 0
-    SIGNUP_OPTION = 1
+    def get(self, *args, **kwargs):
+        if "remembered" in self.request.session:
+            return redirect(reverse(self.catalog_url))
 
-    @staticmethod
-    def get_password_hash(password: str) -> str:
-        h = hashlib.new("SHA256")
-        h.update(password.encode())
-        return h.hexdigest()
-
-    @staticmethod
-    def set_any_error(form: Union[LoginForm, SignupForm], auth_errors: list, context: dict) -> str:
-        if len(auth_errors) > 0:
-            context["error_message"] = auth_errors[0]
-            context["has_error_message"] = True
-
-        elif len(form.errors) > 0:
-            errors_data = form.errors.as_data()
-            error_data = errors_data[
-                list(
-                    errors_data.keys()
-                )[-1]
-            ][-1]
-            context["error_message"] = error_data.messages[0]
-            context["has_error_message"] = True
+        elif "action" in self.request.GET:
+            return self.handle_ajax()
 
         else:
-            return None
-
-    @staticmethod
-    def save_user_login_info(request: HttpRequest, username: str, password: str, remember_me=False) -> None:
-        if remember_me:
-            request.session.update({
-                "remembered": True,
+            self.context.update({
+                "form": LoginForm(),
             })
-            request.session.set_expiry(30 * 24 * 60 * 60)  # for an entire month
+            self.context.update(
+                self.get_auth_input_fields(self.LOGIN_OPTION),
+            )
+            return render(self.request, self.template_name, self.context)
+
+    def post(self, *args, **kwargs):
+        if "action" in self.request.POST:
+            return self.handle_ajax()
         else:
-            request.session.set_expiry(0)
+            return Http404("Cannot identify the purpose of POST request")
 
-        request.session.update({
-            "username": username,
-        })
-
-    def login_user(self, request: HttpRequest, context) -> JsonResponse:
-        auth_errors = []
-        form = LoginForm(request.POST)
-
-        if form.is_valid():
-            username = form.cleaned_data["username"].strip()
-            password = form.cleaned_data["password"].strip()
-            password_hash = AuthpageView.get_password_hash(password)
-            remember_me = form.cleaned_data["remember_me"]
-            if len(User.objects.filter(username=username, password=password_hash)) > 0:
-                context["success"] = True
-                context["redirect_to"] = reverse(self.homepage_url_name)
-                AuthpageView.save_user_login_info(request, username, password, remember_me)
-                return JsonResponse(data=context)
-
-            elif len(User.objects.filter(username=username)) > 0:
-                auth_errors.append("Неверный пароль")
-
-            else:
-                auth_errors.append("Пользователь не найден")
-
-        AuthpageView.set_any_error(form, auth_errors, context)
-        return JsonResponse(data=context)
-
-    def register_user(self, request: HttpRequest, context) -> JsonResponse:
-        auth_errors = []
-        form = SignupForm(request.POST)
-
-        if form.is_valid():
-            name = form.cleaned_data["name"].strip()
-            surname = form.cleaned_data["surname"].strip()
-            username = form.cleaned_data["username"].strip()
-            password = form.cleaned_data["password"].strip()
-            phone_number = form.cleaned_data["phone_number"].strip()
-            email = form.cleaned_data["email"].strip()
-            password_hash = AuthpageView.get_password_hash(password)
-            remember_me = form.cleaned_data["remember_me"]
-
-            if len(User.objects.filter(username=username)) > 0:
-                auth_errors.append("Пользователь с таким именем уже существует.")
-
-            else:
-                User.objects.create(name=name, surname=surname, username=username, phone_number=phone_number, email=email, password=password_hash)
-                context["success"] = True
-                context["redirect_to"] = reverse(self.homepage_url_name)
+    def handle_ajax(self) -> JsonResponse:
+        if self.request.method == HTTPMethod.POST:
+            return self.handle_ajax_post()
     
-            AuthpageView.save_user_login_info(request, username, password, remember_me)
+        elif self.request.method == HTTPMethod.GET:
+            return self.handle_ajax_get()
+        
+        else:
+            return Http404(f"Unexpected ajax request. Request: {self.request}")
 
-        AuthpageView.set_any_error(form, auth_errors, context)
-        return JsonResponse(data=context)
+    def handle_ajax_get(self) -> JsonResponse:
+        if self.request.GET.get("action") == "change-auth-type":
+            auth_type = int(self.request.GET.get("auth_type"))
+            self.context_ajax.update(self.get_auth_input_fields(auth_type))
+            return JsonResponse(data=self.context_ajax)
+        else:
+            raise Exception("Unexpected get request")
 
-    def auth_user(self, request: HttpRequest, context) -> JsonResponse:
-        if int(request.POST.get("auth_type")) == self.LOGIN_OPTION:
-            return self.login_user(request, context)
+    def handle_ajax_post(self) -> JsonResponse:
+        if self.request.POST.get("action") == "auth-user":
+            return self.auth_user()
+        else:
+            raise Exception(f"Cannot identify the purpose of ajax request: {self.request}")
 
-        elif int(request.POST.get("auth_type")) == self.SIGNUP_OPTION:
-            return self.register_user(request, context)
+    def auth_user(self) -> JsonResponse:
+        if int(self.request.POST.get("auth_type")) == self.LOGIN_OPTION:
+            return self.login_user()
+
+        elif int(self.request.POST.get("auth_type")) == self.SIGNUP_OPTION:
+            return self.register_user()
 
         else:
             return Http404("Called 'auth_user' function but cannot identify the auth type")
 
-    def handle_ajax_get(self, request: HttpRequest, context: dict) -> JsonResponse:
-        if request.GET.get("action") == "change-auth-type":
-            auth_type = int(request.GET.get("auth_type"))
-            context.update(self.get_auth_input_fields(auth_type))
-            return JsonResponse(data=context)
+    def login_user(self) -> JsonResponse:
+        form = LoginForm(self.request.POST)
+        if form.is_valid():
+            username = self.request.POST.get("username")
+            password = self.request.POST.get("password")
+            user = authenticate(self.request, username=username, password=password)
+
+            if not user:
+                self.context_ajax.update({
+                    "success": False,
+                    "error_message": ("undef", "Пользователь не найден")
+                })
+                return JsonResponse(data=self.context_ajax)
+
+            login(self.request, user)
+            self.remember_user()
+            self.context_ajax.update({
+                "success": True,
+                "redirect_to": reverse(self.catalog_url),
+            })
+            return JsonResponse(data=self.context_ajax)
         else:
-            raise Exception("Unexpected get request")
+            if len(form.errors) > 0:
+                self.context_ajax["error_message"] = list(form.get_context().items())[0]
+            self.context_ajax["success"] = False
 
-    def handle_ajax_post(self, request: HttpRequest, context: dict) -> JsonResponse:
-        if request.POST.get("action") == "auth-user":
-            return self.auth_user(request, context)
+            return JsonResponse(data=self.context_ajax)
 
-    def handle_ajax(self, request: HttpRequest, context: dict) -> JsonResponse:
-        if request.method == HTTPMethod.POST:
-            return self.handle_ajax_post(request, context)
-    
-        elif request.method == HTTPMethod.GET:
-            return self.handle_ajax_get(request, context)
-        
+    def register_user(self) -> JsonResponse:
+        form = RegistrationForm(self.request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.email = form.cleaned_data["email"]
+            user.phone_number = form.cleaned_data["phone_number"]
+            user.save()
+
+            login(self.request, user)
+            self.remember_user()
+            self.context_ajax.update({
+                "success": True,
+                "redirect_to": reverse(self.catalog_url),
+            })
+            return JsonResponse(data=self.context_ajax)
         else:
-            return Http404(f"Unexpected ajax request. Request: {request}")
+            if len(form.errors) > 0:
+                msg = list(form.errors.get_context()["errors"])[0]
+                field = msg[0]
+                error = msg[1][0]
+                self.context_ajax["error_message"] = (field, error)
+            self.context_ajax["success"] = False
 
-    @staticmethod
-    def get_auth_input_fields(auth_type: int) -> dict:
-        data = {}
-        if auth_type == AuthpageView.LOGIN_OPTION:
+            return JsonResponse(data=self.context_ajax)
+
+    def change_auth_type(self) -> JsonResponse:
+        auth_type = int(self.request.GET.get("auth_type"))
+        if auth_type not in {self.LOGIN_OPTION, self.SIGNUP_OPTION}:
+            raise Exception(f"Invalid auth type: {auth_type}")
+        else:
+            return JsonResponse(data=self.get_auth_input_fields(auth_type))
+
+    def remember_user(self):
+        remember_me = self.request.POST.get("remember_me")
+        if remember_me:
+            self.request.session["remembered"] = True
+            self.request.session["username"] = self.request.POST.get("username")
+            self.request.session.set_expiry(30 * 24 * 60 * 60)
+        else:
+            self.request.session["remembered"] = False
+            if "username" in self.request.session:
+                del self.request.session["username"]
+            self.request.session.set_expiry(0)
+
+    def get_auth_input_fields(self, auth_type: int) -> dict[str, list]:
+        if auth_type == self.LOGIN_OPTION:
             form: LoginForm = LoginForm()
             form_fields = [
                 form["username"].as_widget(),
                 form["password"].as_widget(),
             ]
         else:
-            form: SignupForm = SignupForm()
+            form: RegistrationForm = RegistrationForm()
             form_fields = [
-                form["name"].as_widget(),
-                form["surname"].as_widget(),
+                form["first_name"].as_widget(),
+                form["last_name"].as_widget(),
                 form["username"].as_widget(),
                 form["phone_number"].as_widget(),
                 form["email"].as_widget(),
-                form["password"].as_widget(),
+                form["password1"].as_widget(),
+                form["password2"].as_widget(),
             ]
 
-        data = {
+        return {
             "input_fields": form_fields,
         }
-        return data
 
-    @staticmethod
-    def get_auth_form(auth_type: int) -> dict:
-        data = AuthpageView.get_auth_input_fields(auth_type)
-        data.update({
-            "form": (LoginForm() if auth_type == AuthpageView.LOGIN_OPTION else SignupForm()),
-        })
+    def setup(self, *args, **kwargs):
+        super().setup(*args, **kwargs)
 
-        return data
-    
-    def change_auth_type(self, request: HttpRequest) -> JsonResponse:
-        auth_type = int(request.GET.get("auth_type"))
-        if auth_type not in {self.LOGIN_OPTION, self.SIGNUP_OPTION}:
-            raise Exception(f"Invalid auth type: {auth_type}")
-        else:
-            return JsonResponse(data=AuthpageView.get_auth_input_fields(auth_type))
+        self.catalog_url = "catalog:catalog"
+        self.LOGIN_OPTION = 0
+        self.SIGNUP_OPTION = 1
+        self.context = self.get_context_data()
+        self.context_ajax = {}
 
-    def get(self, request: HttpRequest):
-        context = {
-            "csrf_token": get_token(request),
-        }
-
-        if "remembered" in request.session:
-            return redirect(reverse(self.homepage_url_name))
-
-        elif "action" in request.GET:
-            return self.handle_ajax(request, context)
-
-        else:
-            context.update(AuthpageView.get_auth_form(self.LOGIN_OPTION))
-            return render(request, self.authpage_template_url, context)
-
-    def post(self, request: HttpRequest):
-        context = {
-            "csrf_token": get_token(request),
-        }
-
-        if "action" in request.POST:
-            return self.handle_ajax(request, context)
-        else:
-            return Http404("Cannot identify the purpose of POST request")
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["csrf_token"] = get_token(self.request)
+        return context

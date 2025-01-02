@@ -18,4 +18,4 @@ class CatalogView(View):
             "my_id": User.objects.get(username=request.session.get("username")).pk,
         }
 
-        return render(request, self.template_url, context)
+        return render(request, self.template_url, context=context)
