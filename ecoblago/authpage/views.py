@@ -1,5 +1,6 @@
 import hashlib
 from typing import Union
+from datetime import datetime
 from http import HTTPMethod
 
 from django.shortcuts import render, redirect
@@ -73,35 +74,27 @@ class AuthpageView(TemplateView):
             return Http404("Called 'auth_user' function but cannot identify the auth type")
 
     def login_user(self) -> JsonResponse:
-        form = LoginForm(self.request.POST)
-        if form.is_valid():
-            username = self.request.POST.get("username")
-            password = self.request.POST.get("password")
-            user = authenticate(self.request, username=username, password=password)
-
-            if not user:
-                self.context_ajax.update({
-                    "success": False,
-                    "error_message": ("undef", "Пользователь не найден")
-                })
-                return JsonResponse(data=self.context_ajax)
-
-            login(self.request, user)
-            self.remember_user()
+        username = self.request.POST.get("username")
+        password = self.request.POST.get("password")
+        user = authenticate(self.request, username=username, password=password)
+        
+        if not user:
             self.context_ajax.update({
-                "success": True,
-                "redirect_to": reverse(self.catalog_url),
+                "success": False,
+                "error_message": ("undef", "Пользователь не найден")
             })
             return JsonResponse(data=self.context_ajax)
-        else:
-            if len(form.errors) > 0:
-                self.context_ajax["error_message"] = list(form.get_context().items())[0]
-            self.context_ajax["success"] = False
 
-            return JsonResponse(data=self.context_ajax)
-
+        login(self.request, user)
+        self.remember_user()
+        self.context_ajax.update({
+            "success": True,
+            "redirect_to": reverse(self.catalog_url),
+        })
+        return JsonResponse(data=self.context_ajax)
+        
     def register_user(self) -> JsonResponse:
-        form = RegistrationForm(self.request.POST)
+        form = RegistrationForm(data=self.request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.email = form.cleaned_data["email"]
@@ -134,15 +127,12 @@ class AuthpageView(TemplateView):
 
     def remember_user(self):
         remember_me = self.request.POST.get("remember_me")
-        if remember_me:
-            self.request.session["remembered"] = True
-            self.request.session["username"] = self.request.POST.get("username")
+        self.request.session["remembered"] = True
+        self.request.session["username"] = self.request.POST.get("username")
+        if remember_me == "true":
             self.request.session.set_expiry(30 * 24 * 60 * 60)
         else:
-            self.request.session["remembered"] = False
-            if "username" in self.request.session:
-                del self.request.session["username"]
-            self.request.session.set_expiry(0)
+            self.request.session.set_expiry(12 * 60 * 60)
 
     def get_auth_input_fields(self, auth_type: int) -> dict[str, list]:
         if auth_type == self.LOGIN_OPTION:

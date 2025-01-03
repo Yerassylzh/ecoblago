@@ -61,7 +61,7 @@
       setTimeout(() => {
         message.remove()
       }, 200);
-    }, 2000);
+    }, 4000);
     return message
   }
 
@@ -74,7 +74,7 @@
       setTimeout(() => {
         message.remove()
       }, 200);
-    }, 2000);
+    }, 4000);
     return message
   }
 
@@ -93,11 +93,9 @@
     let username = $("#username").val()
     let password = $("#password").val()
 
-    console.log(document.getElementById("auth-options-container").dataset.currentAuthType);
-
     let data = {
       "username": username,
-      "remember_me": $("#remember-me").val() == "on",
+      "remember_me": $("#remember-me").is(":checked"),
       "action": "auth-user",
       "auth_type": document.getElementById("auth-options-container").dataset.currentAuthType,
       "csrfmiddlewaretoken": CSRF_TOKEN,
@@ -132,22 +130,14 @@
         if (success) {
           window.location.href = data["redirect_to"]
         } else {
-          let errorMessage = data["error_message"]
-          let errorMessageLocation = errorMessage[0]
-          let errorMessageText = errorMessage[1]
-
-          let formId = "auth-form"
-          let submitButtonId = "auth-submit"
-          let message
-          if (errorMessageLocation == "undefined") {
-            message = errorMessageText
-          } else {
-            placeholder = $("#" + errorMessageLocation).attr("placeholder")
-            message = placeholder + ": " + errorMessageText
-          }
+          let [errorWidgetId, errorMessage] = data["error_message"]
+          let formId = "auth-form", submitButtonId = "auth-submit", message = errorMessage
           
-          let errorMessageP = get_error_p(message)
-          $("#" + submitButtonId).before(errorMessageP)
+          if (document.getElementById(errorWidgetId) != null) {
+            placeholder = $("#" + errorWidgetId).attr("placeholder")
+            message = placeholder + ": " + message
+          }
+          $("#" + submitButtonId).before(get_error_p(message))
         }
       },
       error: function (xhr, errmsg, err) {
@@ -203,7 +193,6 @@
             inputFields.lastChild.remove()
           }
 
-          console.log(data["input_fields"])
           for (let i = 0; i < data["input_fields"].length; i++) {
             let input_field = data["input_fields"][i]
             let input_field_container = document.createElement("div")

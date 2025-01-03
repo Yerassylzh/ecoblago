@@ -15,7 +15,7 @@ class CatalogView(View):
 
     def get(self, request: HttpRequest) -> Union[HttpResponse, JsonResponse]:
         context = {
-            "my_id": User.objects.get(username=request.session.get("username")).pk,
+            "my_user_id": User.objects.get(username=request.session.get("username")).pk,
         }
 
         return render(request, self.template_url, context=context)

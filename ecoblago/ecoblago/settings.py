@@ -1,3 +1,4 @@
+from session_cleanup.settings import weekly_schedule
 import os
 from pathlib import Path
 
@@ -27,6 +28,7 @@ INSTALLED_APPS = [
     "profilepage.apps.ProfilepageConfig",
     "django_cleanup.apps.CleanupConfig",
     "sorl.thumbnail",
+    "session_cleanup",
 ]
 
 MIDDLEWARE = [
@@ -39,6 +41,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+CELERYBEAT_SCHEDULE = {
+    'session_cleanup': weekly_schedule,
+}
+
 if DEBUG:
     INSTALLED_APPS += (
         "debug_toolbar",
@@ -47,6 +53,10 @@ if DEBUG:
     MIDDLEWARE += (
         "debug_toolbar.middleware.DebugToolbarMiddleware",
     )
+
+    INTERNAL_IPS = [
+        '127.0.0.1',
+    ]
 
 
 ROOT_URLCONF = "ecoblago.urls"

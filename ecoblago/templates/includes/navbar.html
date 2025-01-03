@@ -17,8 +17,9 @@
         <!-- To place then on the same line when collapsed -->
         <div class="d-flex flex-row">
           <li class="nav-item">
-            <a class="nav-link me-2" href="{% url 'profilepage:profilepage' pk=my_id %}">
+            <a class="nav-link me-2" href="{% url 'profilepage:profilepage' my_user_id %}">
               <img src="{% static 'img/user_icon.png' %}" alt="" class="nav-icon">
+              {{ my_id }}
             </a>
           </li>
           <li class="nav-item">
