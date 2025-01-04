@@ -21,5 +21,12 @@ class User(AbstractUser):
         default="",
     )
 
+    image = models.ImageField(
+        verbose_name="изображение",
+        name="image",
+        upload_to="uploads/",
+        null=True,
+    )
+
     def __str__(self):
         return self.username

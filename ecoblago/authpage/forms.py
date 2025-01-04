@@ -91,15 +91,16 @@ class RegistrationForm(UserCreationForm):
             }
         )
 
-    def clean_phone_number(self):
-        phone_number : str = self.cleaned_data.get("phone_number")
-        if phone_number.startswith("8"):
-            phone_number = phone_number[1:]
-        else:
-            phone_number = phone_number[2:]  # it starts from +7
+    # def clean_phone_number(self):
+    #     phone_number : str = str(filter(lambda c: c not in "() -", self.cleaned_data.get("phone_number")))
+    #     if phone_number.startswith("8"):
+    #         phone_number = phone_number[1:]
+    #     else:
+    #         phone_number = phone_number[2:]  # it starts from +7
         
-        cleaned_phone_number = f"+7 ({phone_number[0:3]}) {phone_number[3:6]}-{phone_number[6:]}"
-        return cleaned_phone_number
+    #     print("PHONE NUMBER CLEANED")
+    #     cleaned_phone_number = f"+7 ({phone_number[0:3]}) {phone_number[3:6]}-{phone_number[6:]}"
+    #     return cleaned_phone_number
 
     class Meta:
         model = User

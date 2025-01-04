@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
 import django.contrib.auth.urls
+from django.conf.urls.static import static
+from django.conf import settings
 
 import ecoblago, authpage.urls, catalog.urls, profilepage.urls
 
@@ -10,7 +12,7 @@ urlpatterns = [
     path("", include(django.contrib.auth.urls)),
     path("catalog/", include(catalog.urls)),
     path("profilepage/", include(profilepage.urls)),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if ecoblago.settings.DEBUG:
     import debug_toolbar

@@ -11,24 +11,39 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-3 ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+        <li class="nav-item d-flex flex-row align-items-center justify-content-center">
           <a class="nav-link me-4" aria-current="page" href="#">Подать обявление</a>
         </li>
         <!-- To place then on the same line when collapsed -->
         <div class="d-flex flex-row">
-          <li class="nav-item">
-            <a class="nav-link me-2" href="{% url 'profilepage:profilepage' my_user_id %}">
-              <img src="{% static 'img/user_icon.png' %}" alt="" class="nav-icon">
-              {{ my_id }}
-            </a>
-          </li>
-          <li class="nav-item">
+          <li class="nav-item d-flex flex-row align-items-center justify-content-center">
             <a class="nav-link" href="#">
-              <img src="{% static 'img/settings.png' %}" alt="" class="nav-icon">
+              <i class="bi bi-gear fs-3"></i>
             </a>
           </li>
+          {% if user_logined %}
+            <li class="nav-item d-flex flex-row align-items-center justify-content-center">
+              <a class="nav-link me-2 d-flex flex-row" href="{% url 'profilepage:profilepage' my_user.id %}">
+                <i class="fas fa-user fs-3 d-flex flex-row"></i>
+                <!-- <p class="navbar-user-name">{{ user.first_name }} {{ user.last_name }}</p> -->
+              </a>
+            </li>
+          {% endif %}
         </div>
       </ul>
     </div>
   </div>
 </nav>
+
+<style>
+  .navbar-user-name {
+    margin: 0;
+    padding: 0;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+
+    margin-left: 0.5rem;
+  }
+</style>

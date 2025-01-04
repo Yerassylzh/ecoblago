@@ -109,8 +109,9 @@ class AuthpageView(TemplateView):
             })
             return JsonResponse(data=self.context_ajax)
         else:
-            if len(form.errors) > 0:
-                msg = list(form.errors.get_context()["errors"])[0]
+            form_errors = form.errors
+            if len(form_errors) > 0:
+                msg = list(form_errors.get_context()["errors"])[0]
                 field = msg[0]
                 error = msg[1][0]
                 self.context_ajax["error_message"] = (field, error)

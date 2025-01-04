@@ -1,12 +1,15 @@
 from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
 
-@deconstructible
+
 class PhoneNumberValidator:
     def __call__(self, number: str):
+        number = str(number)
         chrs = list(filter(lambda c: c not in {" ", "(", ")", "-"}, number))
         if chrs[0] == '+':
             chrs.pop(0)
+
+        print("NUMBER VALIDATED")
 
         if not "".join(chrs).isnumeric():
             raise ValidationError("Номер телефона содержит лишние символы")

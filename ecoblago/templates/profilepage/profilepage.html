@@ -6,8 +6,7 @@
   <link rel="stylesheet" href="{% static 'css/profilepage/profilepage.css' %}">
   <link rel="stylesheet" href="{% static 'css/includes/profilepage/personal_info.css' %}">
   <link rel="stylesheet" href="{% static 'css/includes/profilepage/feedback_bar.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Профиль {{ user.first_name }} {{ user.last_name }}</title>
 {% endblock links %}
 
 {% block navbar %}
@@ -24,16 +23,33 @@
             {% include 'includes/profilepage/personal_info.html' %}
           {% endfor %}
         </div>
-        <div class="personal-image-wrapper">
-          <img src="personal-image.png" alt="personal image" class="personal-img">
+        <div id="personal-image-wrapper" class="personal-image-wrapper">
+          {% if user.image %}
+          <img src="{{ user.image.url }}" alt="personal image" class="personal-img">
+          {% else %}
+          <img src="{{ default_image_url }}" alt="personal image" class="personal-img">
+          {% endif %}
+
+          {% if change_allowed %}
+            <button id="change-image-button" class="transparent-button">
+              <a class="link-text" id="change-image-text">Изменить изображение</a>
+            </button>
+          {% endif %}
         </div>
       </div>
 
       <div class="additional-data">
-        <div class="additional-info">
-          <p class="additional-info-tag">О себе</p>
+        <div class="additional-info" id="about-section">
+          <div class="d-flex flex-row align-items-center justify-content-between" style="gap: 1rem;" id="about-title">
+            <p class="additional-info-tag">О себе</p>
+            {% if change_allowed %}
+            <button class="transparent-button" id="edit-about-button">
+              <a class="link-text" id="edit-about-link">Изменить</a>
+            </button>
+            {% endif %}
+          </div>
           <hr class="additional-info-hr">
-          <p class="additional-info-text">{{ about.content }}</p>
+          <p class="additional-info-text" id="about-text">{{ about.content }}</p>
         </div>
       </div>
 
@@ -56,4 +72,197 @@
     </div>
   </div>
 </main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  const PROFILEPAGE_URL = "{% url 'profilepage:profilepage' my_user_id %}"
+  const CSRF_TOKEN = "{{ csrf_token }}"
+
+  function getErrorP(content) {
+    let message = document.createElement("p")
+    message.setAttribute("class", "error-message")
+    message.textContent = content
+    setTimeout(() => {
+        message.style.opacity = 0
+        setTimeout(() => {
+        message.remove()
+        }, 200);
+    }, 4000);
+    return message
+  }
+
+  function getCSRFWidget(token) {
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrfmiddlewaretoken';
+    csrfInput.value = token;
+    return csrfInput
+  }
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.matches("#edit-about-button") && e.target.closest("#edit-about-button") == null) return
+
+    editAboutButton = document.getElementById("edit-about-button")
+    editAboutButton.remove()
+
+    aboutText = document.getElementById("about-text")
+    aboutTextContent = aboutText.textContent
+    aboutText.remove()
+
+    editAboutInput = document.createElement("textarea")
+    editAboutInput.setAttribute("class", "edit-about-input")
+    editAboutInput.setAttribute("id", "edit-about-input")
+    editAboutInput.textContent = aboutTextContent
+
+    submitButton = document.createElement("button")
+    submitButton.setAttribute("class", "transparent-button")
+    submitButton.setAttribute("id", "edit-about-submit-button")
+    
+    editText = document.createElement("a")
+    editText.setAttribute("class", "link-text")
+    editText.textContent = "Подтвердить"
+    submitButton.appendChild(editText)
+
+    aboutSection = document.getElementById("about-section")
+    aboutSection.appendChild(editAboutInput)
+    aboutSection.appendChild(submitButton)
+  })
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.matches("#edit-about-submit-button") && e.target.closest("#edit-about-submit-button") == null) return
+
+    editedAboutTextContent = document.getElementById("edit-about-input").value
+
+    $.ajax({
+      url: PROFILEPAGE_URL,
+      method: "POST",
+      dataType: "json",
+      data: {
+        "action": "edit-about",
+        "edited-about-text-content": editedAboutTextContent,
+        "csrfmiddlewaretoken": CSRF_TOKEN,
+      },
+      success: (data) => {
+        $("#edit-about-input").remove()
+        $("#edit-about-submit-button").remove()
+
+        const addEditAboutLink = () => {
+          editAboutLink = document.createElement("a")
+          editAboutLink.setAttribute("class", "link-text")
+          editAboutLink.setAttribute("id", "edit-about-link")
+          editAboutLink.textContent = "Изменить"
+
+          editAboutButton = document.createElement("button")
+          editAboutButton.setAttribute("class", "transparent-button")
+          editAboutButton.setAttribute("id", "edit-about-button")
+          editAboutButton.appendChild(editAboutLink)
+
+          aboutTitle = document.getElementById("about-title")
+          aboutTitle.appendChild(editAboutButton)
+        }
+
+        const addAboutText = (aboutTextContent) => {
+          aboutText = document.createElement("p")
+          aboutText.setAttribute("class", "additional-info-text")
+          aboutText.setAttribute("id", "about-text")
+          aboutText.textContent = aboutTextContent
+        
+          aboutSection = document.getElementById("about-section")
+          aboutSection.appendChild(aboutText)
+        }
+
+        let success = data["success"]
+        let aboutTextContent = data["about-text-content"]
+        if (success) {
+          addEditAboutLink()
+          addAboutText(aboutTextContent)
+        } else {
+          addEditAboutLink()
+          addAboutText(aboutTextContent)
+          document.getElementById("about-section").appendChild(getErrorP("Произошла ошибка, попробуйте заново"))
+        }
+      },
+      error: function(xhr, errmsg, err) {
+        console.log(xhr.status + ":" + xhr.responseText)
+      }
+    })
+  })
+
+  document.addEventListener("click", (e) => {
+      if (!e.target.matches("#change-image-button") && e.target.closest("#change-image-button") == null) return
+
+      changeImageButton = document.getElementById("change-image-button")
+      changeImageButton.remove()
+
+      form = document.createElement("form")
+      form.setAttribute("enctype", "multipart/form-data")
+      form.setAttribute("method", "POST")
+      form.setAttribute("action", PROFILEPAGE_URL)
+      form.classList.add("d-flex", "flex-column", "align-items-start", "justify-content-center");
+      form.setAttribute("name", "personal-image-upload")
+
+      form.appendChild(getCSRFWidget(CSRF_TOKEN))
+
+      fileInput = document.createElement("input")
+      fileInput.setAttribute("type", "file")
+      fileInput.setAttribute("value", "Выберите фото")
+      fileInput.setAttribute("class", "choose-photo-button")
+      fileInput.setAttribute("name", "personal-image")
+      form.appendChild(fileInput)
+
+      submitButton = document.createElement("button")
+      submitButton.setAttribute("type", "submit")
+      submitButton.setAttribute("class", "transparent-button")
+
+      uploadText = document.createElement("a")
+      uploadText.setAttribute("class", "link-text")
+      uploadText.textContent = "Загрузить"
+      submitButton.appendChild(uploadText)
+
+      form.appendChild(submitButton)
+      
+      personalImageWrapper = document.getElementById("personal-image-wrapper")
+      personalImageWrapper.appendChild(form)
+  })
+</script>
+
+<style>
+  .edit-about-input {
+    width: 100%;
+    height: 10rem;
+    border: none;
+    border: solid 1px gray;
+    outline: none;
+
+    padding: 0.25rem;
+  }
+
+  .submit-button {
+    border: none;
+    outline: none;
+  }
+
+  .choose-photo-button {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .link-text {
+    font-size: 0.75rem;
+    text-decoration: none;
+
+    margin: 0;
+    padding: 0;
+  }
+
+  .transparent-button {
+    margin: 0;
+    padding: 0;
+
+    outline: none;
+    border: none;
+    background-color: transparent;
+  }
+  
+</style>
 {% endblock main %}
