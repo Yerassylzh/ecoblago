@@ -40,43 +40,61 @@
 
         <button name="commit-button" class="commit-button" id="auth-submit" type="submit">
           <p class="button-text">Продолжить</p>
-          <img src="{% static 'img/right_arrow.png' %}" alt="->" class="right-arrow">
+          <svg id="arrow-right" class="arrow" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" viewBox="0 0 256 256" class="ml-1">
+            <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z">
+            </path>
+          </svg>
+          <span id="loading-gif" class="loading" style="display: none;"></span>
         </button>
       </div>
     </div>
   </div>
 </main>
 
+<style>
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .arrow {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .loading {
+    margin: 0;
+    padding: 0;
+
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .button-text {
+    font-size: 1.1rem;
+    font-weight: 400;
+  }
+
+  .commit-button {
+    gap: 0.25rem;
+  }
+</style>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- <script src="{% static 'js/authpage/authpage.js' %}"></script> -->
 <script>
   let CSRF_TOKEN = "{{ csrf_token }}"
   let AUTHPAGE_URL = "{% url 'authpage:authpage' %}"
-  function get_error_p(content) {
-    let message = document.createElement("p")
-    message.setAttribute("class", "error-message")
-    message.textContent = content
-    setTimeout(() => {
-      message.style.opacity = 0
-      setTimeout(() => {
-        message.remove()
-      }, 200);
-    }, 4000);
-    return message
-  }
-
-  function get_success_p(content) {
-    let message = document.createElement("p")
-    message.setAttribute("class", "success-message")
-    message.textContent = content
-    setTimeout(() => {
-      message.style.opacity = 0
-      setTimeout(() => {
-        message.remove()
-      }, 200);
-    }, 4000);
-    return message
-  }
 
   function removeAll(attrName) {
     document.querySelectorAll(attrName).forEach(item => {
@@ -119,12 +137,17 @@
       let password = $("#password").val()
       data["password"] = password
     }
-  
+
     $.ajax({
       method: "POST",
       url: AUTHPAGE_URL,
       data: data,
       dataType: "json",
+      beforeSend: () => {
+        $("#loading-gif").show();
+        $("#arrow-right").hide();
+        $("#auth-submit").prop("disabled", true);
+      },
       success: function (data) {
         let success = data["success"]
         if (success) {
@@ -132,17 +155,22 @@
         } else {
           let [errorWidgetId, errorMessage] = data["error_message"]
           let formId = "auth-form", submitButtonId = "auth-submit", message = errorMessage
-          
+
           if (document.getElementById(errorWidgetId) != null) {
             placeholder = $("#" + errorWidgetId).attr("placeholder")
             message = placeholder + ": " + message
           }
-          $("#" + submitButtonId).before(get_error_p(message))
+          showToast(message, false)
         }
       },
       error: function (xhr, errmsg, err) {
         console.log(xhr.status + ":" + xhr.responseText)
-      }
+      },
+      complete: function () {
+        $("#loading-gif").hide();
+        $("#arrow-right").show();
+        $("#auth-submit").prop("disabled", false);
+      },
     })
   })
 

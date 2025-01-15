@@ -27,7 +27,7 @@
           {% if user.image %}
           <img src="{{ user.image.url }}" alt="personal image" class="personal-img">
           {% else %}
-          <img src="{{ default_image_url }}" alt="personal image" class="personal-img">
+          <img src="{% static 'img/noname_user.png' %}" alt="personal image" class="personal-img">
           {% endif %}
 
           {% if change_allowed %}
@@ -176,6 +176,7 @@
         if (success) {
           addEditAboutLink()
           addAboutText(aboutTextContent)
+          showToast("Изменения сохранены", true)
         } else {
           addEditAboutLink()
           addAboutText(aboutTextContent)

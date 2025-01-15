@@ -22,6 +22,10 @@ class ProfilepageView(DetailView):
     pk_url_kwarg = "pk"
 
     def post(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
+        if self.request.session.get("username") != self.object.username:
+            self.context_ajax.update({"success": False, "message": "You are not allowed to change this user's data"})
+            return JsonResponse(data=self.context_ajax)
+
         if "personal-image" in self.request.FILES:
             return self.upload_personal_image()
         elif "action" in self.request.POST:
@@ -44,6 +48,7 @@ class ProfilepageView(DetailView):
             self.object.save()
         except ...:
             self.context_ajax["success"] = False
+            self.context_ajax["message"] = "Failed to save changes"
             self.context_ajax["about-text-content"] = self.object.about
             return JsonResponse(data=self.context_ajax)
 
@@ -112,6 +117,11 @@ class ProfilepageView(DetailView):
                     "title": "Электронная почта",
                     "icon_class": "fas fa-envelope",
                     "content": self.object.email,
+                },
+                {
+                    "title": "Хэндл",
+                    "icon_class": "fas fa-user",
+                    "content": self.object.username,
                 },
             ],
             "about": {

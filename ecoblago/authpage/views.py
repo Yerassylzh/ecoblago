@@ -96,12 +96,8 @@ class AuthpageView(TemplateView):
     def register_user(self) -> JsonResponse:
         form = RegistrationForm(data=self.request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.email = form.cleaned_data["email"]
-            user.phone_number = form.cleaned_data["phone_number"]
-            user.save()
-
-            login(self.request, user)
+            form.save()
+    
             self.remember_user()
             self.context_ajax.update({
                 "success": True,

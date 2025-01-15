@@ -7,21 +7,6 @@ from authpage.validators import PhoneNumberValidator
 
 
 class RegistrationForm(UserCreationForm):
-    phone_number = CharField(
-        widget=TextInput(
-            attrs={
-                "placeholder": "Номер телефона",
-                "class": "input-field",
-                "type": "phone-number",
-                "id": "phone-number",
-            }
-        ),
-        validators=[
-            PhoneNumberValidator(),
-        ],
-        required=True,
-    )
-
     remember_me = BooleanField(
         widget=CheckboxInput(
             attrs={
@@ -36,6 +21,15 @@ class RegistrationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.fields["phone_number"].widget = TextInput(
+            attrs={
+                "placeholder": "Номер телефона",
+                "class": "input-field",
+                "type": "phone-number",
+                "id": "phone-number",
+            }
+        )
 
         self.fields["email"].widget = TextInput(
             attrs={
@@ -91,20 +85,19 @@ class RegistrationForm(UserCreationForm):
             }
         )
 
-    # def clean_phone_number(self):
-    #     phone_number : str = str(filter(lambda c: c not in "() -", self.cleaned_data.get("phone_number")))
-    #     if phone_number.startswith("8"):
-    #         phone_number = phone_number[1:]
-    #     else:
-    #         phone_number = phone_number[2:]  # it starts from +7
-        
-    #     print("PHONE NUMBER CLEANED")
-    #     cleaned_phone_number = f"+7 ({phone_number[0:3]}) {phone_number[3:6]}-{phone_number[6:]}"
-    #     return cleaned_phone_number
+    def clean_phone_number(self):
+        phone_number : str = "".join(list(filter(lambda c: c not in "() -", self.cleaned_data.get("phone_number"))))
+        if phone_number.startswith("8"):
+            phone_number = phone_number[1:]
+        else:
+            phone_number = phone_number[2:]  # it starts from +7
+
+        cleaned_phone_number = f"+7 ({phone_number[0:3]}) {phone_number[3:6]}-{phone_number[6:]}"
+        return cleaned_phone_number
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'phone_number', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'email', "phone_number", 'password1', 'password2']
 
 
 class LoginForm(AuthenticationForm):
