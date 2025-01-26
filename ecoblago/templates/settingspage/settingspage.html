@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/profilepage/profilepage.css' %}">
+<link rel="stylesheet" href="{% static 'css/includes/profilepage/personal_info.css' %}">
+<link rel="stylesheet" href="{% static 'css/includes/profilepage/feedback_bar.css' %}">
+<title>Настройки</title>
+{% endblock links %}
+
+{% block navbar %}
+{% include 'includes/navbar.html' %}
+{% endblock navbar %}
+
+{% block main %}
+<main>
+  <div class="row main-row">
+    <div class="profile-bar col-12 col-md-10 col-xl-9">
+      <p>Настройки</p>
+      <div class="section">
+        <p>Безопасность</p>
+        <hr>
+        <div class="popup-action" id="change-password">
+          <div class="header">
+            <p>Изменить пароль</p>
+            <button data-state="hidden" class="popup-header-btn" id="change-password-popup-btn">
+              <img src="{% static 'img/arrow_down.png' %}" alt="open/hide">
+            </button>
+          </div>
+          <div class="body hidden">
+            <input type="password" name="password" placeholder="Новый пароль" class="input-field" id="new-password">
+            <input type="password" name="password" placeholder="Подтвердите новый пароль" class="input-field"
+              id="new-password-confirm">
+            <button class="confirm-new-password-btn">
+              <p class="button-text">Подтвердить</p>
+              <svg id="arrow-right" class="arrow" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
+                viewBox="0 0 256 256" class="ml-1">
+                <path
+                  d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z">
+                </path>
+              </svg>
+              <span id="loading-gif" class="loading" style="display: none;"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <p>Цветовая тема</p>
+        <hr>
+        <div class="multiple-choice-actions" id="toggle-theme">
+          <div class="option">
+            <label for="light-theme">Светлая</label>
+            <input type="radio" class="theme-radio" id="light-theme">
+          </div>
+          <div class="option">
+            <label for="black-theme">Темная</label>
+            <input type="radio" class="theme-radio" id="black-theme">
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <p>Аккаунт</p>
+        <hr>
+        <div class="manage-account">
+          <button class="logout-btn">Выйти с аккаунта</button>
+          <button class="delete-account-btn">Удалить аккаунт</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  document.addEventListener("change", (e) => {
+    if (!e.target.matches(".theme-radio") && e.target.closest(".theme-radio") == null) return
+
+    const selectedThemeId = e.target.getAttribute("id")
+
+    document.getElementById("black-theme").checked = false;
+    document.getElementById("light-theme").checked = false;
+    document.getElementById(selectedThemeId).checked = true;
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.matches(".popup-header-btn") && e.target.closest(".popup-header-btn") == null) return
+
+    let button = e.target.closest(".popup-header-btn")
+    let img = button.querySelector("img")
+
+    const state = button.dataset.state
+    const bodyElement = button.closest(".popup-action").querySelector(".body");
+    if (state == "hidden") {
+      bodyElement.classList.remove("hidden");
+      button.dataset.state = "visible";
+      img.setAttribute("src", "{% static 'img/arrow_up.png' %}")
+    } else {
+      bodyElement.classList.add("hidden");
+      button.dataset.state = "hidden";
+      img.setAttribute("src", "{% static 'img/arrow_down.png' %}")
+    }
+  });
+</script>
+
+<style>
+  .hidden {
+    display: none !important;
+  }
+
+  .arrow {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .button-text {
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    color: white;
+    padding-right: 0.25rem;
+  }
+
+  .confirm-new-password-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(to bottom, #24C276, #20ac68);
+    outline: none;
+    border: none;
+    border-radius: 6px;
+
+    transition: all 0.1s ease-in-out;
+    padding: 5px;
+    min-width: 400px;
+  }
+
+  .confirm-new-password-btn:hover {
+    background: linear-gradient(to bottom, #2fd585, #30d988);
+  }
+
+  .input-field {
+    background: #f0efef;
+
+    outline: none;
+    border-radius: 10px;
+    border: solid #B1B1B1 2px;
+
+    box-shadow: 0 1px 2px rgb(200, 200, 200);
+
+    padding: 0.75rem 0.75rem 0.75rem 10px;
+
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    min-width: 400px;
+
+    transition: all 0.1s ease-in-out;
+  }
+
+  .input-field:hover {
+    border: solid #24C276 2px;
+  }
+
+  .input-field:focus {
+    border: solid #24C276 2px;
+  }
+
+  .input-field::placeholder {
+    color: #B2B2B2;
+  }
+
+  .popup-action>.body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+    gap: 1rem;
+  }
+
+  .popup-action>.body>.input-field {
+    max-width: 400px;
+  }
+
+  input[type="radio"] {
+    -ms-transform: scale(1.5);
+    /* IE 9 */
+    -webkit-transform: scale(1.5);
+    /* Chrome, Safari, Opera */
+    transform: scale(1.5);
+    accent-color: black;
+  }
+
+  .popup-action>.header>p {
+    margin: 0;
+    padding: 0;
+  }
+
+  .popup-action>.header>button {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+  }
+
+  .popup-action>.header>button>img {
+    height: 0.75rem;
+    margin: 0;
+  }
+
+  .popup-action>.header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0rem 0.5rem 0rem;
+  }
+
+  .popup-action {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .profile-bar {
+    background-color: white;
+    min-height: 100vh;
+    padding: 1rem 2.5rem 0 2.5rem;
+  }
+
+  .multiple-choice-actions>.option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+  }
+
+  .profile-bar>p {
+    font-size: 2rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+  }
+
+  .popup-action>.header>p {
+    font-size: 1.25rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+  }
+
+  .multiple-choice-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .multiple-choice-actions .option label {
+    font-size: 1.25rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+  }
+
+  .profile-bar>.section {
+    padding-top: 2rem;
+  }
+
+  .manage-account {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .logout-btn {
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    color: white;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    background-color: #FF2121;
+    border-radius: 0.25rem;
+    border: none;
+    outline: none;
+  }
+
+  .delete-account-btn {
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    color: black;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    background-color: white;
+    border-radius: 0.25rem;
+    border: 1.5px solid red;
+    outline: none;
+  }
+
+  .profile-bar .section>p {
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+  }
+
+  .profile-bar .section hr {
+    width: 100%;
+    height: 1px;
+    /* Increase the height to make it bolder */
+    background-color: black;
+    /* Change the color if needed */
+    border: none;
+    /* Remove the default border */
+    margin: 0.5rem 0;
+    /* Optional: Add some margin for spacing */
+  }
+
+  .main-row {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+  }
+</style>
+{% endblock main %}

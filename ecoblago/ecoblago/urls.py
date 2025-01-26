@@ -4,7 +4,7 @@ import django.contrib.auth.urls
 from django.conf.urls.static import static
 from django.conf import settings
 
-import ecoblago, authpage.urls, catalog.urls, profilepage.urls
+import ecoblago, authpage.urls, catalog.urls, profilepage.urls, settingspage.urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -12,6 +12,7 @@ urlpatterns = [
     path("", include(django.contrib.auth.urls)),
     path("catalog/", include(catalog.urls)),
     path("profilepage/", include(profilepage.urls)),
+    path("settingspage/", include(settingspage.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if ecoblago.settings.DEBUG:
