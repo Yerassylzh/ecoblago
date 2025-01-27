@@ -28,11 +28,12 @@
               <img src="{% static 'img/arrow_down.png' %}" alt="open/hide">
             </button>
           </div>
-          <div class="body hidden">
-            <input type="password" name="password" placeholder="Новый пароль" class="input-field" id="new-password">
+          <div class="body">
+            <input type="password" name="password" placeholder="Новый пароль" class="input-field" 
+            id="new-password" required>
             <input type="password" name="password" placeholder="Подтвердите новый пароль" class="input-field"
-              id="new-password-confirm">
-            <button class="confirm-new-password-btn">
+              id="new-password-confirm" required>
+            <button id="confirm-new-password-btn" class="confirm-new-password-btn" onclick="changePassword()">
               <p class="button-text">Подтвердить</p>
               <svg id="arrow-right" class="arrow" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
                 viewBox="0 0 256 256" class="ml-1">
@@ -71,7 +72,61 @@
   </div>
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+  const CSRF_TOKEN = "{{ csrf_token }}"
+  const SETTINGSPAGE_URL = "{% url 'settingspage:settingspage' %}"
+
+  function changePassword() {
+    let password1 = document.getElementById("new-password").value
+    let password2 = document.getElementById("new-password-confirm").value
+    if (password1 == "") {
+      showToast("Введите пароль", false)
+      return
+    }
+    console.log(password1)
+    if (password1 != password2) {
+      showToast("Пароли не совпадают", false)
+      return
+    }
+
+    $.ajax({
+      method: "POST",
+      url: SETTINGSPAGE_URL,
+      data: {
+        "csrfmiddlewaretoken": CSRF_TOKEN,
+        "action": "change-password",
+        "new_password": password1
+      },
+      dataType: "json",
+      beforeSend: () => {
+        $("#loading-gif").show();
+        $("#arrow-right").hide();
+        $("#confirm-new-password-btn").prop("disabled", true);
+      },
+      success: function (data) {
+        let success = data["success"]
+        if (success) {
+          showToast("Пароль успешно изменен", true)
+          return;
+        }
+    
+        showToast(data["error_message"], false)
+      },
+      error: function (xhr, errmsg, err) {
+        showToast("Произошла ошибка", false);
+        console.log(xhr.status + ":" + xhr.responseText)
+      },
+      complete: function () {
+        $("#loading-gif").hide();
+        $("#arrow-right").show();
+        $("#confirm-new-password-btn").prop("disabled", false);
+        password1 = ""
+        password2 = ""
+      },
+    })
+  }
+
   document.addEventListener("change", (e) => {
     if (!e.target.matches(".theme-radio") && e.target.closest(".theme-radio") == null) return
 
@@ -91,20 +146,71 @@
     const state = button.dataset.state
     const bodyElement = button.closest(".popup-action").querySelector(".body");
     if (state == "hidden") {
-      bodyElement.classList.remove("hidden");
       button.dataset.state = "visible";
-      img.setAttribute("src", "{% static 'img/arrow_up.png' %}")
+      img.style.animation = "rotateTo180 0.5s forwards"
+      bodyElement.style.display = "flex"
+      bodyElement.style.animation = "makeVisible 0.5s forwards"
     } else {
-      bodyElement.classList.add("hidden");
       button.dataset.state = "hidden";
-      img.setAttribute("src", "{% static 'img/arrow_down.png' %}")
+      img.style.animation = "rotateTo0 0.5s forwards"
+      bodyElement.style.animation = "hide 0.5s forwards"
+      setTimeout(() => {
+        bodyElement.style.display = "none";
+      }, 500);
     }
   });
 </script>
 
 <style>
-  .hidden {
-    display: none !important;
+  .loading {
+    margin: 0;
+    padding: 0;
+
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes makeVisible {
+    from {
+      opacity: 0;
+    }
+     
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes hide {
+    from {
+      opacity: 1;
+    }
+
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes rotateTo180 {
+    from {
+      rotate: 0;
+    }
+    to {
+      rotate: 180deg;
+    }
+  }
+
+  @keyframes rotateTo0 {
+    from {
+      rotate: 180deg;
+    }
+    to {
+      rotate: 0deg;
+    }
   }
 
   .arrow {
@@ -174,10 +280,10 @@
 
   .popup-action>.body {
     width: 100%;
-    display: flex;
+    display: none;
     flex-direction: column;
+    justify-content: center;
     align-items: flex-start;
-    justify-content: space-around;
     gap: 1rem;
   }
 
@@ -287,10 +393,14 @@
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    background-color: #FF2121;
+    background-color: #fa2d2d;
     border-radius: 0.25rem;
     border: none;
     outline: none;
+  }
+
+  .logout-btn:hover {
+    background-color: #ff0000;
   }
 
   .delete-account-btn {
