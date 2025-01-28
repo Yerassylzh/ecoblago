@@ -13,6 +13,7 @@ from django.core.files.base import ContentFile
 from django.db.models import ImageField
 
 from authpage.models import User
+from django.contrib.auth import logout
 
 class SettingspageView(TemplateView):
     template_name = "settingspage/settingspage.html"
@@ -27,9 +28,26 @@ class SettingspageView(TemplateView):
         return Http404()
     
     def handle_ajax_post(self) -> JsonResponse:
-        if "change-password" == self.request.POST["action"]:
+        action = self.request.POST["action"]
+        if "change-password" == action:
             return self.change_password()
+        elif "logout" == action:
+            return self.logout_user()
+        elif "delete-account" == action:
+            return self.delete_user()
         return Http404()
+    
+    def logout_user(self) -> JsonResponse:
+        logout(self.request)
+        self.request.session.delete()
+        return JsonResponse({"success": True})
+    
+    def delete_user(self) -> JsonResponse:
+        user = self.request.user
+        user.delete()
+        logout(self.request)
+        self.request.session.delete()
+        return JsonResponse({"success": True})
 
     def change_password(self) -> JsonResponse:
         new_password = self.request.POST["new_password"]

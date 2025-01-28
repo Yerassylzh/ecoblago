@@ -29,8 +29,8 @@
             </button>
           </div>
           <div class="body">
-            <input type="password" name="password" placeholder="Новый пароль" class="input-field" 
-            id="new-password" required>
+            <input type="password" name="password" placeholder="Новый пароль" class="input-field" id="new-password"
+              required>
             <input type="password" name="password" placeholder="Подтвердите новый пароль" class="input-field"
               id="new-password-confirm" required>
             <button id="confirm-new-password-btn" class="confirm-new-password-btn" onclick="changePassword()">
@@ -52,11 +52,29 @@
         <div class="multiple-choice-actions" id="toggle-theme">
           <div class="option">
             <label for="light-theme">Светлая</label>
-            <input type="radio" class="theme-radio" id="light-theme">
+            <input type="radio" class="option-radio" id="light-theme">
           </div>
           <div class="option">
             <label for="black-theme">Темная</label>
-            <input type="radio" class="theme-radio" id="black-theme">
+            <input type="radio" class="option-radio" id="black-theme">
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <p>Язык</p>
+        <hr>
+        <div class="multiple-choice-actions" id="toggle-theme">
+          <div class="option">
+            <label for="lang-kk">Казахский</label>
+            <input type="radio" class="option-radio" id="lang-kk">
+          </div>
+          <div class="option">
+            <label for="lang-ru">Русский</label>
+            <input type="radio" class="option-radio" id="lang-ru">
+          </div>
+          <div class="option">
+            <label for="lang-eng">Английский</label>
+            <input type="radio" class="option-radio" id="lang-eng">
           </div>
         </div>
       </div>
@@ -64,8 +82,8 @@
         <p>Аккаунт</p>
         <hr>
         <div class="manage-account">
-          <button class="logout-btn">Выйти с аккаунта</button>
-          <button class="delete-account-btn">Удалить аккаунт</button>
+          <button class="logout-btn" onclick="logout()">Выйти с аккаунта</button>
+          <button class="delete-account-btn" id="delete-account-btn" onclick="deleteAccount()">Удалить аккаунт</button>
         </div>
       </div>
     </div>
@@ -76,6 +94,56 @@
 <script>
   const CSRF_TOKEN = "{{ csrf_token }}"
   const SETTINGSPAGE_URL = "{% url 'settingspage:settingspage' %}"
+
+  function logout() {
+    if (confirm("Вы точно хотите выйти c аккаунта?")) {
+      $.ajax({
+        method: "POST",
+        url: SETTINGSPAGE_URL,
+        data: {
+          "csrfmiddlewaretoken": CSRF_TOKEN,
+          "action": "logout"
+        },
+        dataType: "json",
+        success: function (data) {
+          if (data["success"]) {
+            window.location.href = "{% url 'authpage:authpage' %}";
+          } else {
+            showToast("Ошибка при выходе", false);
+          }
+        },
+        error: function (xhr, errmsg, err) {
+          showToast("Произошла ошибка", false);
+          console.log(xhr.status + ":" + xhr.responseText);
+        }
+      });
+    }
+  }
+
+  function deleteAccount() {
+    if (confirm("Вы точно хотите удалить аккаунт?")) {
+      $.ajax({
+        method: "POST",
+        url: SETTINGSPAGE_URL,
+        data: {
+          "csrfmiddlewaretoken": CSRF_TOKEN,
+          "action": "delete-account"
+        },
+        dataType: "json",
+        success: function (data) {
+          if (data["success"]) {
+            window.location.href = "{% url 'authpage:authpage' %}";
+          } else {
+            showToast("Ошибка при удалении аккаунта", false);
+          }
+        },
+        error: function (xhr, errmsg, err) {
+          showToast("Произошла ошибка", false);
+          console.log(xhr.status + ":" + xhr.responseText);
+        }
+      });
+    }
+  }
 
   function changePassword() {
     let password1 = document.getElementById("new-password").value
@@ -110,7 +178,7 @@
           showToast("Пароль успешно изменен", true)
           return;
         }
-    
+
         showToast(data["error_message"], false)
       },
       error: function (xhr, errmsg, err) {
@@ -128,13 +196,17 @@
   }
 
   document.addEventListener("change", (e) => {
-    if (!e.target.matches(".theme-radio") && e.target.closest(".theme-radio") == null) return
+    if (!e.target.matches(".option-radio") && e.target.closest(".option-radio") == null) return
 
-    const selectedThemeId = e.target.getAttribute("id")
+    const selectedId = e.target.getAttribute("id")
 
-    document.getElementById("black-theme").checked = false;
-    document.getElementById("light-theme").checked = false;
-    document.getElementById(selectedThemeId).checked = true;
+    let multipleChoiceSection = e.target.closest(".option").closest(".multiple-choice-actions");
+    let options = multipleChoiceSection.querySelectorAll(".option-radio");
+    options.forEach(option => {
+      option.checked = false;
+    });
+
+    document.getElementById(selectedId).checked = true;
   });
 
   document.addEventListener("click", (e) => {
@@ -179,7 +251,7 @@
     from {
       opacity: 0;
     }
-     
+
     to {
       opacity: 1;
     }
@@ -199,6 +271,7 @@
     from {
       rotate: 0;
     }
+
     to {
       rotate: 180deg;
     }
@@ -208,6 +281,7 @@
     from {
       rotate: 180deg;
     }
+
     to {
       rotate: 0deg;
     }

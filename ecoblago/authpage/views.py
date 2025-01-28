@@ -81,7 +81,7 @@ class AuthpageView(TemplateView):
         if not user:
             self.context_ajax.update({
                 "success": False,
-                "error_message": ("undef", "Пользователь не найден")
+                "error_message": ("undef", "Неверный логин или пароль")
             })
             return JsonResponse(data=self.context_ajax)
 
@@ -129,7 +129,7 @@ class AuthpageView(TemplateView):
         if remember_me == "true":
             self.request.session.set_expiry(30 * 24 * 60 * 60)
         else:
-            self.request.session.set_expiry(12 * 60 * 60)
+            self.request.session.set_expiry(0)
 
     def get_auth_input_fields(self, auth_type: int) -> dict[str, list]:
         if auth_type == self.LOGIN_OPTION:
