@@ -35,8 +35,16 @@ class SettingspageView(TemplateView):
             return self.logout_user()
         elif "delete-account" == action:
             return self.delete_user()
+        elif "change-theme" == action:
+            return self.change_theme()
         return Http404()
     
+    def change_theme(self) -> JsonResponse:
+        theme = self.request.POST["theme"]
+        response = JsonResponse({"success": True})
+        response.set_cookie("theme", theme, max_age=60*60*24*365)
+        return response
+
     def logout_user(self) -> JsonResponse:
         logout(self.request)
         self.request.session.delete()
@@ -66,6 +74,7 @@ class SettingspageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["csrf_token"] = get_token(self.request)
         context["user_logined"] = ("remembered" in self.request.session)
+        context["theme"] = (self.request.COOKIES["theme"] if "theme" in self.request.COOKIES else "light")
 
         return context
 

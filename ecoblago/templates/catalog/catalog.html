@@ -2,15 +2,36 @@
 {% load static %}
 
 {% block links %}
-  <link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}">
 {% endblock links %}
 
 {% block navbar %}
-  {% include 'includes/navbar.html' %}
+{% include 'includes/navbar.html' %}
 {% endblock navbar %}
 
 {% block main %}
 <main>
 
 </main>
+<style>
+  :root {
+    --body-color: #F8F9FA;
+    --background-color: white;
+    --input-background: #f0efef;
+    --green-primary: #24C276;
+    --input-placeholder: #B2B2B2;
+    --red-primary: #fa2d2d;
+    --text-color: black;
+  }
+
+  [data-theme="dark"] {
+    --body-color: #181818;
+    --background-color: rgb(40, 40, 40);
+    --input-background: #f0efef;
+    --green-primary: #24C276;
+    --input-placeholder: #B2B2B2;
+    --red-primary: #fa2d2d;
+    --text-color: white;
+  }
+</style>
 {% endblock main %}

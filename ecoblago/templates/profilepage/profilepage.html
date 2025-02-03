@@ -2,72 +2,78 @@
 {% load static %}
 
 {% block links %}
-  <link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}">
-  <link rel="stylesheet" href="{% static 'css/profilepage/profilepage.css' %}">
-  <link rel="stylesheet" href="{% static 'css/includes/profilepage/personal_info.css' %}">
-  <link rel="stylesheet" href="{% static 'css/includes/profilepage/feedback_bar.css' %}">
-  <title>Профиль {{ user.first_name }} {{ user.last_name }}</title>
+<link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}">
+<!-- <link rel="stylesheet" href="{% static 'css/profilepage/profilepage.css' %}"> -->
+<link rel="stylesheet" href="{% static 'css/includes/profilepage/personal_info.css' %}">
+<link rel="stylesheet" href="{% static 'css/includes/profilepage/feedback_bar.css' %}">
+<title>Профиль {{ user.first_name }} {{ user.last_name }}</title>
 {% endblock links %}
 
 {% block navbar %}
-  {% include 'includes/navbar.html' %}
+{% include 'includes/navbar.html' %}
 {% endblock navbar %}
 
 {% block main %}
 <main>
   <div class="row main-row">
-    <div class="profile-bar col-12 col-md-10 col-xl-9">
-      <div class="primary-data">
-        <div class="personal-data">
-          {% for input_field in input_fields %}
-            {% include 'includes/profilepage/personal_info.html' %}
-          {% endfor %}
-        </div>
-        <div id="personal-image-wrapper" class="personal-image-wrapper">
-          {% if user.image %}
-          <img src="{{ user.image.url }}" alt="personal image" class="personal-img">
-          {% else %}
-          <img src="{% static 'img/noname_user.png' %}" alt="personal image" class="personal-img">
-          {% endif %}
+    <div class="col-12 col-md-10 col-xl-9">
+      <div class="wrapper">
+        <div class="profile-bar">
+          <div class="primary-data">
+            <div class="personal-data">
+              {% for input_field in input_fields %}
+              {% include 'includes/profilepage/personal_info.html' %}
+              {% endfor %}
+            </div>
+            <div id="personal-image-wrapper" class="personal-image-wrapper">
+              {% if user.image %}
+              <img src="{{ user.image.url }}" alt="personal image" class="personal-img">
+              {% else %}
+              <img src="{% static 'img/noname_user.png' %}" alt="personal image" class="personal-img">
+              {% endif %}
 
-          {% if change_allowed %}
-            <button id="change-image-button" class="transparent-button">
-              <a class="link-text" id="change-image-text">Изменить изображение</a>
-            </button>
-          {% endif %}
-        </div>
-      </div>
-
-      <div class="additional-data">
-        <div class="additional-info" id="about-section">
-          <div class="d-flex flex-row align-items-center justify-content-between" style="gap: 1rem;" id="about-title">
-            <p class="additional-info-tag">О себе</p>
-            {% if change_allowed %}
-            <button class="transparent-button" id="edit-about-button">
-              <a class="link-text" id="edit-about-link">Изменить</a>
-            </button>
-            {% endif %}
+              {% if change_allowed %}
+              <button id="change-image-button" class="transparent-button">
+                <a class="link-text" id="change-image-text">Изменить изображение</a>
+              </button>
+              {% endif %}
+            </div>
           </div>
-          <hr class="additional-info-hr">
-          <p class="additional-info-text" id="about-text">{{ about.content }}</p>
-        </div>
-      </div>
 
-      <div class="additional-data">
-        <div class="additional-info">
-          <p class="additional-info-tag">Отзывы</p>
-          <hr class="additional-info-hr">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-7 col-md-4 col-xl-3">
-                {% include 'includes/profilepage/feedback_bar.html' %}
+          <div class="additional-data">
+            <div class="additional-info" id="about-section">
+              <div class="d-flex flex-row align-items-center justify-content-between" style="gap: 1rem;"
+                id="about-title">
+                <p class="additional-info-tag">О себе</p>
+                {% if change_allowed %}
+                <button class="transparent-button" id="edit-about-button">
+                  <a class="link-text" id="edit-about-link">Изменить</a>
+                </button>
+                {% endif %}
               </div>
-              <div class="col-7 col-md-4 col-xl-3">
-                {% include 'includes/profilepage/feedback_bar.html' %}
+              <hr class="additional-info-hr">
+              <p class="additional-info-text" id="about-text">{{ about.content }}</p>
+            </div>
+          </div>
+
+          <div class="additional-data">
+            <div class="additional-info">
+              <p class="additional-info-tag">Отзывы</p>
+              <hr class="additional-info-hr">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-7 col-md-4 col-xl-3">
+                    {% include 'includes/profilepage/feedback_bar.html' %}
+                  </div>
+                  <div class="col-7 col-md-4 col-xl-3">
+                    {% include 'includes/profilepage/feedback_bar.html' %}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        {% include 'includes/footer.html' %}
       </div>
     </div>
   </div>
@@ -83,10 +89,10 @@
     message.setAttribute("class", "error-message")
     message.textContent = content
     setTimeout(() => {
-        message.style.opacity = 0
-        setTimeout(() => {
+      message.style.opacity = 0
+      setTimeout(() => {
         message.remove()
-        }, 200);
+      }, 200);
     }, 4000);
     return message
   }
@@ -117,7 +123,7 @@
     submitButton = document.createElement("button")
     submitButton.setAttribute("class", "transparent-button")
     submitButton.setAttribute("id", "edit-about-submit-button")
-    
+
     editText = document.createElement("a")
     editText.setAttribute("class", "link-text")
     editText.textContent = "Подтвердить"
@@ -166,7 +172,7 @@
           aboutText.setAttribute("class", "additional-info-text")
           aboutText.setAttribute("id", "about-text")
           aboutText.textContent = aboutTextContent
-        
+
           aboutSection = document.getElementById("about-section")
           aboutSection.appendChild(aboutText)
         }
@@ -183,51 +189,211 @@
           document.getElementById("about-section").appendChild(getErrorP("Произошла ошибка, попробуйте заново"))
         }
       },
-      error: function(xhr, errmsg, err) {
+      error: function (xhr, errmsg, err) {
         console.log(xhr.status + ":" + xhr.responseText)
       }
     })
   })
 
   document.addEventListener("click", (e) => {
-      if (!e.target.matches("#change-image-button") && e.target.closest("#change-image-button") == null) return
+    if (!e.target.matches("#change-image-button") && e.target.closest("#change-image-button") == null) return
 
-      changeImageButton = document.getElementById("change-image-button")
-      changeImageButton.remove()
+    changeImageButton = document.getElementById("change-image-button")
+    changeImageButton.remove()
 
-      form = document.createElement("form")
-      form.setAttribute("enctype", "multipart/form-data")
-      form.setAttribute("method", "POST")
-      form.setAttribute("action", PROFILEPAGE_URL)
-      form.classList.add("d-flex", "flex-column", "align-items-start", "justify-content-center");
-      form.setAttribute("name", "personal-image-upload")
+    form = document.createElement("form")
+    form.setAttribute("enctype", "multipart/form-data")
+    form.setAttribute("method", "POST")
+    form.setAttribute("action", PROFILEPAGE_URL)
+    form.classList.add("d-flex", "flex-column", "align-items-start", "justify-content-center");
+    form.setAttribute("name", "personal-image-upload")
 
-      form.appendChild(getCSRFWidget(CSRF_TOKEN))
+    form.appendChild(getCSRFWidget(CSRF_TOKEN))
 
-      fileInput = document.createElement("input")
-      fileInput.setAttribute("type", "file")
-      fileInput.setAttribute("value", "Выберите фото")
-      fileInput.setAttribute("class", "choose-photo-button")
-      fileInput.setAttribute("name", "personal-image")
-      form.appendChild(fileInput)
+    fileInput = document.createElement("input")
+    fileInput.setAttribute("type", "file")
+    fileInput.setAttribute("value", "Выберите фото")
+    fileInput.setAttribute("class", "choose-photo-button")
+    fileInput.setAttribute("name", "personal-image")
+    form.appendChild(fileInput)
 
-      submitButton = document.createElement("button")
-      submitButton.setAttribute("type", "submit")
-      submitButton.setAttribute("class", "transparent-button")
+    submitButton = document.createElement("button")
+    submitButton.setAttribute("type", "submit")
+    submitButton.setAttribute("class", "transparent-button")
 
-      uploadText = document.createElement("a")
-      uploadText.setAttribute("class", "link-text")
-      uploadText.textContent = "Загрузить"
-      submitButton.appendChild(uploadText)
+    uploadText = document.createElement("a")
+    uploadText.setAttribute("class", "link-text")
+    uploadText.textContent = "Загрузить"
+    submitButton.appendChild(uploadText)
 
-      form.appendChild(submitButton)
-      
-      personalImageWrapper = document.getElementById("personal-image-wrapper")
-      personalImageWrapper.appendChild(form)
+    form.appendChild(submitButton)
+
+    personalImageWrapper = document.getElementById("personal-image-wrapper")
+    personalImageWrapper.appendChild(form)
   })
 </script>
 
 <style>
+  :root {
+    --body-color: #F8F9FA;
+    --background-color: white;
+    --input-background: #f0efef;
+    --green-primary: #24C276;
+    --input-placeholder: #B2B2B2;
+    --red-primary: #fa2d2d;
+    --text-color: black;
+  }
+
+  [data-theme="dark"] {
+    --body-color: #181818;
+    --background-color: rgb(40, 40, 40);
+    --input-background: #f0efef;
+    --green-primary: #24C276;
+    --input-placeholder: #B2B2B2;
+    --red-primary: #fa2d2d;
+    --text-color: white;
+  }
+
+  body {
+    padding-top: 70px !important;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--body-color);
+  }
+
+  .logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+  }
+
+  .nav-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+  }
+
+  .profile-bar {
+    background-color: var(--background-color);
+    min-height: 100vh;
+  }
+
+  main {
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  .personal-data {
+    width: 50%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    padding: 0;
+    margin: 0;
+    gap: 1rem;
+  }
+
+  .primary-data {
+    width: 100%;
+    height: fit-content;
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+  }
+
+  .personal-image-wrapper {
+    width: 30%;
+    aspect-ratio: 1 / 1;
+  }
+
+  .primary-data {
+    padding: 1rem 0 0 0;
+  }
+
+  .personal-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5rem;
+  }
+
+
+  .additional-info-hr {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .additional-data {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 2rem 0 0 0;
+  }
+
+  .additional-info {
+    width: 86.6%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .additional-info-tag {
+    padding: 0;
+    margin: 0;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 1.75rem;
+  }
+
+  .additional-info-text {
+    padding: 1rem 0 0 0;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+  }
+
+
+  body {
+    padding-top: 70px !important;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--body-color);
+    overflow-x: hidden;
+  }
+
+  .profile-bar {
+    background-color: var(--background-color);
+    width: 100%;
+  }
+
+  .main-row {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: var(--background-color);
+    min-height: 100vh;
+  }
+
   .edit-about-input {
     width: 100%;
     height: 10rem;
@@ -264,6 +430,5 @@
     border: none;
     background-color: transparent;
   }
-  
 </style>
 {% endblock main %}

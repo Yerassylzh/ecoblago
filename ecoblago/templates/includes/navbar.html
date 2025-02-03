@@ -1,10 +1,10 @@
 {% load static %}
 
-<nav class="navbar fixed-top navbar-expand-md navbar-light bg-light border-bottom fs-5">
+<nav class="navbar fixed-top navbar-expand-md border-bottom fs-5" style="background-color: var(--body-color);">
   <div class="container-fluid">
     <a class="navbar-brand p-0 me-auto fs-3 ms-3" href="{% url 'catalog:catalog' %}" aria-label="Экоблаго">
       <img src="{% static 'img/ecoblago.png' %}" alt="Logo" class="logo-img d-inline-block align-middle">
-      <span class="ms-2">Экоблаго</span>
+      <span class="ms-2 text">Экоблаго</span>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-3 ms-auto mb-2 mb-lg-0">
         <li class="nav-item d-flex flex-row align-items-center">
-          <a class="nav-link me-4" aria-current="page" href="#">Подать обявление</a>
+          <a class="nav-link me-4 text" aria-current="page" href="#">Подать обявление</a>
         </li>
         <!-- To place then on the same line when collapsed -->
         <div class="d-flex flex-row">

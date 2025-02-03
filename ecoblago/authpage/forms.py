@@ -11,7 +11,7 @@ class RegistrationForm(UserCreationForm):
         widget=CheckboxInput(
             attrs={
                 "type": "checkbox",
-                "class": "remember-me",
+                "class": "remember-me text",
                 "id": "remember-me",
             },
         ),

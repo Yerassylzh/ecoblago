@@ -97,6 +97,7 @@ class ProfilepageView(DetailView):
             "default_image_url": "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
             "user_logined": ("remembered" in self.request.session),
             "my_user": get_object_or_404(User.objects, username=self.request.session.get("username")),
+            "theme": (self.request.COOKIES["theme"] if "theme" in self.request.COOKIES else "light"),
             "input_fields": [
                 {
                     "title": "Имя",

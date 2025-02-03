@@ -22,16 +22,6 @@ body {
     min-height: 100vh;
 }
 
-.main-row {
-    width: 100%;
-    min-height: 100vh;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-}
-
 main {
     width: 100%;
     min-height: 100vh;

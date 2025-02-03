@@ -166,4 +166,6 @@ class AuthpageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["csrf_token"] = get_token(self.request)
+        context["theme"] = (self.request.COOKIES["theme"] if "theme" in self.request.COOKIES else "light")
+
         return context

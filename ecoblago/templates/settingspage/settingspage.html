@@ -3,9 +3,6 @@
 
 {% block links %}
 <link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}">
-<link rel="stylesheet" href="{% static 'css/profilepage/profilepage.css' %}">
-<link rel="stylesheet" href="{% static 'css/includes/profilepage/personal_info.css' %}">
-<link rel="stylesheet" href="{% static 'css/includes/profilepage/feedback_bar.css' %}">
 <title>Настройки</title>
 {% endblock links %}
 
@@ -16,75 +13,81 @@
 {% block main %}
 <main>
   <div class="row main-row">
-    <div class="profile-bar col-12 col-md-10 col-xl-9">
-      <p>Настройки</p>
-      <div class="section">
-        <p>Безопасность</p>
-        <hr>
-        <div class="popup-action" id="change-password">
-          <div class="header">
-            <p>Изменить пароль</p>
-            <button data-state="hidden" class="popup-header-btn" id="change-password-popup-btn">
-              <img src="{% static 'img/arrow_down.png' %}" alt="open/hide">
-            </button>
+    <div class="col-12 col-md-10 col-xl-9">
+      <div class="wrapper">
+        <div class="profile-bar">
+          <p class="text">Настройки</p>
+          <div class="section">
+            <p class="text">Безопасность</p>
+            <hr>
+            <div class="popup-action" id="change-password">
+              <div class="header">
+                <p class="text">Изменить пароль</p>
+                <button data-state="hidden" class="popup-header-btn" id="change-password-popup-btn">
+                  <img src="{% static 'img/arrow_down.png' %}" alt="open/hide">
+                </button>
+              </div>
+              <div class="body">
+                <input type="password" name="password" placeholder="Новый пароль" class="input-field" id="new-password"
+                  required>
+                <input type="password" name="password" placeholder="Подтвердите новый пароль" class="input-field"
+                  id="new-password-confirm" required>
+                <button id="confirm-new-password-btn" class="confirm-new-password-btn" onclick="changePassword()">
+                  <p class="text button-text">Подтвердить</p>
+                  <svg id="arrow-right" class="arrow" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    fill="white" viewBox="0 0 256 256" class="ml-1">
+                    <path
+                      d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z">
+                    </path>
+                  </svg>
+                  <span id="loading-gif" class="loading" style="display: none;"></span>
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="body">
-            <input type="password" name="password" placeholder="Новый пароль" class="input-field" id="new-password"
-              required>
-            <input type="password" name="password" placeholder="Подтвердите новый пароль" class="input-field"
-              id="new-password-confirm" required>
-            <button id="confirm-new-password-btn" class="confirm-new-password-btn" onclick="changePassword()">
-              <p class="button-text">Подтвердить</p>
-              <svg id="arrow-right" class="arrow" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
-                viewBox="0 0 256 256" class="ml-1">
-                <path
-                  d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z">
-                </path>
-              </svg>
-              <span id="loading-gif" class="loading" style="display: none;"></span>
-            </button>
+          <div class="section">
+            <p class="text">Цветовая тема</p>
+            <hr>
+            <div class="multiple-choice-actions" id="toggle-theme">
+              <div class="option">
+                <label class="text" for="light-theme">Светлая</label>
+                <input type="radio" class="option-radio" id="light-theme" {% if theme == "light" %}checked{% endif %}>
+              </div>
+              <div class="option">
+                <label class="text" for="black-theme">Темная</label>
+                <input type="radio" class="option-radio" id="dark-theme" {% if theme == "dark" %}checked{% endif %}>
+              </div>
+            </div>
+          </div>
+          <div class="section">
+            <p class="text">Язык</p>
+            <hr>
+            <div class="multiple-choice-actions" id="toggle-theme">
+              <div class="option">
+                <label class="text" for="lang-kk">Казахский</label>
+                <input type="radio" class="option-radio" id="lang-kk">
+              </div>
+              <div class="option">
+                <label class="text" for="lang-ru">Русский</label>
+                <input type="radio" class="option-radio" id="lang-ru">
+              </div>
+              <div class="option">
+                <label class="text" for="lang-eng">Английский</label>
+                <input type="radio" class="option-radio" id="lang-eng">
+              </div>
+            </div>
+          </div>
+          <div class="section">
+            <p class="text">Аккаунт</p>
+            <hr>
+            <div class="manage-account">
+              <button class="logout-btn" class="text" onclick="logout()">Выйти с аккаунта</button>
+              <button class="delete-account-btn" id="delete-account-btn" class="text" onclick="deleteAccount()">Удалить
+                аккаунт</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="section">
-        <p>Цветовая тема</p>
-        <hr>
-        <div class="multiple-choice-actions" id="toggle-theme">
-          <div class="option">
-            <label for="light-theme">Светлая</label>
-            <input type="radio" class="option-radio" id="light-theme">
-          </div>
-          <div class="option">
-            <label for="black-theme">Темная</label>
-            <input type="radio" class="option-radio" id="black-theme">
-          </div>
-        </div>
-      </div>
-      <div class="section">
-        <p>Язык</p>
-        <hr>
-        <div class="multiple-choice-actions" id="toggle-theme">
-          <div class="option">
-            <label for="lang-kk">Казахский</label>
-            <input type="radio" class="option-radio" id="lang-kk">
-          </div>
-          <div class="option">
-            <label for="lang-ru">Русский</label>
-            <input type="radio" class="option-radio" id="lang-ru">
-          </div>
-          <div class="option">
-            <label for="lang-eng">Английский</label>
-            <input type="radio" class="option-radio" id="lang-eng">
-          </div>
-        </div>
-      </div>
-      <div class="section">
-        <p>Аккаунт</p>
-        <hr>
-        <div class="manage-account">
-          <button class="logout-btn" onclick="logout()">Выйти с аккаунта</button>
-          <button class="delete-account-btn" id="delete-account-btn" onclick="deleteAccount()">Удалить аккаунт</button>
-        </div>
+        {% include 'includes/footer.html' %}
       </div>
     </div>
   </div>
@@ -94,6 +97,14 @@
 <script>
   const CSRF_TOKEN = "{{ csrf_token }}"
   const SETTINGSPAGE_URL = "{% url 'settingspage:settingspage' %}"
+  const htmlElement = document.documentElement;
+
+  function matches(e, name) {
+    if (!e.target.matches(name) && e.target.closest(name) == null) {
+      return false;
+    }
+    return true;
+  }
 
   function logout() {
     if (confirm("Вы точно хотите выйти c аккаунта?")) {
@@ -209,6 +220,40 @@
     document.getElementById(selectedId).checked = true;
   });
 
+  document.addEventListener("change", (e) => {
+    if (!matches(e, "#light-theme") && !matches(e, "#dark-theme")) return
+
+    const selectedId = e.target.getAttribute("id")
+    let theme = (selectedId == "light-theme" ? "light" : "dark");
+
+    if (theme == htmlElement.getAttribute('data-theme')) {
+      return;
+    }
+  
+    htmlElement.setAttribute('data-theme', theme);
+    $.ajax({
+      method: "POST",
+      url: SETTINGSPAGE_URL,
+      data: {
+        "csrfmiddlewaretoken": CSRF_TOKEN,
+        "action": "change-theme",
+        "theme": theme
+      },
+      dataType: "json",
+      success: function (data) {
+        if (data["success"]) {
+          showToast("Тема успешно изменена", true);
+        } else {
+          showToast("Ошибка при изменении темы", false);
+        }
+      },
+      error: function (xhr, errmsg, err) {
+        showToast("Произошла ошибка", false);
+        console.log(xhr.status + ":" + xhr.responseText);
+      }
+    });
+  });
+
   document.addEventListener("click", (e) => {
     if (!e.target.matches(".popup-header-btn") && e.target.closest(".popup-header-btn") == null) return
 
@@ -234,6 +279,60 @@
 </script>
 
 <style>
+  :root {
+    --body-color: #F8F9FA;
+    --background-color: white;
+    --input-background: #f0efef;
+    --green-primary: #24C276;
+    --input-placeholder: #B2B2B2;
+    --red-primary: #fa2d2d;
+    --text-color: black;
+  }
+
+  [data-theme="dark"] {
+    --body-color: #181818;
+    --background-color: rgb(40, 40, 40);
+    --input-background: #f0efef;
+    --green-primary: #24C276;
+    --input-placeholder: #B2B2B2;
+    --red-primary: #fa2d2d;
+    --text-color: white;
+  }
+</style>
+
+<style>
+  .text {
+    color: var(--text-color);
+  }
+
+  body {
+    padding-top: 70px !important;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--body-color);
+    overflow-x: hidden;
+  }
+
+  .main-row {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: var(--background-color);
+    min-height: 100vh;
+  }
+
   .loading {
     margin: 0;
     padding: 0;
@@ -297,7 +396,7 @@
     font-weight: 400;
     margin: 0;
     padding: 0;
-    color: white;
+    color: var(--background-color);
     padding-right: 0.25rem;
   }
 
@@ -322,7 +421,7 @@
   }
 
   .input-field {
-    background: #f0efef;
+    background: var(--input-background);
 
     outline: none;
     border-radius: 10px;
@@ -341,15 +440,15 @@
   }
 
   .input-field:hover {
-    border: solid #24C276 2px;
+    border: solid var(--green-primary) 2px;
   }
 
   .input-field:focus {
-    border: solid #24C276 2px;
+    border: solid var(--green-primary) 2px;
   }
 
   .input-field::placeholder {
-    color: #B2B2B2;
+    color: var(--input-placeholder);
   }
 
   .popup-action>.body {
@@ -371,7 +470,8 @@
     -webkit-transform: scale(1.5);
     /* Chrome, Safari, Opera */
     transform: scale(1.5);
-    accent-color: black;
+    accent-color: var(--text-color);
+    /* background: var(--background-color); */
   }
 
   .popup-action>.header>p {
@@ -411,8 +511,7 @@
   }
 
   .profile-bar {
-    background-color: white;
-    min-height: 100vh;
+    width: 100%;
     padding: 1rem 2.5rem 0 2.5rem;
   }
 
@@ -467,25 +566,25 @@
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    background-color: #fa2d2d;
+    background-color: var(--red-primary);
     border-radius: 0.25rem;
     border: none;
     outline: none;
   }
 
   .logout-btn:hover {
-    background-color: #ff0000;
+    background-color: var(--red-primary);
   }
 
   .delete-account-btn {
     padding: 0.25rem 0.5rem 0.25rem 0.5rem;
-    color: black;
+    color: var(--text-color);
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    background-color: white;
+    background-color: var(--background-color);
     border-radius: 0.25rem;
-    border: 1.5px solid red;
+    border: 1.5px solid var(--red-primary);
     outline: none;
   }
 
@@ -500,7 +599,7 @@
     width: 100%;
     height: 1px;
     /* Increase the height to make it bolder */
-    background-color: black;
+    background-color: var(--text-color);
     /* Change the color if needed */
     border: none;
     /* Remove the default border */
@@ -519,3 +618,7 @@
   }
 </style>
 {% endblock main %}
+
+{% block footer %}
+{% include 'includes/footer.html' %}
+{% endblock footer %}

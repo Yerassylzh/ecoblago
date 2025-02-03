@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html data-theme="{{ theme }}">
 
 <head>
   <meta charset="UTF-8">
@@ -30,6 +30,13 @@
 <div id="messages-container" class="messages-container"></div>
 
 <style>
+  .text {
+    color: var(--text-color);
+  }
+  body {
+    background-color: var(--body-color);
+  }
+
   .messages-container {
     position: fixed;
     bottom: 20px;
