@@ -134,21 +134,17 @@ class AuthpageView(TemplateView):
     def get_auth_input_fields(self, auth_type: int) -> dict[str, list]:
         if auth_type == self.LOGIN_OPTION:
             form: LoginForm = LoginForm()
-            form_fields = [
-                form["username"].as_widget(),
-                form["password"].as_widget(),
-            ]
+            field_names = ["username", "password"]
         else:
             form: RegistrationForm = RegistrationForm()
-            form_fields = [
-                form["first_name"].as_widget(),
-                form["last_name"].as_widget(),
-                form["username"].as_widget(),
-                form["phone_number"].as_widget(),
-                form["email"].as_widget(),
-                form["password1"].as_widget(),
-                form["password2"].as_widget(),
-            ]
+            field_names = ["first_name", "last_name", "username", "phone_number", "email", "password1", "password2"]
+    
+        form_fields = []
+        for field_name in field_names:
+            form_fields.append((
+                form[field_name].as_widget(),
+                form[field_name].field.widget.attrs["placeholder"]
+            ))
 
         return {
             "input_fields": form_fields,

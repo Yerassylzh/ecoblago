@@ -21,7 +21,6 @@ class SettingspageView(TemplateView):
     def get(self, *args) -> Union[HttpResponse, JsonResponse]:
         return self.render_to_response(self.context)
 
-
     def post(self, *args) -> Union[HttpResponse, JsonResponse]:
         if "action" in self.request.POST:
             return self.handle_ajax_post()

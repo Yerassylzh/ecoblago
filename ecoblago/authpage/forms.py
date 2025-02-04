@@ -11,7 +11,7 @@ class RegistrationForm(UserCreationForm):
         widget=CheckboxInput(
             attrs={
                 "type": "checkbox",
-                "class": "remember-me text",
+                "class": "remember-me",
                 "id": "remember-me",
             },
         ),
@@ -25,8 +25,7 @@ class RegistrationForm(UserCreationForm):
         self.fields["phone_number"].widget = TextInput(
             attrs={
                 "placeholder": "Номер телефона",
-                "class": "input-field",
-                "type": "phone-number",
+                "type": "text",
                 "id": "phone-number",
             }
         )
@@ -34,8 +33,7 @@ class RegistrationForm(UserCreationForm):
         self.fields["email"].widget = TextInput(
             attrs={
                 "placeholder": "Почта",
-                "class": "input-field",
-                "type": "email",
+                "type": "text",
                 "id": "email",
             }
         )
@@ -43,8 +41,7 @@ class RegistrationForm(UserCreationForm):
         self.fields["first_name"].widget = TextInput(
             attrs={
                 "placeholder": "Имя",
-                "class": "input-field",
-                "type": "name",
+                "type": "text",
                 "id": "first_name",
             }
         )
@@ -52,8 +49,7 @@ class RegistrationForm(UserCreationForm):
         self.fields["last_name"].widget = TextInput(
             attrs={
                 "placeholder": "Фамилия",
-                "class": "input-field",
-                "type": "surname",
+                "type": "text",
                 "id": "last_name",
             }
         )
@@ -61,8 +57,7 @@ class RegistrationForm(UserCreationForm):
         self.fields["username"].widget = TextInput(
             attrs={
                 "placeholder": "Хэндл пользователя",
-                "class": "input-field",
-                "type": "username",
+                "type": "text",
                 "id": "username",
             }
         )
@@ -70,8 +65,7 @@ class RegistrationForm(UserCreationForm):
         self.fields["password1"].widget = TextInput(
             attrs={
                 "placeholder": "Пароль",
-                "class": "input-field",
-                "type": "password",
+                "type": "text",
                 "id": "password1",
             }
         )
@@ -79,8 +73,7 @@ class RegistrationForm(UserCreationForm):
         self.fields["password2"].widget = TextInput(
             attrs={
                 "placeholder": "Подтвердите пароль",
-                "class": "input-field",
-                "type": "password",
+                "type": "text",
                 "id": "password2",
             }
         )
@@ -119,8 +112,7 @@ class LoginForm(AuthenticationForm):
         self.fields["username"].widget = TextInput(
             attrs={
                 "placeholder": "Имя пользователя",
-                "class": "input-field",
-                "type": "username",
+                "type": "text",
                 "id": "username",
             }
         )
@@ -128,7 +120,6 @@ class LoginForm(AuthenticationForm):
         self.fields["password"].widget = TextInput(
             attrs={
                 "placeholder": "Пароль",
-                "class": "input-field",
                 "type": "password",
                 "id": "password",
             }
