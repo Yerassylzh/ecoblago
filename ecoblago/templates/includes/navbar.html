@@ -1,30 +1,30 @@
 {% load static %}
 
-<nav class="navbar fixed-top navbar-expand-md border-bottom fs-5" style="background-color: var(--body-color);">
+<nav class="navbar fixed-top navbar-expand-md border-bottom fs-5" style="background-color: var(--body-color); z-index: 11111;">
   <div class="container-fluid">
     <a class="navbar-brand p-0 me-auto fs-3 ms-3" href="{% url 'catalog:catalog' %}" aria-label="Экоблаго">
       <img src="{% static 'img/ecoblago.png' %}" alt="Logo" class="logo-img d-inline-block align-middle">
-      <span class="ms-2 text">Экоблаго</span>
+      <span class="ms-2 txt-primary">Экоблаго</span>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+    <button class="txt-primary navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="txt-primary navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-3 ms-auto mb-2 mb-lg-0">
         <li class="nav-item d-flex flex-row align-items-center">
-          <a class="nav-link me-4 text" aria-current="page" href="#">Подать обявление</a>
+          <a class="nav-link me-4 txt-secondary" aria-current="page" href="#">Подать обявление</a>
         </li>
         <!-- To place then on the same line when collapsed -->
         <div class="d-flex flex-row">
           <li class="nav-item d-flex flex-row align-items-center justify-content-center">
             <a class="nav-link" href="{% url 'settingspage:settingspage' %}">
-              <i class="bi bi-gear fs-3"></i>
+              <i class="bi bi-gear fs-3 txt-primary"></i>
             </a>
           </li>
           {% if user_logined %}
           <li class="nav-item d-flex flex-row align-items-center justify-content-center">
             <a class="nav-link me-2 d-flex flex-row" href="{% url 'profilepage:profilepage' my_user.id %}">
-              <i class="fas fa-user ms-2 fs-3 d-flex flex-row"></i>
+              <i class="fas fa-user ms-2 fs-3 d-flex flex-row txt-primary"></i>
               <!-- <p class="navbar-user-name">{{ user.first_name }} {{ user.last_name }}</p> -->
             </a>
           </li>
@@ -45,5 +45,9 @@
     font-weight: 400;
 
     margin-left: 0.5rem;
+  }
+
+  a.txt-secondary:hover {
+    color: var(--txt-primary);
   }
 </style>

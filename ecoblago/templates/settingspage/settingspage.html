@@ -11,7 +11,7 @@
 {% endblock navbar %}
 
 {% block main %}
-<main>
+<main class="txt-primary">
   <div class="row main-row">
     <div class="col-12 col-md-10 col-xl-9">
       <div class="wrapper">
@@ -53,13 +53,13 @@
             <p>Цветовая тема</p>
             <hr>
             <div class="multiple-choice-actions" id="toggle-theme">
-              <div class="option">
+              <div class="radio-input-wrapper">
+                <input type="radio" id="light-theme" {% if theme == "light" %}checked{% endif %}>
                 <label for="light-theme">Светлая</label>
-                <input type="radio" class="option-radio" id="light-theme" {% if theme == "light" %}checked{% endif %}>
               </div>
-              <div class="option">
-                <label for="black-theme">Темная</label>
-                <input type="radio" class="option-radio" id="dark-theme" {% if theme == "dark" %}checked{% endif %}>
+              <div class="radio-input-wrapper">
+                <input type="radio" id="dark-theme" {% if theme == "dark" %}checked{% endif %}>
+                <label for="dark-theme">Темная</label>
               </div>
             </div>
           </div>
@@ -67,17 +67,17 @@
             <p>Язык</p>
             <hr>
             <div class="multiple-choice-actions" id="toggle-theme">
-              <div class="option">
-                <labelfor="lang-kk">Казахский</label>
-                  <input type="radio" class="option-radio" id="lang-kk">
+              <div class="radio-input-wrapper">
+                <input type="radio" id="lang-kk">
+                <label for="lang-kk">Казахский</label>
               </div>
-              <div class="option">
+              <div class="radio-input-wrapper">
+                <input type="radio" id="lang-ru">
                 <label for="lang-ru">Русский</label>
-                <input type="radio" class="option-radio" id="lang-ru">
               </div>
-              <div class="option">
+              <div class="radio-input-wrapper">
+                <input type="radio" id="lang-eng">
                 <label for="lang-eng">Английский</label>
-                <input type="radio" class="option-radio" id="lang-eng">
               </div>
             </div>
           </div>
@@ -211,14 +211,14 @@
   }
 
   document.addEventListener("change", (e) => {
-    if (!e.target.matches(".option-radio") && e.target.closest(".option-radio") == null) return
+    if (!matches(e, ".radio-input-wrapper")) return
 
     const selectedId = e.target.getAttribute("id")
 
-    let multipleChoiceSection = e.target.closest(".option").closest(".multiple-choice-actions");
-    let options = multipleChoiceSection.querySelectorAll(".option-radio");
-    options.forEach(option => {
-      option.checked = false;
+    let multipleChoiceSection = e.target.closest(".radio-input-wrapper").closest(".multiple-choice-actions");
+    let inputs = multipleChoiceSection.querySelectorAll(".radio-input-wrapper > input");
+    inputs.forEach(input => {
+      input.checked = false;
     });
 
     document.getElementById(selectedId).checked = true;
@@ -281,30 +281,6 @@
     }
   });
 </script>
-
-<style>
-  :root {
-    --body-color: #F8F9FA;
-    --background-color: white;
-    --input-background: #f0efef;
-    --green-primary: #24C276;
-    --input-placeholder: #B2B2B2;
-    --red-primary: #fa2d2d;
-    --text-color: black;
-    --grey-primary: grey;
-  }
-
-  [data-theme="dark"] {
-    --body-color: #181818;
-    --background-color: rgb(40, 40, 40);
-    --input-background: #f0efef;
-    --green-primary: #24C276;
-    --input-placeholder: #B2B2B2;
-    --red-primary: #fa2d2d;
-    --text-color: white;
-    --grey-primary: grey;
-  }
-</style>
 
 <style>
   .text {
@@ -516,14 +492,14 @@
     width: 100%;
     padding: 1rem 2.5rem 0 2.5rem;
   }
-
+/* 
   .multiple-choice-actions>.option {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     gap: 0.75rem;
-  }
+  } */
 
   .profile-bar>p {
     font-size: 2rem;
@@ -544,12 +520,12 @@
     align-items: center;
     gap: 1.5rem;
   }
-
+/* 
   .multiple-choice-actions .option label {
     font-size: 1.25rem;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-  }
+  } */
 
   .profile-bar>.section {
     padding-top: 2rem;
@@ -600,13 +576,8 @@
   .profile-bar .section hr {
     width: 100%;
     height: 1px;
-    /* Increase the height to make it bolder */
-    background-color: var(--text-color);
-    /* Change the color if needed */
     border: none;
-    /* Remove the default border */
     margin: 0.5rem 0;
-    /* Optional: Add some margin for spacing */
   }
 
   .main-row {
