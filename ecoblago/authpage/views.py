@@ -9,6 +9,8 @@ from django.urls import reverse
 from django.middleware.csrf import get_token
 from django.views.generic.base import TemplateView
 from django.contrib.auth import login, authenticate
+from django.utils.translation import gettext as _
+from django.utils import translation
 
 from authpage.forms import LoginForm, RegistrationForm
 from authpage.models import User
@@ -163,5 +165,7 @@ class AuthpageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["csrf_token"] = get_token(self.request)
         context["theme"] = (self.request.COOKIES["theme"] if "theme" in self.request.COOKIES else "light")
+        context["lang"] = (self.request.COOKIES["lang"] if "lang" in self.request.COOKIES else "ru")        
+        translation.activate(context["lang"])
 
         return context

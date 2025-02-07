@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block links %}
 <link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}">
@@ -16,13 +17,13 @@
     <div class="col-12 col-md-10 col-xl-9">
       <div class="wrapper">
         <div class="profile-bar">
-          <p>Настройки</p>
+          <p>{% trans "Настройки" %}</p>
           <div class="section">
-            <p>Безопасность</p>
+            <p>{% trans "Безопасность" %}</p>
             <hr>
             <div class="popup-action" id="change-password">
               <div class="header">
-                <p>Изменить пароль</p>
+                <p>{% trans "Изменить пароль" %}</p>
                 <button data-state="hidden" class="popup-header-btn" id="change-password-popup-btn">
                   <img src="{% static 'img/arrow_down.png' %}" alt="open/hide">
                 </button>
@@ -30,14 +31,14 @@
               <div class="body" style="width: 400px;">
                 <div class="input-field-wrapper">
                   <input type="password" name="password" id="new-password" placeholder="Новый пароль" required>
-                  <div>Новый пароль</div>
+                  <div>{% trans "Новый пароль" %}</div>
                 </div>
                 <div class="input-field-wrapper">
                   <input type="password" name="password" id="new-password-confirm" placeholder="Подтвердите новый пароль" required>
-                  <div>Подтвердите новый пароль</div>
+                  <div>{% trans "Подтвердите новый пароль" %}</div>
                 </div>
                 <button id="confirm-new-password-btn" class="confirm-new-password-btn" onclick="changePassword()">
-                  <p class="button-text">Подтвердить</p>
+                  <p class="button-text">{% trans "Подтвердить" %}</p>
                   <svg id="arrow-right" class="arrow" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                     fill="white" viewBox="0 0 256 256" class="ml-1">
                     <path
@@ -50,44 +51,43 @@
             </div>
           </div>
           <div class="section">
-            <p>Цветовая тема</p>
+            <p>{% trans "Цветовая тема" %}</p>
             <hr>
             <div class="multiple-choice-actions" id="toggle-theme">
               <div class="radio-input-wrapper">
                 <input type="radio" id="light-theme" {% if theme == "light" %}checked{% endif %}>
-                <label for="light-theme">Светлая</label>
+                <label for="light-theme">{% trans "Светлая" %}</label>
               </div>
               <div class="radio-input-wrapper">
                 <input type="radio" id="dark-theme" {% if theme == "dark" %}checked{% endif %}>
-                <label for="dark-theme">Темная</label>
+                <label for="dark-theme">{% trans "Темная" %}</label>
               </div>
             </div>
           </div>
           <div class="section">
-            <p>Язык</p>
+            <p>{% trans "Язык" %}</p>
             <hr>
             <div class="multiple-choice-actions" id="toggle-theme">
               <div class="radio-input-wrapper">
-                <input type="radio" id="lang-kk">
-                <label for="lang-kk">Казахский</label>
+                <input type="radio" id="lang-kk" {% if lang == "kk" %}checked{% endif %}>
+                <label for="lang-kk">{% trans "Казахский" %}</label>
               </div>
               <div class="radio-input-wrapper">
-                <input type="radio" id="lang-ru">
-                <label for="lang-ru">Русский</label>
+                <input type="radio" id="lang-ru" {% if lang == "ru" %}checked{% endif %}>
+                <label for="lang-ru">{% trans "Русский" %}</label>
               </div>
               <div class="radio-input-wrapper">
-                <input type="radio" id="lang-eng">
-                <label for="lang-eng">Английский</label>
+                <input type="radio" id="lang-en" {% if lang == "en" %}checked{% endif %}>
+                <label for="lang-en">{% trans "Английский" %}</label>
               </div>
             </div>
           </div>
           <div class="section">
-            <p>Аккаунт</p>
+            <p>{% trans "Аккаунт" %}</p>
             <hr>
             <div class="manage-account">
-              <button class="logout-btn" onclick="logout()">Выйти с аккаунта</button>
-              <button class="delete-account-btn" id="delete-account-btn" onclick="deleteAccount()">Удалить
-                аккаунт</button>
+              <button class="logout-btn" onclick="logout()">{% trans "Выйти с аккаунта" %}</button>
+              <button class="delete-account-btn" id="delete-account-btn" onclick="deleteAccount()">{% trans "Удалить аккаунт" %}</button>
             </div>
           </div>
         </div>
@@ -223,6 +223,42 @@
 
     document.getElementById(selectedId).checked = true;
   });
+
+  document.addEventListener("change", (e) => {
+    if (!matches(e, "#lang-kk") && !matches(e, "#lang-ru") && !matches(e, "#lang-en")) return
+
+    const selectedId = e.target.getAttribute("id")
+    let lang;
+    if (selectedId == "lang-kk") {
+      lang = "kk";
+    } else if (selectedId == "lang-ru") {
+      lang = "ru";
+    } else {
+      lang = "en";
+    }
+
+    $.ajax({
+      method: "POST",
+      url: SETTINGSPAGE_URL,
+      data: {
+        "csrfmiddlewaretoken": CSRF_TOKEN,
+        "action": "change-lang",
+        "lang": lang
+      },
+      dataType: "json",
+      success: function (data) {
+        if (data["success"]) {
+          location.reload();
+        } else {
+          showToast("Ошибка при изменении языка", false);
+        }
+      },
+      error: function (xhr, errmsg, err) {
+        showToast("Произошла ошибка", false);
+        console.log(xhr.status + ":" + xhr.responseText);
+      }
+    });
+  })
 
   document.addEventListener("change", (e) => {
     if (!matches(e, "#light-theme") && !matches(e, "#dark-theme")) return

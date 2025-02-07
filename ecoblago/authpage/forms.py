@@ -65,7 +65,7 @@ class RegistrationForm(UserCreationForm):
         self.fields["password1"].widget = TextInput(
             attrs={
                 "placeholder": "Пароль",
-                "type": "text",
+                "type": "password",
                 "id": "password1",
             }
         )
@@ -73,7 +73,7 @@ class RegistrationForm(UserCreationForm):
         self.fields["password2"].widget = TextInput(
             attrs={
                 "placeholder": "Подтвердите пароль",
-                "type": "text",
+                "type": "password",
                 "id": "password2",
             }
         )

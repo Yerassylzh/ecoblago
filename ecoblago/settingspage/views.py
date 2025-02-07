@@ -11,6 +11,8 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.db.models import ImageField
+from django.utils import translation
+from django.utils.translation import gettext as _
 
 from authpage.models import User
 from django.contrib.auth import logout
@@ -36,8 +38,17 @@ class SettingspageView(TemplateView):
             return self.delete_user()
         elif "change-theme" == action:
             return self.change_theme()
+        elif "change-lang" == action:
+            return self.change_lang()
         return Http404()
     
+    def change_lang(self) -> JsonResponse:
+        lang = self.request.POST["lang"]
+        translation.activate(lang)
+        response = JsonResponse({"success": True})
+        response.set_cookie("lang", lang, max_age=60*60*24*365)
+        return response
+
     def change_theme(self) -> JsonResponse:
         theme = self.request.POST["theme"]
         response = JsonResponse({"success": True})
@@ -74,6 +85,8 @@ class SettingspageView(TemplateView):
         context["csrf_token"] = get_token(self.request)
         context["user_logined"] = ("remembered" in self.request.session)
         context["theme"] = (self.request.COOKIES["theme"] if "theme" in self.request.COOKIES else "light")
+        context["lang"] = (self.request.COOKIES["lang"] if "lang" in self.request.COOKIES else "ru")
+        translation.activate(context["lang"])
 
         return context
 
