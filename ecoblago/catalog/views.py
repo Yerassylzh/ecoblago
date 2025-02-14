@@ -22,8 +22,8 @@ class CatalogView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["user_logined"] = ("remembered" in self.request.session)
-        context["my_user"] = get_object_or_404(User.objects, username=self.request.session.get("username"))
-        context["theme"] = (self.request.COOKIES["theme"] if "theme" in self.request.COOKIES else "light")
+        context["my_user"] = self.request.user
+        context["theme"] = self.request.COOKIES.get("theme", "light")
+        context["lang"] = self.request.COOKIES.get("lang", "ru")
 
         return context

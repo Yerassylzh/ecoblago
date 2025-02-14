@@ -14,10 +14,3 @@ urlpatterns = [
     path("profilepage/", include(profilepage.urls)),
     path("settingspage/", include(settingspage.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-if ecoblago.settings.DEBUG:
-    import debug_toolbar
-
-    urlpatterns += [
-        path("__debug__/", include(debug_toolbar.urls)),
-    ]

@@ -5,7 +5,6 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from authpage.models import User
 from authpage.validators import PhoneNumberValidator
 
-
 class RegistrationForm(UserCreationForm):
     remember_me = BooleanField(
         widget=CheckboxInput(

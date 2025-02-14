@@ -41,7 +41,6 @@
           <input type="checkbox" id="remember-me">
           <label for="remember-me" class="text">{{ form.remember_me.label }}</label>
         </div>
-
         <button name="commit-button" class="commit-button" id="auth-submit" type="submit">
           <p class="button-text">Продолжить</p>
           <svg id="arrow-right" class="arrow" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
@@ -52,6 +51,7 @@
           </svg>
           <span id="loading-gif" class="loading" style="display: none;"></span>
         </button>
+        <input id="next" type="hidden" name="next" value="{{ next }}">
       </div>
     </div>
   </div>
@@ -313,8 +313,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- <script src="{% static 'js/authpage/authpage.js' %}"></script> -->
 <script>
-  let CSRF_TOKEN = "{{ csrf_token }}"
-  let AUTHPAGE_URL = "{% url 'authpage:authpage' %}"
+  const CSRF_TOKEN = "{{ csrf_token }}";
+  const AUTHPAGE_URL = "{% url 'authpage:authpage' %}";
 
   function removeAll(attrName) {
     document.querySelectorAll(attrName).forEach(item => {
@@ -371,7 +371,7 @@
       success: function (data) {
         let success = data["success"]
         if (success) {
-          window.location.href = data["redirect_to"]
+          window.location.href = $("#next").val()
         } else {
           let [errorWidgetId, errorMessage] = data["error_message"]
           let formId = "auth-form", submitButtonId = "auth-submit", message = errorMessage

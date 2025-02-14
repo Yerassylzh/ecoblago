@@ -1,8 +1,6 @@
-from session_cleanup.settings import weekly_schedule
 from django.utils.translation import gettext_lazy as _
 import os
 from pathlib import Path
-import sys
 
 import dotenv
 
@@ -37,31 +35,14 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.locale.LocaleMiddleware", # between session and common
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "login_required.middleware.LoginRequiredMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
-CELERYBEAT_SCHEDULE = {
-    'session_cleanup': weekly_schedule,
-}
-
-if DEBUG:
-    INSTALLED_APPS += (
-        "debug_toolbar",
-    )
-
-    MIDDLEWARE += (
-        "debug_toolbar.middleware.DebugToolbarMiddleware",
-    )
-
-    INTERNAL_IPS = [
-        '127.0.0.1',
-    ]
-
 
 ROOT_URLCONF = "ecoblago.urls"
 
@@ -107,7 +88,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = "authpage:authpage"
+
 LANGUAGE_CODE = "en"
+
 LANGUAGES = [
     ("en", _("English")),
     ("ru", _("Russian")),
@@ -118,9 +102,9 @@ LOCALE_PATHS = [
     BASE_DIR / "locale",
 ]
 
-TIME_ZONE = "UTC"
-
 USE_I18N = True
+
+TIME_ZONE = "UTC"
 
 USE_TZ = True
 
@@ -130,12 +114,13 @@ STATICFILES_DIRS = [
     BASE_DIR / "static/",
 ]
 
+MEDIA_ROOT = BASE_DIR / "media"
+
+MEDIA_URL = "/media/"
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'authpage.User'
-
-MEDIA_ROOT = BASE_DIR / "media"
-MEDIA_URL = "/media/"
 
 FIXTURE_DIRS = [
     BASE_DIR / "fixtures/",

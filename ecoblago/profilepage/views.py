@@ -92,12 +92,12 @@ class ProfilepageView(DetailView):
         context = super().get_context_data(**kwargs)
         context["my_user_id"] = kwargs["pk"]
         context["csrf_token"] = get_token(self.request)
+        context["theme"] = self.request.COOKIES.get("theme", "light")
+        context["lang"] = self.request.COOKIES.get("lang", "ru")
         context.update({
             "change_allowed": self.request.session.get("username") == self.object.username,
             "default_image_url": "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
-            "user_logined": ("remembered" in self.request.session),
-            "my_user": get_object_or_404(User.objects, username=self.request.session.get("username")),
-            "theme": (self.request.COOKIES["theme"] if "theme" in self.request.COOKIES else "light"),
+            "my_user": self.request.user,
             "input_fields": [
                 {
                     "title": "Имя",

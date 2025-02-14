@@ -84,9 +84,8 @@ class SettingspageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["csrf_token"] = get_token(self.request)
         context["user_logined"] = ("remembered" in self.request.session)
-        context["theme"] = (self.request.COOKIES["theme"] if "theme" in self.request.COOKIES else "light")
-        context["lang"] = (self.request.COOKIES["lang"] if "lang" in self.request.COOKIES else "ru")
-        translation.activate(context["lang"])
+        context["theme"] = self.request.COOKIES.get("theme", "light")
+        context["lang"] = self.request.COOKIES.get("lang", "ru")
 
         return context
 
@@ -94,8 +93,7 @@ class SettingspageView(TemplateView):
         super().setup(request, *args, **kwargs)
 
         self.context = self.get_context_data()
-        self.user = None
-        if self.context["user_logined"] == True:
-            self.user = get_object_or_404(User, username=self.request.session["username"])
+        self.context["my_user"] = self.request.user
 
-        self.context["my_user"] = self.user
+        if translation.get_language() != self.context["lang"]:
+            translation.activate(self.context["lang"])

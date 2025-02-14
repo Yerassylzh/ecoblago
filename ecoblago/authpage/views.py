@@ -11,29 +11,50 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth import login, authenticate
 from django.utils.translation import gettext as _
 from django.utils import translation
+from django.utils.decorators import method_decorator
+
+from login_required import LoginNotRequiredMixin
 
 from authpage.forms import LoginForm, RegistrationForm
 from authpage.models import User
 
-
-class AuthpageView(TemplateView):
+class AuthpageView(LoginNotRequiredMixin, TemplateView):
     template_name = "authpage/authpage.html"
 
+    def setup(self, *args, **kwargs):
+        super().setup(*args, **kwargs)
+
+        self.LOGIN_OPTION = 0
+        self.SIGNUP_OPTION = 1
+        self.context = self.get_context_data(*args, **kwargs)
+        self.context_ajax = self.get_context_ajax(*args, **kwargs)
+
+        if translation.get_language() != self.context["lang"]:
+            translation.activate(self.context["lang"])
+
+    def get_context_ajax(self, *args, **kwargs):
+        context = {}
+        return context
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["csrf_token"] = get_token(self.request)
+        context["theme"] = self.request.COOKIES.get("theme", "light")
+        context["lang"] = self.request.COOKIES.get("lang", "ru")
+        context["next"] = self.request.GET.get("next", reverse("catalog:catalog"))
+        return context
+
     def get(self, *args, **kwargs):
-        if "remembered" in self.request.session:
-            return redirect(reverse(self.catalog_url))
+        if self.request.user.is_authenticated:
+            return redirect(self.context["next"])
 
         elif "action" in self.request.GET:
             return self.handle_ajax()
 
         else:
-            self.context.update({
-                "form": LoginForm(),
-            })
-            self.context.update(
-                self.get_auth_input_fields(self.LOGIN_OPTION),
-            )
-            return render(self.request, self.template_name, self.context)
+            self.context["form"] = LoginForm()
+            self.context["input_fields"] = self.get_auth_input_fields(self.LOGIN_OPTION)
+            return self.render_to_response(self.context)
 
     def post(self, *args, **kwargs):
         if "action" in self.request.POST:
@@ -47,14 +68,14 @@ class AuthpageView(TemplateView):
     
         elif self.request.method == HTTPMethod.GET:
             return self.handle_ajax_get()
-        
+
         else:
             return Http404(f"Unexpected ajax request. Request: {self.request}")
 
     def handle_ajax_get(self) -> JsonResponse:
         if self.request.GET.get("action") == "change-auth-type":
             auth_type = int(self.request.GET.get("auth_type"))
-            self.context_ajax.update(self.get_auth_input_fields(auth_type))
+            self.context_ajax["input_fields"] = self.get_auth_input_fields(auth_type)
             return JsonResponse(data=self.context_ajax)
         else:
             raise Exception("Unexpected get request")
@@ -62,8 +83,6 @@ class AuthpageView(TemplateView):
     def handle_ajax_post(self) -> JsonResponse:
         if self.request.POST.get("action") == "auth-user":
             return self.auth_user()
-        else:
-            raise Exception(f"Cannot identify the purpose of ajax request: {self.request}")
 
     def auth_user(self) -> JsonResponse:
         if int(self.request.POST.get("auth_type")) == self.LOGIN_OPTION:
@@ -83,28 +102,23 @@ class AuthpageView(TemplateView):
         if not user:
             self.context_ajax.update({
                 "success": False,
-                "error_message": ("undef", "Неверный логин или пароль")
+                "error_message": ("undef", _("Неверный логин или пароль"))
             })
             return JsonResponse(data=self.context_ajax)
 
         login(self.request, user)
         self.remember_user()
-        self.context_ajax.update({
-            "success": True,
-            "redirect_to": reverse(self.catalog_url),
-        })
+
+        self.context_ajax["success"] = True
         return JsonResponse(data=self.context_ajax)
-        
+
     def register_user(self) -> JsonResponse:
         form = RegistrationForm(data=self.request.POST)
         if form.is_valid():
             form.save()
     
             self.remember_user()
-            self.context_ajax.update({
-                "success": True,
-                "redirect_to": reverse(self.catalog_url),
-            })
+            self.context_ajax["success"] = True
             return JsonResponse(data=self.context_ajax)
         else:
             form_errors = form.errors
@@ -119,21 +133,18 @@ class AuthpageView(TemplateView):
 
     def change_auth_type(self) -> JsonResponse:
         auth_type = int(self.request.GET.get("auth_type"))
-        if auth_type not in {self.LOGIN_OPTION, self.SIGNUP_OPTION}:
-            raise Exception(f"Invalid auth type: {auth_type}")
-        else:
-            return JsonResponse(data=self.get_auth_input_fields(auth_type))
+        self.context_ajax["input_fields"] = self.get_auth_input_fields(auth_type)
+        return JsonResponse(data=self.context_ajax)
 
     def remember_user(self):
-        remember_me = self.request.POST.get("remember_me")
-        self.request.session["remembered"] = True
-        self.request.session["username"] = self.request.POST.get("username")
-        if remember_me == "true":
-            self.request.session.set_expiry(30 * 24 * 60 * 60)
+        days = None
+        if self.request.POST.get("remember_me", "false") == "true":
+            days = 1
         else:
-            self.request.session.set_expiry(0)
+            days = 30
+        self.request.session.set_expiry(days * 24 * 60 * 60)
 
-    def get_auth_input_fields(self, auth_type: int) -> dict[str, list]:
+    def get_auth_input_fields(self, auth_type: int) -> list:
         if auth_type == self.LOGIN_OPTION:
             form: LoginForm = LoginForm()
             field_names = ["username", "password"]
@@ -148,24 +159,4 @@ class AuthpageView(TemplateView):
                 form[field_name].field.widget.attrs["placeholder"]
             ))
 
-        return {
-            "input_fields": form_fields,
-        }
-
-    def setup(self, *args, **kwargs):
-        super().setup(*args, **kwargs)
-
-        self.catalog_url = "catalog:catalog"
-        self.LOGIN_OPTION = 0
-        self.SIGNUP_OPTION = 1
-        self.context = self.get_context_data()
-        self.context_ajax = {}
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["csrf_token"] = get_token(self.request)
-        context["theme"] = (self.request.COOKIES["theme"] if "theme" in self.request.COOKIES else "light")
-        context["lang"] = (self.request.COOKIES["lang"] if "lang" in self.request.COOKIES else "ru")        
-        translation.activate(context["lang"])
-
-        return context
+        return form_fields
