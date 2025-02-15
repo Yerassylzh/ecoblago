@@ -25,37 +25,12 @@
             <h3 class="product-title">{{ product.title }}</h3>
             <p class="product-price">{{ product.cost }}</p>
           </div>
-          <div class="like-section">
-            <i class="fa-regular fa-heart like-empty"></i>
-            <i class="fa-solid fa-heart like-full"></i>
-          </div>
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
 </main>
-
-<script>
-  const likeEmpty = document.querySelectorAll('.like-empty');
-  const likeFull = document.querySelectorAll('.like-full');
-
-  likeEmpty.forEach((like) => {
-    like.addEventListener('click', () => {
-      like.style.display = 'none';
-      like.nextElementSibling.style.display = 'block';
-      showToast("Product was added to favorites", true);
-    });
-  });
-
-  likeFull.forEach((like) => {
-    like.addEventListener('click', () => {
-      like.style.display = 'none';
-      like.previousElementSibling.style.display = 'block';
-      showToast("Product was removed from favorites", true);
-    });
-  });
-</script>
 
 <style>
   :root {
@@ -70,19 +45,6 @@
 </style>
 
 <style>
-  .like-empty {
-    margin-top: 3px;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-  
-  .like-full {
-    display: none;
-    margin-top: 3px;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-
   body {
     overflow-x: hidden;
   }
@@ -112,6 +74,7 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
+    width: 100%;
   }
 
   .like-section {

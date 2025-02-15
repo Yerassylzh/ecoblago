@@ -3,7 +3,7 @@ from typing import Union
 
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView
-from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse, HttpResponseNotAllowed
 from django.middleware.csrf import get_token
 from django.contrib.auth.models import AbstractUser 
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -22,9 +22,8 @@ class ProfilepageView(DetailView):
     pk_url_kwarg = "pk"
 
     def post(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
-        if self.request.session.get("username") != self.object.username:
-            self.context_ajax.update({"success": False, "message": "You are not allowed to change this user's data"})
-            return JsonResponse(data=self.context_ajax)
+        if self.request.user != self.object:
+            return HttpResponseNotAllowed("You are not allowed to perform this action")
 
         if "personal-image" in self.request.FILES:
             return self.upload_personal_image()
@@ -95,7 +94,7 @@ class ProfilepageView(DetailView):
         context["theme"] = self.request.COOKIES.get("theme", "light")
         context["lang"] = self.request.COOKIES.get("lang", "ru")
         context.update({
-            "change_allowed": self.request.session.get("username") == self.object.username,
+            "change_allowed": self.request.user == self.object,
             "default_image_url": "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
             "my_user": self.request.user,
             "input_fields": [

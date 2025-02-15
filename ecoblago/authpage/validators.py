@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
 
-
+@deconstructible
 class PhoneNumberValidator:
     def __call__(self, number: str):
         chrs = list(filter(lambda c: c not in {" ", "(", ")", "-"}, number))

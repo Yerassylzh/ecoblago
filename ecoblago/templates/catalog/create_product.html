@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}">
+{% endblock links %}
+
+{% block navbar %}
+{% include 'includes/navbar.html' %}
+{% endblock navbar %}
+
+{% block main %}
+<main style="padding: 2rem;" class="txt-primary">
+  <div class="row main-row">
+    <div class="col-9 col-md-5 col-xl-5">
+      <div class="add-image-section">
+        <div data-has-image="false" class="image-container" style="margin-top: 1rem;">
+          <input type="file" id="add-image-input" class="add-image-input" accept="image/*">
+          <label class="add-image-label" for="add-image-input">Добавить изображение</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-9 col-md-7 col-xl-7 add-info-section">
+      <div class="row">
+        <div class="col-9 col-md-6 col-xl-6" style="margin-top: 1rem;">
+          <div class="input-field-wrapper">
+            {{ form.title }}
+            <div>Название</div>
+          </div>
+        </div>
+        <div class="col-9 col-md-6 col-xl-6" style="margin-top: 1rem;">
+          <div class="input-field-wrapper">
+            {{ form.location }}
+            <div>Местоположение</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-9 col-md-6 col-xl-6" style="margin-top: 1rem;">
+          <div class="input-field-wrapper">
+            {{ form.phone_number }}
+            <div>Номер телефона</div>
+          </div>
+        </div>
+        <div class="col-9 col-md-6 col-xl-6" style="margin-top: 1rem;">
+          <div class="input-field-wrapper">
+            {{ form.cost }}
+            <div>Цена</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-9 col-md-12 col-xl-12" style="margin-top: 1rem;">
+          <div class="textarea-field-wrapper">
+            {{ form.description }}
+            <div>Описание</div>
+          </div>
+        </div>
+      </div>
+      <div class="submit-btn-wrapper">
+        <button id="submit-btn" onclick="createProduct()">Подать обявление</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  const CSRF_TOKEN = "{{ csrf_token }}";
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  function createProduct() {
+    const title = document.getElementById("title").value;
+    const location = document.getElementById("location").value;
+    const phone_number = document.getElementById("phone-number").value;
+    const cost = document.getElementById("cost").value;
+    const description = document.getElementById("description").value;
+
+    const imageInput = document.getElementById("add-image-input");
+
+    let formData = new FormData();
+    formData.append("csrfmiddlewaretoken", CSRF_TOKEN);
+    formData.append("title", title);
+    formData.append("location", location);
+    formData.append("phone_number", phone_number);
+    formData.append("cost", cost);
+    formData.append("description", description);
+    if (imageInput.files.length > 0) {
+      formData.append("image", imageInput.files[0]);
+    }
+    formData.append("action", "create-product");
+
+    $.ajax({
+      method: "POST",
+      url: "{% url 'catalog:create' %}",
+      data: formData,
+      dataType: "json",
+      processData: false,
+      contentType: false,
+      beforeSend: function() {
+        document.getElementById("submit-btn").textContent = "Подождите...";
+        document.getElementById("submit-btn").setAttribute("disabled", "true");
+      },
+      success: (data) => {
+        const success = data["success"];
+        if (success) {
+          showToast("Обявление успешно добавлено", true);
+        } else {
+          showToast(data["error"], false);
+        }
+      },
+      error: function (xhr, errmsg, err) {
+        console.log(xhr.status + ":" + xhr.responseText)
+        showToast("Произошла ошибка при добавлении обявления", false);
+      },
+      complete: function() {
+        setTimeout(() => {
+          window.location.href = "{% url 'catalog:catalog' %}";
+        }, 3000);
+        document.getElementById("submit-btn").textContent = "Подать обявление";
+        document.getElementById("submit-btn").removeAttribute("disabled");
+      }
+    })
+  }
+</script>
+
+<script>
+  const addImageInput = document.getElementById('add-image-input');
+  addImageInput.onchange = () => {
+    const imageContainer = addImageInput.closest(".image-container");
+    const hasImage = imageContainer.getAttribute('data-has-image');
+    const addImageLabel = addImageInput.nextElementSibling;
+
+    if (hasImage === 'false') {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        imageContainer.style.backgroundImage = `url(${e.target.result})`
+        imageContainer.style.backgroundSize = 'cover';
+        imageContainer.dataset.hasImage = 'true';
+        addImageLabel.textContent = 'Изображение добавлено';
+        addImageInput.setAttribute('disabled', 'true');
+      }
+      reader.readAsDataURL(addImageInput.files[0]);
+    }
+  }
+</script>
+
+<style>
+  .submit-btn-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  #submit-btn {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 1.25rem;
+
+    border: none;
+    outline: none;
+    border-radius: 0.25rem;
+    background-color: var(--widget-color);
+    color: var(--txt-primary);
+    
+    padding: 0.5rem 1rem;
+  }
+
+  #submit-btn:hover {
+    filter: brightness(92%);
+    color: white;
+  }
+
+  textarea {
+    min-height: 250px;
+  }
+
+  :root {
+    --background-color: var(--body-color) !important;
+    --widget-color: white;
+  }
+
+  [data-theme="dark"] {
+    --background-color: var(--body-color) !important;
+    --widget-color: rgb(40, 40, 40);
+  }
+</style>
+
+<style>
+  #add-image-input {
+    display: none;
+  }
+
+  .add-image-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+
+    cursor: pointer;
+  }
+
+  .image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 460/300;
+    background-color: var(--widget-color);
+    border-radius: 1rem;
+  }
+
+  .add-info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+</style>
+
+{% endblock main %}

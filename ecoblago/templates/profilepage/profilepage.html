@@ -22,7 +22,7 @@
           <div class="primary-data">
             <div class="personal-data">
               {% for input_field in input_fields %}
-              {% include 'includes/profilepage/personal_info.html' %}
+                {% include 'includes/profilepage/personal_info.html' %}
               {% endfor %}
             </div>
             <div id="personal-image-wrapper" class="personal-image-wrapper">
@@ -83,19 +83,6 @@
 <script>
   const PROFILEPAGE_URL = "{% url 'profilepage:profilepage' my_user_id %}"
   const CSRF_TOKEN = "{{ csrf_token }}"
-
-  function getErrorP(content) {
-    let message = document.createElement("p")
-    message.setAttribute("class", "error-message")
-    message.textContent = content
-    setTimeout(() => {
-      message.style.opacity = 0
-      setTimeout(() => {
-        message.remove()
-      }, 200);
-    }, 4000);
-    return message
-  }
 
   function getCSRFWidget(token) {
     const csrfInput = document.createElement('input');
@@ -186,7 +173,7 @@
         } else {
           addEditAboutLink()
           addAboutText(aboutTextContent)
-          document.getElementById("about-section").appendChild(getErrorP("Произошла ошибка, попробуйте заново"))
+          showToast("Произошла ошибка при сохранении изменений", false)
         }
       },
       error: function (xhr, errmsg, err) {
