@@ -26,8 +26,8 @@
             <p class="product-price">{{ product.cost }}</p>
           </div>
           <div class="like-section">
-            <i class="fa-regular fa-heart like-empty"></i>
-            <i class="fa-solid fa-heart like-full"></i>
+            <i class="fa-regular fa-heart like-empty" {% if product in liked_products %}style="display: none;"{% else %}style="display:block;"{% endif %}></i>
+            <i class="fa-solid fa-heart like-full" {% if product in liked_products %}style="display: block;"{% else %}style="display:none;"{% endif %}></i>
           </div>
         </div>
       </div>
@@ -36,25 +36,66 @@
   </div>
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
   const likeEmpty = document.querySelectorAll('.like-empty');
   const likeFull = document.querySelectorAll('.like-full');
 
   likeEmpty.forEach((like) => {
     like.addEventListener('click', () => {
-      like.style.display = 'none';
-      like.nextElementSibling.style.display = 'block';
-      showToast("Product was added to favorites", true);
+      addToFavourites(like);
     });
   });
 
   likeFull.forEach((like) => {
     like.addEventListener('click', () => {
-      like.style.display = 'none';
-      like.previousElementSibling.style.display = 'block';
-      showToast("Product was removed from favorites", true);
+      removeFromFavourites(like);
     });
   });
+
+  function addToFavourites(like) {
+    like.style.display = 'none';
+    like.nextElementSibling.style.display = 'block';
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'catalog:catalog' %}",
+        data: {
+          "product_id": like.parentElement.parentElement.parentElement.querySelector('.product-id-input').value,
+          "csrfmiddlewaretoken": "{{ csrf_token }}",
+          "action": "add-product-to-favourites",
+        },
+        success: function(data) {
+          const success = data["success"];
+          if (success) {
+            showToast("Product was added to favorites", true);  
+          } else {
+            showToast("Product was not added to favorites", false);
+          }
+        }
+    });
+  }
+
+  function removeFromFavourites(like) {
+    like.style.display = 'none';
+    like.previousElementSibling.style.display = 'block';
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'catalog:catalog' %}",
+        data: {
+          "product_id": like.parentElement.parentElement.parentElement.querySelector('.product-id-input').value,
+          "csrfmiddlewaretoken": "{{ csrf_token }}",
+          "action": "remove-product-from-favourites",
+        },
+        success: function(data) {
+          const success = data["success"];
+          if (success) {
+            showToast("Product was removed from favorites", true);
+          } else {
+            showToast("Product was not removed from favorites", false);
+          }
+        }
+    });
+  }
 </script>
 
 <style>
@@ -77,7 +118,6 @@
   }
   
   .like-full {
-    display: none;
     margin-top: 3px;
     font-size: 1.5rem;
     cursor: pointer;

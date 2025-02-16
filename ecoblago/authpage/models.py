@@ -28,5 +28,13 @@ class User(AbstractUser):
         null=True,
     )
 
+    liked_products = models.ManyToManyField(
+        "catalog.Product",
+        verbose_name="Понравившиеся товары",
+        name="liked_products",
+        related_name="liked_by",
+        related_query_name="liked_by",
+    )
+
     def __str__(self):
         return self.username

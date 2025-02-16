@@ -106,6 +106,9 @@
         const success = data["success"];
         if (success) {
           showToast("Обявление успешно добавлено", true);
+          setTimeout(() => {
+            window.location.href = "{% url 'catalog:catalog' %}";
+          }, 3000);
         } else {
           showToast(data["error"], false);
         }
@@ -115,9 +118,6 @@
         showToast("Произошла ошибка при добавлении обявления", false);
       },
       complete: function() {
-        setTimeout(() => {
-          window.location.href = "{% url 'catalog:catalog' %}";
-        }, 3000);
         document.getElementById("submit-btn").textContent = "Подать обявление";
         document.getElementById("submit-btn").removeAttribute("disabled");
       }
@@ -171,7 +171,6 @@
 
   #submit-btn:hover {
     filter: brightness(92%);
-    color: white;
   }
 
   textarea {
