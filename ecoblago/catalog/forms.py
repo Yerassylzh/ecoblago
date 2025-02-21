@@ -11,6 +11,8 @@ class ProductForm(ModelForm):
         fields = [
             "image",
             "title",
+            "region",
+            "city",
             "phone_number",
             "location",
             "cost",
@@ -30,6 +32,8 @@ class ProductForm(ModelForm):
                     "id": "title",
                 }
             ),
+            "region": TextInput(),  # has special implementation
+            "city": TextInput(),  # has special implementation
             "phone_number": TextInput(
                 attrs={
                     "placeholder": "Номер телефона",

@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, TemplateView
 from django.http import HttpRequest, HttpResponse, JsonResponse
 
-from catalog.models import Product
+from catalog.models import Product, Region
 from catalog.forms import ProductForm
 
 
@@ -69,17 +69,24 @@ class CreateProductView(TemplateView):
 
         return context
 
-
     def post(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
         if "action" in self.request.POST:
-            return self.handle_ajax()
+            return self.handle_ajax_post()
 
     def get(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
+        if "action" in self.request.GET:
+            return self.handle_ajax_get()
         return self.render_to_response(self.context)
 
-    def handle_ajax(self) -> JsonResponse:
-        if self.request.POST.get("action") == "create-product":
+    def handle_ajax_post(self) -> JsonResponse:
+        action = self.request.POST.get("action")
+        if action == "create-product":
             return self.create_product()
+        elif action == "get-cities-by-region":
+            return self.get_cities_by_region()
+
+    def handle_ajax_get(self) -> JsonResponse:
+        pass
 
     def create_product(self) -> JsonResponse:
         form = ProductForm(self.request.POST, self.request.FILES)
@@ -95,6 +102,16 @@ class CreateProductView(TemplateView):
             return JsonResponse({"success": False, "error": f"{field}: {error}"})
 
         return JsonResponse({"success": False, "error": "Unknown error"})
+
+    def get_cities_by_region(self) -> JsonResponse:
+        return JsonResponse({"success": True, "cities": ["Taldykorgan", "Almaty"]})
+
+        region = self.request.POST.get("region")
+        cities = get_object_or_404(Region, name=region).cities.all()
+        cities = cities.values_list("name", flat=True)
+        self.context_ajax["success"] = True
+        self.context_ajax["cities"] = list(cities)
+        return JsonResponse(data=self.context_ajax)
 
 
 class MyProductsView(ListView):

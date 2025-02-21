@@ -6,6 +6,46 @@ from PIL import Image
 from authpage.models import User
 from authpage.validators import PhoneNumberValidator
 
+class Category(models.Model):
+    name = models.CharField(
+        verbose_name="название",
+        name="name",
+        max_length=255,
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class Region(models.Model):
+    name = models.CharField(
+        verbose_name="название",
+        name="name",
+        max_length=255,
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class City(models.Model):
+    name = models.CharField(
+        verbose_name="название",
+        name="name",
+        max_length=255,
+    )
+
+    region = models.ForeignKey(
+        Region,
+        on_delete=models.CASCADE,
+        related_name="cities",
+        related_query_name="cities",
+    )
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     image = models.ImageField(
         verbose_name="изображение",
@@ -29,6 +69,15 @@ class Product(models.Model):
         max_length=255,
     )
 
+    email = models.EmailField(
+        verbose_name="email",
+        name="email",
+        validators=[
+            EmailValidator(),
+        ],
+        max_length=255,
+    )
+
     location = models.CharField(
         verbose_name="местоположение",
         name="location",
@@ -48,6 +97,27 @@ class Product(models.Model):
 
     seller = models.ForeignKey(
         User,
+        on_delete=models.CASCADE,
+        related_name="products",
+        related_query_name="products",
+    )
+
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        related_name="products",
+        related_query_name="products",
+    )
+
+    region = models.ForeignKey(
+        Region,
+        on_delete=models.CASCADE,
+        related_name="products",
+        related_query_name="products",
+    )
+
+    city = models.ForeignKey(
+        City,
         on_delete=models.CASCADE,
         related_name="products",
         related_query_name="products",
