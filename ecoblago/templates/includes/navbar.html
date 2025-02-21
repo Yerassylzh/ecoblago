@@ -1,13 +1,13 @@
 {% load static %}
 
-<nav class="navbar fixed-top navbar-expand-md border-bottom fs-5" style="background-color: var(--body-color); z-index: 11111;">
+<nav class="navbar fixed-top navbar-expand-md border-bottom fs-5 {% if theme == 'light' %}bg-light{% else %}bg-dark{% endif %}" id="navbar" style="z-index: 11111;">
   <div class="container-fluid">
     <a class="navbar-brand p-0 me-auto fs-3 ms-3" href="{% url 'catalog:catalog' %}" aria-label="Экоблаго">
       <img src="{% static 'img/ecoblago.png' %}" alt="Logo" class="logo-img d-inline-block align-middle">
       <span class="ms-2 txt-primary">Экоблаго</span>
     </a>
-    <button class="txt-primary navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="txt-primary navbar-toggler-icon"></span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-3 ms-auto mb-2 mb-lg-0">
@@ -39,6 +39,19 @@
 </nav>
 
 <style>
+  .navbar {
+    background-color: var(--body-color) !important;
+  }
+  
+
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+
+  .bg-dark .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+
   .navbar-user-name {
     margin: 0;
     padding: 0;

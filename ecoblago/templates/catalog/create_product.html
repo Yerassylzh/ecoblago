@@ -10,8 +10,8 @@
 {% endblock navbar %}
 
 {% block main %}
-<main style="padding: 2rem;" class="txt-primary">
-  <div class="row main-row">
+<main class="txt-primary">
+  <div style="padding: 2rem;" class="row main-row">
     <div class="col-9 col-md-5 col-xl-5">
       <div class="add-image-section">
         <div data-has-image="false" class="image-container" style="margin-top: 1rem;">
@@ -62,13 +62,13 @@
       </div>
     </div>
   </div>
+  {% include 'includes/footer.html' %}
 </main>
 
 <script>
   const CSRF_TOKEN = "{{ csrf_token }}";
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
   function createProduct() {
     const title = document.getElementById("title").value;
@@ -147,6 +147,10 @@
 </script>
 
 <style>
+  body {
+    overflow-x: hidden;
+  }
+
   .submit-btn-wrapper {
     width: 100%;
     display: flex;

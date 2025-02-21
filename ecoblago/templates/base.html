@@ -30,6 +30,8 @@
 
 <div id="messages-container" class="messages-container"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <style>
   .textarea-field-wrapper>textarea {
     position: absolute;
@@ -178,7 +180,7 @@
   .input-field-wrapper>input {
     position: absolute;
     outline: none;
-    border-radius: 10px;
+    border-radius: 8px;
     border: 2px solid var(--txt-secondary);
     color: var(--txt-primary);
     width: 100%;
@@ -342,6 +344,19 @@
 </style>
 
 <script>
+  function switchTheme(theme) {
+    htmlElement.setAttribute('data-theme', theme);
+    
+    const navbar = document.getElementById("navbar");
+    if (theme == "dark") {
+      navbar.classList.remove("bg-light");
+      navbar.classList.add("bg-dark");
+    } else {
+      navbar.classList.remove("bg-dark");
+      navbar.classList.add("bg-light");
+    }
+  }
+
   function showToast(text, isSuccess) {
     let messagesContainer = document.getElementById('messages-container');
     let message = document.createElement('div');

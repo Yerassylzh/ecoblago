@@ -25,7 +25,7 @@
               <div class="header">
                 <p>{% trans "Изменить пароль" %}</p>
                 <button data-state="hidden" class="popup-header-btn" id="change-password-popup-btn">
-                  <img src="{% static 'img/arrow_down.png' %}" alt="open/hide">
+                  <i class="fa-solid fa-angle-down expander-arrow"></i>
                 </button>
               </div>
               <div class="body" style="width: 400px;">
@@ -67,7 +67,7 @@
           <div class="section">
             <p>{% trans "Язык" %}</p>
             <hr>
-            <div class="multiple-choice-actions" id="toggle-theme">
+            <div class="multiple-choice-actions" id="toggle-lang">
               <div class="radio-input-wrapper">
                 <input type="radio" id="lang-kk" {% if lang == "kk" %}checked{% endif %}>
                 <label for="lang-kk">{% trans "Казахский" %}</label>
@@ -270,7 +270,6 @@
       return;
     }
 
-    htmlElement.setAttribute('data-theme', theme);
     $.ajax({
       method: "POST",
       url: SETTINGSPAGE_URL,
@@ -282,6 +281,7 @@
       dataType: "json",
       success: function (data) {
         if (data["success"]) {
+          switchTheme(theme);
           showToast("Тема успешно изменена", true);
         } else {
           showToast("Ошибка при изменении темы", false);
@@ -298,7 +298,7 @@
     if (!e.target.matches(".popup-header-btn") && e.target.closest(".popup-header-btn") == null) return
 
     let button = e.target.closest(".popup-header-btn")
-    let img = button.querySelector("img")
+    let img = button.querySelector("i")
 
     const state = button.dataset.state
     const bodyElement = button.closest(".popup-action").querySelector(".body");
@@ -321,6 +321,11 @@
 <style>
   .text {
     color: var(--text-color);
+  }
+
+  .expander-arrow {
+    font-size: 1.5rem;
+    color: var(--txt-primary);
   }
 
   body {
@@ -414,7 +419,7 @@
     font-weight: 400;
     margin: 0;
     padding: 0;
-    color: var(--background-color);
+    color: white;
     padding-right: 0.25rem;
   }
 

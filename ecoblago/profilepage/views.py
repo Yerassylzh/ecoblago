@@ -22,7 +22,7 @@ class ProfilepageView(DetailView):
     pk_url_kwarg = "pk"
 
     def post(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
-        if self.request.user != self.object:
+        if not self.context["change_allowed"]:
             return HttpResponseNotAllowed("You are not allowed to perform this action")
 
         if "personal-image" in self.request.FILES:
