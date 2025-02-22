@@ -265,6 +265,7 @@
     const phone_number = $("#product-phone-number-input").val();
     const cost = $("#product-cost-input").val();
     const description = $("#product-description-input").val();
+    const email = $("#product-email-input").val();
 
     let images = [];
     addImageInputs.forEach((imageInput) => {
@@ -277,13 +278,13 @@
     formData.append("csrfmiddlewaretoken", CSRF_TOKEN);
     formData.append("action", "create-product");
     formData.append("title", title);
-    formData.append("category", category);
-    formData.append("region", region);
-    formData.append("city", city);
+    formData.append("category_name", category);
+    formData.append("region_name", region);
+    formData.append("city_name", city);
     formData.append("phone_number", phone_number);
     formData.append("cost", cost);
     formData.append("description", description);
-    formData.append("gallery_images", images)
+    formData.append("email", email);
     images.forEach((image, index) => {
       formData.append('gallery_images', image);
     });

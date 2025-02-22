@@ -93,32 +93,13 @@ class CreateProductView(TemplateView):
         pass
 
     def create_product(self) -> JsonResponse:
-        category = Category.objects.filter(name=self.request.POST.get("category"))
-        if (category := category.first()) is None:
-            return JsonResponse({"success": False, "error": "Выберите категорию"})
-        
         gallery_images = self.request.FILES.getlist("gallery_images")
         if len(gallery_images) == 0:
             return JsonResponse({"success": False, "error": "Добавьте как минимум одну картинку"})
 
-        region_name = self.request.POST.get("region")
-        city_name = self.request.POST.get("city")
-
-        region = Region.objects.prefetch_related("cities").filter(name=region_name)
-        if not (region := region.first()):
-            return JsonResponse({"success": False, "error": "Выберите регион"})
-
-        if city_name not in {city.name for city in region.cities.all()}:
-            return JsonResponse({"success": False, "error": "Город не пренадлежит выбранному региону"})
-
-        city = region.cities.get(name=city_name)
-
         form = ProductForm(self.request.POST, self.request.FILES)
         if form.is_valid():
             form.instance.seller = self.request.user
-            form.instance.category = category
-            form.instance.region = region
-            form.instance.city = city
             form.save()
             for gallery_image in gallery_images:
                 GalleryImage.objects.create(image=gallery_image, product=form.instance)
