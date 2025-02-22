@@ -19,7 +19,7 @@
         <div class="product">
           <input type="hidden" class="product-id-input" value="{{ product.id }}">
           <div class="product-image">
-            <img src="{{ product.image.url }}" alt="product">
+            <img src="{{ product.gallery_images.first.image.url }}" alt="product">
           </div>
           <div class="product-info">
             <div class="text-section">

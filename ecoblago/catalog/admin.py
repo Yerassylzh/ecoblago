@@ -1,11 +1,7 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from authpage.models import User
-from .models import Product
+from catalog.models import Product, Category, Region, City
 
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ("title", "cost", "seller")
-    # list_filter = ('available', 'created', 'updated')
-    # search_fields = ('name', 'description')
-
-admin.site.register(Product, ProductAdmin)
+admin.site.register(Product)
+admin.site.register(Category)
+admin.site.register(Region)
+admin.site.register(City)

@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     "settingspage.apps.SettingspageConfig",
     "django_cleanup.apps.CleanupConfig",
     "sorl.thumbnail",
-    "session_cleanup",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [

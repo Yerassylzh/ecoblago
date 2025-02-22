@@ -28,6 +28,16 @@
             </div>
           </div>
           <div class="section">
+            <p>{% trans "Цена" %}</p>
+            <hr>
+            <div style="max-width: 500px;">
+              <div style="margin-top: 1rem;" class="input-field-wrapper">
+                <input type="text" name="name" id="product-cost-input" placeholder="Цена товара" required>
+                <div>{% trans "Цена товара" %}</div>
+              </div>
+            </div>
+          </div>
+          <div class="section">
             <p>{% trans "Категория" %}</p>
             <hr>
             <div style="max-width: 500px;">
@@ -39,11 +49,11 @@
               <dialog class="popup" style="min-height: 300px; min-width: 300px;">
                 <div style="padding: 1rem;">
                   <div class="row options-row">
-                    {% for _ in " "|ljust:30 %}
+                    {% for category in categories %}
                     <div style="margin-bottom: 0.5rem;" class="col-12 col-md-6 col-xl-4">
                       <div class="select-option">
-                        <img src="{% static 'img/ecoblago.png' %}" alt="icon">
-                        <p>Category</p>
+                        <i class="fa-solid fa-list" style="color: var(--txt-primary); font-size: 1rem; margin: 0 0.5rem;"></i>
+                        <p>{{ category.name }}</p>
                       </div>
                     </div>
                     {% endfor %}
@@ -109,11 +119,11 @@
               <dialog class="popup" style="min-height: 300px; min-width: 300px;">
                 <div style="padding: 1rem;">
                   <div class="row options-row">
-                    {% for _ in " "|ljust:30 %}
+                    {% for region in regions %}
                     <div style="margin-bottom: 0.5rem;" class="col-12 col-md-6 col-xl-4">
                       <div class="select-option">
-                        <img src="{% static 'img/ecoblago.png' %}" alt="icon">
-                        <p>Category</p>
+                        <i class="fa-solid fa-city" style="color: var(--txt-primary); font-size: 1rem; margin: 0 0.5rem;"></i>
+                        <p>{{ region.name }}</p>
                       </div>
                     </div>
                     {% endfor %}
@@ -230,7 +240,7 @@
           selectOption.appendChild(icon);
 
           let p = document.createElement("p");
-          p.textContent = city;
+          p.textContent = city["name"];
           selectOption.appendChild(p);
 
           el.appendChild(selectOption);
@@ -243,28 +253,40 @@
       }
     })
   }
-
+  
+  $("#publish-btn").on("click", createProduct);
+  
   // Sending request to create a product
   function createProduct() {
-    const title = document.getElementById("title").value;
-    const location = document.getElementById("location").value;
-    const phone_number = document.getElementById("phone-number").value;
-    const cost = document.getElementById("cost").value;
-    const description = document.getElementById("description").value;
+    const title = $("#product-name-input").val();
+    const category = $("#product-category-input").val();
+    const region = $("#product-region-input").val();
+    const city = $("#product-city-input").val();
+    const phone_number = $("#product-phone-number-input").val();
+    const cost = $("#product-cost-input").val();
+    const description = $("#product-description-input").val();
 
-    const imageInput = document.getElementById("add-image-input");
+    let images = [];
+    addImageInputs.forEach((imageInput) => {
+      if (imageInput.files.length > 0) {
+        images.push(imageInput.files[0]);
+      }
+    });
 
     let formData = new FormData();
     formData.append("csrfmiddlewaretoken", CSRF_TOKEN);
+    formData.append("action", "create-product");
     formData.append("title", title);
-    formData.append("location", location);
+    formData.append("category", category);
+    formData.append("region", region);
+    formData.append("city", city);
     formData.append("phone_number", phone_number);
     formData.append("cost", cost);
     formData.append("description", description);
-    if (imageInput.files.length > 0) {
-      formData.append("image", imageInput.files[0]);
-    }
-    formData.append("action", "create-product");
+    formData.append("gallery_images", images)
+    images.forEach((image, index) => {
+      formData.append('gallery_images', image);
+    });
 
     $.ajax({
       method: "POST",
@@ -274,8 +296,8 @@
       processData: false,
       contentType: false,
       beforeSend: function () {
-        document.getElementById("submit-btn").textContent = "Подождите...";
-        document.getElementById("submit-btn").setAttribute("disabled", "true");
+        $("#publish-btn").text("Подождите...");
+        $("#publish-btn").attr("disabled", "true");
       },
       success: (data) => {
         const success = data["success"];
@@ -293,11 +315,12 @@
         showToast("Произошла ошибка при добавлении обявления", false);
       },
       complete: function () {
-        document.getElementById("submit-btn").textContent = "Подать обявление";
-        document.getElementById("submit-btn").removeAttribute("disabled");
+        $("#publish-btn").text("Подать обявление");
+        $("#publish-btn").removeAttr("disabled");
       }
     })
   }
+
 
   // Adding images to the image containers
   const addImageInputs = document.querySelectorAll('.add-image-input');
@@ -438,7 +461,7 @@
     outline: none;
     border-radius: 0.25rem;
     background-color: var(--green-primary);
-    color: var(--txt-primary);
+    color: white;
 
     padding: 0.5rem 1rem;
   }

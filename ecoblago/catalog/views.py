@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, TemplateView
 from django.http import HttpRequest, HttpResponse, JsonResponse
 
-from catalog.models import Product, Region
+from catalog.models import Product, Region, Category, City, GalleryImage
 from catalog.forms import ProductForm
 
 
@@ -59,6 +59,7 @@ class CreateProductView(TemplateView):
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.context = self.get_context_data()
+        self.context_ajax = {}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -76,6 +77,9 @@ class CreateProductView(TemplateView):
     def get(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
         if "action" in self.request.GET:
             return self.handle_ajax_get()
+        
+        self.context["categories"] = Category.objects.all()
+        self.context["regions"] = Region.objects.all()
         return self.render_to_response(self.context)
 
     def handle_ajax_post(self) -> JsonResponse:
@@ -89,10 +93,35 @@ class CreateProductView(TemplateView):
         pass
 
     def create_product(self) -> JsonResponse:
+        category = Category.objects.filter(name=self.request.POST.get("category"))
+        if (category := category.first()) is None:
+            return JsonResponse({"success": False, "error": "Выберите категорию"})
+        
+        gallery_images = self.request.FILES.getlist("gallery_images")
+        if len(gallery_images) == 0:
+            return JsonResponse({"success": False, "error": "Добавьте как минимум одну картинку"})
+
+        region_name = self.request.POST.get("region")
+        city_name = self.request.POST.get("city")
+
+        region = Region.objects.prefetch_related("cities").filter(name=region_name)
+        if not (region := region.first()):
+            return JsonResponse({"success": False, "error": "Выберите регион"})
+
+        if city_name not in {city.name for city in region.cities.all()}:
+            return JsonResponse({"success": False, "error": "Город не пренадлежит выбранному региону"})
+
+        city = region.cities.get(name=city_name)
+
         form = ProductForm(self.request.POST, self.request.FILES)
         if form.is_valid():
             form.instance.seller = self.request.user
+            form.instance.category = category
+            form.instance.region = region
+            form.instance.city = city
             form.save()
+            for gallery_image in gallery_images:
+                GalleryImage.objects.create(image=gallery_image, product=form.instance)
             return JsonResponse({"success": True})
 
         if len(form.errors) > 0:
@@ -104,11 +133,8 @@ class CreateProductView(TemplateView):
         return JsonResponse({"success": False, "error": "Unknown error"})
 
     def get_cities_by_region(self) -> JsonResponse:
-        return JsonResponse({"success": True, "cities": ["Taldykorgan", "Almaty"]})
-
-        region = self.request.POST.get("region")
-        cities = get_object_or_404(Region, name=region).cities.all()
-        cities = cities.values_list("name", flat=True)
+        region_name = self.request.POST.get("region")
+        cities = get_object_or_404(Region, name=region_name).cities.all().values()
         self.context_ajax["success"] = True
         self.context_ajax["cities"] = list(cities)
         return JsonResponse(data=self.context_ajax)
