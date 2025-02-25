@@ -1,0 +1,48 @@
+.checkbox-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  gap: 10px;
+}
+
+.checkbox-container > input {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.checkbox-container > input::after {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #acacac;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  content: "";
+  color: white;
+}
+
+.checkbox-container > input:hover::after {
+  background-color: #8e8f8e;
+  cursor: pointer;
+}
+
+.checkbox-container > input:checked::after {
+  background-color: var(--green-primary);
+  font-family: "Font Awesome 5 Free";
+  content: "\f00c";
+  font-size: 17px;
+}
+
+.checkbox-container > label {
+  color: var(--text-color);
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  cursor: pointer;
+}

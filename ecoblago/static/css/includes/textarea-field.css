@@ -1,0 +1,62 @@
+.textarea-field-wrapper > textarea {
+  position: absolute;
+  outline: none;
+  border-radius: 10px;
+  border: 2px solid var(--txt-secondary);
+  color: var(--txt-primary);
+  width: 100%;
+  padding: 10px 10px 10px 15px;
+  font-size: 1rem;
+  background: transparent;
+  transition: 0.1s ease;
+  z-index: 1111;
+}
+
+.textarea-field-wrapper > div {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 1rem;
+  background: var(--background-color);
+  transition: 0.2s ease;
+  color: var(--txt-secondary);
+  padding: 0 15px;
+  margin: 10px 0;
+}
+
+.textarea-field-wrapper > textarea::placeholder {
+  color: transparent;
+}
+
+.textarea-field-wrapper > textarea:focus ~ div,
+.textarea-field-wrapper > textarea:not(:placeholder-shown) ~ div {
+  font-size: 0.8rem;
+  transform: translateY(-20px);
+  color: var(--text-color);
+  padding: 0 5px;
+  margin-left: 8px;
+  z-index: 1111;
+}
+
+.textarea-field::-webkit-scrollbar {
+  width: 10px;
+}
+
+.textarea-field-wrapper > textarea:hover {
+  border: 2px solid var(--green-primary);
+}
+
+.textarea-field-wrapper > textarea:focus {
+  border: 2px solid var(--green-primary);
+}
+
+.textarea-field {
+  min-height: 200px;
+  max-height: 200px;
+}
+
+.textarea-field-wrapper {
+  position: relative;
+  min-height: 200px;
+  max-height: 200px;
+  width: 100%;
+}

@@ -19,17 +19,24 @@ class CatalogView(ListView):
 
     def post(self, request: HttpRequest) -> Union[HttpResponse, JsonResponse]:
         if "action" in self.request.POST:
-            return self.handle_ajax()
+            return self.handle_ajax_post()
 
     def get(self, request: HttpRequest) -> Union[HttpResponse, JsonResponse]:
+        if "action" in request.GET:
+            return self.handle_ajax_get()
         return self.render_to_response(self.context)
 
-    def handle_ajax(self) -> JsonResponse:
+    def handle_ajax_post(self) -> JsonResponse:
         action = self.request.POST.get("action")
         if action == "add-product-to-favourites":
             return self.add_product_to_favourites()
         elif action == "remove-product-from-favourites":
             return self.remove_product_from_favourites()
+
+    def handle_ajax_get(self) -> JsonResponse:
+        action = self.request.GET["action"]
+        if action == "get-regions":
+            return self.get_all_regions()
 
     def add_product_to_favourites(self) -> JsonResponse:
         product_id = self.request.POST.get("product_id")
@@ -42,6 +49,10 @@ class CatalogView(ListView):
         product = get_object_or_404(Product, pk=product_id)
         self.request.user.liked_products.remove(product)
         return JsonResponse({"success": True})
+    
+    def get_all_regions(self) -> JsonResponse:
+        regions = [region.name for region in Region.objects.all()]
+        return JsonResponse({"success": True, "regions": regions})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

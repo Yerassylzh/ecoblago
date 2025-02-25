@@ -12,7 +12,37 @@
 {% block main %}
 <main class="txt-primary">
   <div class="main-inner">
-    <div class="filter"></div>
+    <div class="container-fluid">
+      <div id="filter" class="row filter">
+        <div class="col-12 col-md-6 col-xl-7 text-search">
+          <div class="iconic-input-field-wrapper">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Что ищете?" id="filter-text-input">
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-2 location-search">
+          <div class="iconic-input-field-wrapper">
+            <i class="fa-solid fa-location-dot"></i>
+            <input type="text" id="location-filter-input" placeholder="Вся страна">
+          </div>
+        </div>
+        <div class="col-6 col-md-6 col-xl-1 more-filters">
+          <button class="more-filters-btn">
+            <i class="fa-solid fa-filter"></i>
+          </button>
+        </div>
+        <div class="col-6 col-md-6 col-xl-2 submit-wrapper">
+          <button class="search-btn" id="filter-btn" onclick="onFindProductsClicked()">Поиск</button>
+        </div>
+      </div>
+      <dialog class="popup" id="regions-dialog">
+        <div style="padding: 1rem;">
+          <div class="row options-row">
+
+          </div>
+        </div>
+      </dialog>
+    </div>
     <div class="products row">
       {% for product in object_list %}
       <div class="col-12 col-md-4 col-xl-3">
@@ -27,8 +57,8 @@
               <p class="product-price">{{ product.cost }}</p>
             </div>
             <div class="like-section">
-              <i class="fa-regular fa-heart like-empty" {% if product in liked_products %}style="display: none;"{% else %}style="display:block;"{% endif %}></i>
-              <i class="fa-solid fa-heart like-full" {% if product in liked_products %}style="display: block;"{% else %}style="display:none;"{% endif %}></i>
+              <i class="fa-regular fa-heart like-empty" {% if product in liked_products %}style="display: none;" {% else %}style="display: block;" {% endif %}></i>
+              <i class="fa-solid fa-heart like-full" {% if product in liked_products %}style="display: block;" {% else %}style="display: none;" {% endif %}></i>
             </div>
           </div>
         </div>
@@ -40,6 +70,8 @@
 </main>
 
 <script>
+  const CSRF_TOKEN = "{{ csrf_token }}"
+
   const likeEmpty = document.querySelectorAll('.like-empty');
   const likeFull = document.querySelectorAll('.like-full');
 
@@ -59,21 +91,21 @@
     like.style.display = 'none';
     like.nextElementSibling.style.display = 'block';
     $.ajax({
-        type: 'POST',
-        url: "{% url 'catalog:catalog' %}",
-        data: {
-          "product_id": like.parentElement.parentElement.parentElement.querySelector('.product-id-input').value,
-          "csrfmiddlewaretoken": "{{ csrf_token }}",
-          "action": "add-product-to-favourites",
-        },
-        success: function(data) {
-          const success = data["success"];
-          if (success) {
-            showToast("Product was added to favorites", true);  
-          } else {
-            showToast("Product was not added to favorites", false);
-          }
+      type: 'POST',
+      url: "{% url 'catalog:catalog' %}",
+      data: {
+        "product_id": like.parentElement.parentElement.parentElement.querySelector('.product-id-input').value,
+        "csrfmiddlewaretoken": "{{ csrf_token }}",
+        "action": "add-product-to-favourites",
+      },
+      success: function (data) {
+        const success = data["success"];
+        if (success) {
+          showToast("Product was added to favorites", true);
+        } else {
+          showToast("Product was not added to favorites", false);
         }
+      }
     });
   }
 
@@ -81,23 +113,168 @@
     like.style.display = 'none';
     like.previousElementSibling.style.display = 'block';
     $.ajax({
-        type: 'POST',
-        url: "{% url 'catalog:catalog' %}",
-        data: {
-          "product_id": like.parentElement.parentElement.parentElement.querySelector('.product-id-input').value,
-          "csrfmiddlewaretoken": "{{ csrf_token }}",
-          "action": "remove-product-from-favourites",
-        },
-        success: function(data) {
-          const success = data["success"];
-          if (success) {
-            showToast("Product was removed from favorites", true);
-          } else {
-            showToast("Product was not removed from favorites", false);
-          }
+      type: 'POST',
+      url: "{% url 'catalog:catalog' %}",
+      data: {
+        "product_id": like.parentElement.parentElement.parentElement.querySelector('.product-id-input').value,
+        "csrfmiddlewaretoken": "{{ csrf_token }}",
+        "action": "remove-product-from-favourites",
+      },
+      success: function (data) {
+        const success = data["success"];
+        if (success) {
+          showToast("Product was removed from favorites", true);
+        } else {
+          showToast("Product was not removed from favorites", false);
         }
+      }
     });
   }
+
+
+  function getProductWidget(product) {
+    return `
+      <div class="col-12 col-md-4 col-xl-3">
+        <div class="product">
+          <input type="hidden" class="product-id-input" value="${product.id}">
+          <div class="product-image">
+            <img src="${product.gallery_images.first.image.url}" alt="product">
+          </div>
+          <div class="product-info">
+            <div class="text-section">
+              <h3 class="product-title">${product.title}</h3>
+              <p class="product-price">${product.cost}</p>
+            </div>
+            <div class="like-section">
+              <i class="fa-regular fa-heart like-empty" style="display: ${product.liked ? 'none' : 'block'};"></i>
+              <i class="fa-solid fa-heart like-full" style="display: ${product.liked ? 'block' : 'none'};"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function addProduct(product) {
+    const productWidget = getProductWidget(product);
+    document.querySelector('.products').insertAdjacentHTML('beforeend', productWidget);
+  }
+
+  function removeAllProducts() {
+    document.querySelector('.products').innerHTML = '';
+  }
+
+  function onFindProductsClicked() {
+    const search = $("#filter-text-input").val();
+    const [region, city] = $("#filter-location-input").val().split(",").map(item => item.trim());
+
+    $.ajax({
+      method: "POST",
+      url: "{% url 'catalog:catalog' %}",
+      data: {
+        "csrfmiddlewaretoken": CSRF_TOKEN,
+        "search_text": search,
+        "region": region,
+        "city": city,
+      },
+      dataType: "json",
+      beforeSend: () => {
+        $("#filter-btn").text("Подождите..");
+        $("#filter-btn").prop('disabled', true);
+      },
+      success: (data) => {
+        const success = data["success"];
+        if (!success) {
+          showToast(data["error"], false);
+          return;
+        }
+
+        removeAllProducts();
+        data.products.forEach(product => {
+          addProduct(product);
+        });
+      },
+      error: (error) => {
+        showToast("Произошла ошибка при фильтрации товаров", false);
+        console.error("Error fetching products:", error);
+      },
+      complete: () => {
+        $("#filter-btn").text("Поиск");
+        $("#filter-btn").prop('disabled', false);
+      }
+    });
+  }
+
+  function insertRegionWidgets(regions) {
+    const optionsRow = $("#filter").next().children().first().children().first();
+
+    for (let i = 0; i < regions.length; i++) {
+      let region = regions[i];
+      
+      const regionWidget = `
+        <div style="margin-bottom: 0.5rem;" class="col-12 col-md-6 col-xl-4">
+          <div class="select-option">
+            <i class="fa-solid fa-city" style="color: var(--txt-primary); font-size: 1rem; margin: 0 0.5rem;"></i>
+            <p>${region}</p>
+          </div>
+        </div>
+      `;
+      optionsRow.html(optionsRow.html() + regionWidget);
+    }
+  }
+
+  function displayRegions() {
+    $.ajax({
+      type: "GET",
+      url: "{% url 'catalog:catalog' %}",
+      data: {
+        "action": "get-regions",
+      },
+      dataType: "json",
+      success: (data) => {
+        const success = data["success"];
+        if (!success) {
+          return;
+        }
+
+        let regions = data["regions"];
+        insertRegionWidgets(regions);
+        document.getElementById("filter").nextElementSibling.showModal();
+      },
+      error: function (error) {
+        console.error("Error fetching regions:", error);
+      }
+    });
+
+  }
+
+  const locationInput = $("#location-filter-input");
+  locationInput.on("focus", () => {
+    displayRegions();
+  });
+
+
+  // as soon as the region was selected, we display city options
+  document.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    if (e.target.closest(".select-option") == null) {
+      return;
+    }
+    
+    const option = e.target;
+    const dialogId = option.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
+    if (dialogId != "regions-dialog") {
+      return;
+    }
+
+    // it is (.select-option) clicked in region dialog.
+    const region = e.target.children("p").first().val();
+
+    $.ajax({
+      
+    });
+  });
 </script>
 
 <style>
@@ -113,6 +290,95 @@
 </style>
 
 <style>
+  .select-option {
+    cursor: pointer;
+  }
+
+  .select-option>img {
+    width: 30px;
+    height: 30px;
+
+    border-radius: 10%;
+    margin-right: 0.5rem;
+  }
+
+  .select-option>p {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0;
+    padding: 0;
+  }
+
+  .select-option {
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+    border: 2px solid gray;
+    background: transparent;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .filter {
+    padding: 0;
+    margin-bottom: 3rem !important;
+  }
+
+  .filter>div {
+    margin: 0;
+    padding: 2px !important;
+  }
+
+  .search-btn {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 1.25rem;
+
+    border: none;
+    outline: none;
+    border-radius: 0.25rem;
+    background-color: var(--green-primary);
+    color: white;
+
+    padding: 0.5rem 1rem;
+  }
+
+  .search-btn:hover {
+    filter: brightness(92%);
+  }
+
+  i {
+    color: var(--txt-primary);
+  }
+
+  .more-filters-btn {
+    outline: none;
+    border: none;
+    width: 100%;
+    height: 46px;
+    background-color: var(--widget-color);
+    border-radius: 5px;
+  }
+
+  .more-filters-btn:hover {
+    filter: brightness(85%);
+  }
+
+  .filter {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+
+    margin-bottom: 1rem;
+  }
+
   .main-inner {
     display: flex;
     flex-direction: column;
@@ -127,7 +393,7 @@
     font-size: 1.5rem;
     cursor: pointer;
   }
-  
+
   .like-full {
     margin-top: 3px;
     font-size: 1.5rem;

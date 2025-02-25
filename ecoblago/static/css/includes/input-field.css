@@ -1,0 +1,52 @@
+.input-field-wrapper > input {
+  position: absolute;
+  outline: none;
+  border-radius: 8px;
+  border: 2px solid var(--txt-secondary);
+  color: var(--txt-primary);
+  width: 100%;
+  padding: 10px 10px 10px 15px;
+  font-size: 1rem;
+  background: transparent;
+  transition: 0.1s ease;
+  z-index: 1111;
+}
+
+.input-field-wrapper > div {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 1rem;
+  background: var(--background-color);
+  transition: 0.2s ease;
+  color: var(--txt-secondary);
+  padding: 0 15px;
+  margin: 10px 0;
+}
+
+.input-field-wrapper > input::placeholder {
+  color: transparent;
+}
+
+.input-field-wrapper > input:focus ~ div,
+.input-field-wrapper > input:not(:placeholder-shown) ~ div {
+  font-size: 0.8rem;
+  transform: translateY(-20px);
+  color: var(--text-color);
+  padding: 0 5px;
+  margin-left: 8px;
+  z-index: 1111;
+}
+
+.input-field-wrapper > input:hover {
+  border: 2px solid var(--green-primary);
+}
+
+.input-field-wrapper > input:focus {
+  border: 2px solid var(--green-primary);
+}
+
+.input-field-wrapper {
+  position: relative;
+  min-height: 46px !important;
+  width: 100%;
+}

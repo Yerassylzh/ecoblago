@@ -1,0 +1,44 @@
+.popup::backdrop {
+  background-color: #33595d;
+  opacity: 0.3;
+}
+
+.popup::-webkit-scrollbar {
+  width: 10px;
+}
+
+.popup::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.popup::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.popup::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.popup {
+  background-color: var(--background-color);
+  overflow-x: hidden;
+  border: none;
+  outline: none;
+  border-radius: 0.5rem;
+
+  max-height: 80vh;
+}
+
+dialog[open] {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+dialog {
+  min-height: 300px;
+  min-width: 300px;
+}

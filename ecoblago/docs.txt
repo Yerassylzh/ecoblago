@@ -1,0 +1,18 @@
+1) Checkboxes
+    <div class="checkbox-container">
+        <input type="checkbox" id="remember-me">
+        <label for="remember-me" class="text">{{ form.remember_me.label }}</label>
+    </div>
+
+2) Standard input fields
+    <div class="input-field-wrapper">
+        <input>
+        <div>{{ placeholder }}</div>
+    </div>
+
+3) Standard textarea fields
+    <div style="margin-top: 1rem;" class="textarea-field-wrapper">
+        <textarea class="textarea-field"></textarea>
+        <div>{% trans "Описание" %}</div>
+    </div>
+

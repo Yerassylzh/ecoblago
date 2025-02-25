@@ -46,7 +46,7 @@
                   placeholder="Название товара" required>
                 <div>{% trans "Категория" %}</div>
               </div>
-              <dialog class="popup" style="min-height: 300px; min-width: 300px;">
+              <dialog class="popup">
                 <div style="padding: 1rem;">
                   <div class="row options-row">
                     {% for category in categories %}
@@ -116,7 +116,7 @@
                   required>
                 <div>{% trans "Регион" %}</div>
               </div>
-              <dialog class="popup" style="min-height: 300px; min-width: 300px;">
+              <dialog class="popup">
                 <div style="padding: 1rem;">
                   <div class="row options-row">
                     {% for region in regions %}
@@ -137,7 +137,7 @@
                   required>
                 <div>{% trans "Город" %}</div>
               </div>
-              <dialog class="popup" style="min-height: 300px; min-width: 500px;">
+              <dialog class="popup">
                 <div style="padding: 1rem;">
                   <div class="row options-row">
 
@@ -383,46 +383,6 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-  }
-
-  .popup::backdrop {
-    background-color: #33595D;
-    opacity: 0.3;
-  }
-
-  .popup::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  .popup::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-  }
-
-  .popup::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 10px;
-  }
-
-  .popup::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-
-  .popup {
-    background-color: var(--background-color);
-    overflow-x: hidden;
-    border: none;
-    outline: none;
-    border-radius: 0.5rem;
-
-    max-height: 80vh;
-  }
-
-  dialog[open] {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 
   .image-container-row {
