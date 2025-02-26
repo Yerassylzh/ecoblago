@@ -3,6 +3,7 @@ from typing import Union
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, TemplateView
 from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.forms.models import model_to_dict
 
 from catalog.models import Product, Region, Category, City, GalleryImage
 from catalog.forms import ProductForm
@@ -32,11 +33,15 @@ class CatalogView(ListView):
             return self.add_product_to_favourites()
         elif action == "remove-product-from-favourites":
             return self.remove_product_from_favourites()
+        elif action == "filter-products":
+            return self.get_filtered_products()
 
     def handle_ajax_get(self) -> JsonResponse:
         action = self.request.GET["action"]
         if action == "get-regions":
             return self.get_all_regions()
+        elif action == "get-cities":
+            return self.get_cities()
 
     def add_product_to_favourites(self) -> JsonResponse:
         product_id = self.request.POST.get("product_id")
@@ -53,6 +58,31 @@ class CatalogView(ListView):
     def get_all_regions(self) -> JsonResponse:
         regions = [region.name for region in Region.objects.all()]
         return JsonResponse({"success": True, "regions": regions})
+
+    def get_cities(self) -> JsonResponse:
+        region_name = self.request.GET["region"]
+        region = Region.objects.filter(name=region_name).prefetch_related("cities").first()
+        if not region:
+            return JsonResponse({"success": False})
+        city_names = [city.name for city in region.cities.all()]
+        return JsonResponse({"success": True, "cities": city_names})
+    
+    def get_filtered_products(self) -> JsonResponse:
+        region_name = self.request.POST.get("region")
+        city_name = self.request.POST.get("city")
+        search_text = self.request.POST.get("search_text")
+
+        products = []
+        for product in Product.objects.filter(region__name=region_name, city__name=city_name, description__icontains=search_text).prefetch_related("gallery_images", "liked_by"):
+            dct = model_to_dict(product)
+            dct["is_liked"] = self.request.user in product.liked_by.all()
+            dct["main_image"] = {
+                "url": product.gallery_images.all().first().image.url,
+            }
+            
+            products.append(dct)
+
+        return JsonResponse({"success": True, "products": products})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -12,7 +12,7 @@
 {% block main %}
 <main class="txt-primary">
   <div class="main-inner">
-    <div class="container-fluid">
+    <div class="container-fluid" id="filter-wrapper">
       <div id="filter" class="row filter">
         <div class="col-12 col-md-6 col-xl-7 text-search">
           <div class="iconic-input-field-wrapper">
@@ -72,19 +72,26 @@
 <script>
   const CSRF_TOKEN = "{{ csrf_token }}"
 
-  const likeEmpty = document.querySelectorAll('.like-empty');
-  const likeFull = document.querySelectorAll('.like-full');
+  function getNewDialogWidget(id) {
+    return `
+      <dialog class="popup" id="${id}">
+        <div style="padding: 1rem;">
+          <div class="row options-row">
 
-  likeEmpty.forEach((like) => {
-    like.addEventListener('click', () => {
+          </div>
+        </div>
+      </dialog>
+      `;
+  }
+
+  document.addEventListener("click", (e) => {
+    if (e.target.closest(".like-empty") != null) {
+      let like = e.target.closest(".like-empty");
       addToFavourites(like);
-    });
-  });
-
-  likeFull.forEach((like) => {
-    like.addEventListener('click', () => {
+    } else if (e.target.closest(".like-full") != null) {
+      let like = e.target.closest(".like-full");
       removeFromFavourites(like);
-    });
+    }
   });
 
   function addToFavourites(like) {
@@ -138,7 +145,7 @@
         <div class="product">
           <input type="hidden" class="product-id-input" value="${product.id}">
           <div class="product-image">
-            <img src="${product.gallery_images.first.image.url}" alt="product">
+            <img src="${product.main_image.url}" alt="product">
           </div>
           <div class="product-info">
             <div class="text-section">
@@ -146,8 +153,8 @@
               <p class="product-price">${product.cost}</p>
             </div>
             <div class="like-section">
-              <i class="fa-regular fa-heart like-empty" style="display: ${product.liked ? 'none' : 'block'};"></i>
-              <i class="fa-solid fa-heart like-full" style="display: ${product.liked ? 'block' : 'none'};"></i>
+              <i class="fa-regular fa-heart like-empty" style="display: ${product.is_liked ? 'none' : 'block'};"></i>
+              <i class="fa-solid fa-heart like-full" style="display: ${product.is_liked ? 'block' : 'none'};"></i>
             </div>
           </div>
         </div>
@@ -157,6 +164,7 @@
 
   function addProduct(product) {
     const productWidget = getProductWidget(product);
+    console.log(productWidget);
     document.querySelector('.products').insertAdjacentHTML('beforeend', productWidget);
   }
 
@@ -166,7 +174,7 @@
 
   function onFindProductsClicked() {
     const search = $("#filter-text-input").val();
-    const [region, city] = $("#filter-location-input").val().split(",").map(item => item.trim());
+    const [region, city] = $("#location-filter-input").val().split(",").map(item => item.trim());
 
     $.ajax({
       method: "POST",
@@ -176,6 +184,7 @@
         "search_text": search,
         "region": region,
         "city": city,
+        "action": "filter-products",
       },
       dataType: "json",
       beforeSend: () => {
@@ -189,8 +198,10 @@
           return;
         }
 
+        console.log(data);
+
         removeAllProducts();
-        data.products.forEach(product => {
+        data["products"].forEach(product => {
           addProduct(product);
         });
       },
@@ -205,21 +216,19 @@
     });
   }
 
-  function insertRegionWidgets(regions) {
-    const optionsRow = $("#filter").next().children().first().children().first();
-
-    for (let i = 0; i < regions.length; i++) {
-      let region = regions[i];
-      
-      const regionWidget = `
+  function insertOptionWidgets(options, optionsRow) {
+    for (let i = 0; i < options.length; i++) {
+      let option = options[i];
+  
+      const optionWidget = `
         <div style="margin-bottom: 0.5rem;" class="col-12 col-md-6 col-xl-4">
           <div class="select-option">
             <i class="fa-solid fa-city" style="color: var(--txt-primary); font-size: 1rem; margin: 0 0.5rem;"></i>
-            <p>${region}</p>
+            <p>${option}</p>
           </div>
         </div>
       `;
-      optionsRow.html(optionsRow.html() + regionWidget);
+      optionsRow.html(optionsRow.html() + optionWidget);
     }
   }
 
@@ -238,8 +247,8 @@
         }
 
         let regions = data["regions"];
-        insertRegionWidgets(regions);
-        document.getElementById("filter").nextElementSibling.showModal();
+        insertOptionWidgets(regions, $("#regions-dialog").children().first().children().first());
+        document.getElementById("regions-dialog").showModal();
       },
       error: function (error) {
         console.error("Error fetching regions:", error);
@@ -256,25 +265,83 @@
 
   // as soon as the region was selected, we display city options
   document.addEventListener("click", (e) => {
-    e.preventDefault();
-
     if (e.target.closest(".select-option") == null) {
       return;
     }
-    
-    const option = e.target;
-    const dialogId = option.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
+
+    const dialogId = e.target.closest("dialog").getAttribute("id");
     if (dialogId != "regions-dialog") {
       return;
     }
 
-    // it is (.select-option) clicked in region dialog.
-    const region = e.target.children("p").first().val();
+    let region;
+    if (e.target.classList.contains("select-option")) {
+      region = e.target.lastElementChild.textContent;
+    } else {
+      if (e.target.tagName != 'P') {
+        region = e.target.nextElementSibling.textContent;
+      } else {
+        region = e.target.textContent;
+      }
+    }
 
     $.ajax({
-      
+      method: "GET",
+      url: "{% url 'catalog:catalog' %}",
+      data: {
+        "action": "get-cities",
+        "region": region,
+      },
+      dataType: "json",
+      success: (data) => {
+        const success = data["success"];
+        if (!success) {
+          showToast("Не удалось получить список городов", false);
+          return;
+        }
+
+        $("#location-filter-input").attr("value", region);
+        document.getElementById("regions-dialog").close();
+        document.getElementById("regions-dialog").remove();
+        $("#regions-dialog").children().first().children().first().html('');
+        $("#filter-wrapper").html($("#filter-wrapper").html() + getNewDialogWidget("cities-dialog"));
+        $("#cities-dialog").children().first().children().first().html("");
+
+        let cities = data["cities"];
+        let optionsRow = $("#cities-dialog").children().first().children().first();
+        insertOptionWidgets(cities, optionsRow);
+        document.getElementById("cities-dialog").showModal();
+      },
+      error: function(xhr, errmsg, err) {
+          console.log(xhr.status + ":" + xhr.responseText)
+      }
     });
   });
+
+  // When city option was chosen
+  document.addEventListener("click", (e) => {
+    if (e.target.closest(".select-option") == null) {
+      return;
+    }
+
+    let city;
+    if (e.target.classList.contains("select-option")) {
+      city = e.target.lastElementChild.textContent;
+    } else {
+      if (e.target.tagName == 'P') {
+        city = e.target.textContent;
+      } else {
+        city = e.target.closest("i").nextElementSibling.textContent;
+      }
+    }
+
+    $("#location-filter-input").attr("value", $("#location-filter-input").attr("value") + ", " + city);
+    document.getElementById("cities-dialog").close();
+
+    document.getElementById("cities-dialog").remove();
+    $("#filter-wrapper").html($("#filter-wrapper").html() + getNewDialogWidget("regions-dialog"));
+  });
+
 </script>
 
 <style>
@@ -292,6 +359,7 @@
 <style>
   .select-option {
     cursor: pointer;
+    color: var(--txt-primary);
   }
 
   .select-option>img {
