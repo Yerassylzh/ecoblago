@@ -27,7 +27,6 @@ INSTALLED_APPS = [
     "catalog.apps.CatalogConfig",
     "profilepage.apps.ProfilepageConfig",
     "settingspage.apps.SettingspageConfig",
-    "django_cleanup.apps.CleanupConfig",
     "sorl.thumbnail",
     "django_extensions",
 ]
@@ -43,6 +42,20 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+if DEBUG:
+    INSTALLED_APPS += (
+        "debug_toolbar",
+    )
+
+    MIDDLEWARE += (
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    )
+
 
 ROOT_URLCONF = "ecoblago.urls"
 

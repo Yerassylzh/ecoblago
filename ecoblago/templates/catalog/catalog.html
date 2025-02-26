@@ -164,7 +164,6 @@
 
   function addProduct(product) {
     const productWidget = getProductWidget(product);
-    console.log(productWidget);
     document.querySelector('.products').insertAdjacentHTML('beforeend', productWidget);
   }
 
@@ -174,7 +173,15 @@
 
   function onFindProductsClicked() {
     const search = $("#filter-text-input").val();
-    const [region, city] = $("#location-filter-input").val().split(",").map(item => item.trim());
+    let region, city;
+    if ($("#location-filter-input").val() == '') {
+      region = '';
+      city = '';
+    } else {
+      let [first, second] = $("#location-filter-input").val().split(",").map(item => item.trim());
+      region = first;
+      city = second;
+    }
 
     $.ajax({
       method: "POST",
@@ -197,8 +204,6 @@
           showToast(data["error"], false);
           return;
         }
-
-        console.log(data);
 
         removeAllProducts();
         data["products"].forEach(product => {
@@ -285,6 +290,7 @@
       }
     }
 
+    $("#filter-text-input").attr("value", $("#filter-text-input").val());
     $.ajax({
       method: "GET",
       url: "{% url 'catalog:catalog' %}",
@@ -341,7 +347,6 @@
     document.getElementById("cities-dialog").remove();
     $("#filter-wrapper").html($("#filter-wrapper").html() + getNewDialogWidget("regions-dialog"));
   });
-
 </script>
 
 <style>

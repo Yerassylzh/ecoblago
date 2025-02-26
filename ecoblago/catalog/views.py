@@ -4,6 +4,8 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, TemplateView
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.forms.models import model_to_dict
+from django.db.models.functions import Lower
+from django.db.models import Q
 
 from catalog.models import Product, Region, Category, City, GalleryImage
 from catalog.forms import ProductForm
@@ -15,7 +17,7 @@ class CatalogView(ListView):
     
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
-        self.object_list = self.get_queryset()
+        self.object_list = Product.objects.prefetch_related("gallery_images").all()
         self.context = self.get_context_data()
 
     def post(self, request: HttpRequest) -> Union[HttpResponse, JsonResponse]:
@@ -72,14 +74,28 @@ class CatalogView(ListView):
         city_name = self.request.POST.get("city")
         search_text = self.request.POST.get("search_text")
 
+        kwargs = {}
+        if region_name and city_name:
+            kwargs["region__name"] = region_name
+            kwargs["city__name"] = city_name
+
+        queryset = (
+            Product
+            .objects
+            .filter(
+                description__icontains=search_text,
+                **kwargs,
+            )
+            .prefetch_related("gallery_images", "liked_by")
+        )
+
         products = []
-        for product in Product.objects.filter(region__name=region_name, city__name=city_name, description__icontains=search_text).prefetch_related("gallery_images", "liked_by"):
+        for product in queryset:
             dct = model_to_dict(product)
             dct["is_liked"] = self.request.user in product.liked_by.all()
             dct["main_image"] = {
                 "url": product.gallery_images.all().first().image.url,
-            }
-            
+            } 
             products.append(dct)
 
         return JsonResponse({"success": True, "products": products})
@@ -89,7 +105,7 @@ class CatalogView(ListView):
         context["my_user"] = self.request.user
         context["theme"] = self.request.COOKIES.get("theme", "light")
         context["lang"] = self.request.COOKIES.get("lang", "ru")
-        context["liked_products"] = self.request.user.liked_products.all()
+        context["liked_products"] = Product.objects.select_related("liked_by").filter(liked_by__pk=self.request.user.pk).all()
 
         return context
 
