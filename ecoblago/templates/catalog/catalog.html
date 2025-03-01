@@ -11,6 +11,9 @@
 
 {% block main %}
 <main class="txt-primary">
+  {% comment %}
+  here we will have our single dialog widget.
+  {% endcomment %}
   <div class="main-inner">
     <div class="container-fluid" id="filter-wrapper">
       <div id="filter" class="row filter">
@@ -35,13 +38,6 @@
           <button class="search-btn" id="filter-btn" onclick="onFindProductsClicked()">Поиск</button>
         </div>
       </div>
-      <dialog class="popup" id="regions-dialog">
-        <div style="padding: 1rem;">
-          <div class="row options-row">
-
-          </div>
-        </div>
-      </dialog>
     </div>
     <div class="products row">
       {% for product in object_list %}
@@ -72,8 +68,13 @@
 <script>
   const CSRF_TOKEN = "{{ csrf_token }}"
 
-  function getNewDialogWidget(id) {
-    return `
+  function eventMatches(e, selector) {
+    return e.target.matches(selector) || e.target.closest(selector) != null;
+  }
+
+  class DialogsManager {
+    static getNewDialogWidget(id) {
+      return `
       <dialog class="popup" id="${id}">
         <div style="padding: 1rem;">
           <div class="row options-row">
@@ -82,7 +83,98 @@
         </div>
       </dialog>
       `;
+    }
+
+    static insertOption(optionHtml, dialogId) {
+      let optionsRow = $("#" + dialogId).children().first().children().first();
+      optionsRow.html(optionsRow.html() + optionHtml);
+    }
+
+    static insertLocationOptions(options, dialogId) {
+      let optionsRow = $("#" + dialogId).children().first().children().first();
+      for (let i = 0; i < options.length; i++) {
+        let option = options[i];
+
+        const optionWidget = `
+          <div style="margin-bottom: 0.5rem;" class="col-12 col-md-6 col-xl-4">
+            <div class="select-option">
+              <i class="fa-solid fa-city" style="color: var(--txt-primary); font-size: 1rem; margin: 0 0.5rem;"></i>
+              <p>${option}</p>
+            </div>
+          </div>
+        `;
+        optionsRow.html(optionsRow.html() + optionWidget);
+      }
+    }
   }
+
+  class ProductsManager {
+    static getProductWidget(product) {
+      return `
+        <div class="col-12 col-md-4 col-xl-3">
+          <div class="product">
+            <input type="hidden" class="product-id-input" value="${product.id}">
+            <div class="product-image">
+              <img src="${product.main_image.url}" alt="product">
+            </div>
+            <div class="product-info">
+              <div class="text-section">
+                <h3 class="product-title">${product.title}</h3>
+                <p class="product-price">${product.cost}</p>
+              </div>
+              <div class="like-section">
+                <i class="fa-regular fa-heart like-empty" style="display: ${product.is_liked ? 'none' : 'block'};"></i>
+                <i class="fa-solid fa-heart like-full" style="display: ${product.is_liked ? 'block' : 'none'};"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    static addProduct(product) {
+      const productWidget = ProductsManager.getProductWidget(product);
+      document.querySelector('.products').insertAdjacentHTML('beforeend', productWidget);
+    }
+    
+    static removeAllProducts() {
+      document.querySelector('.products').innerHTML = '';
+    }
+  };
+
+  class FilterSettings {
+    sortingRules = {
+      POPULAR: "popular",
+      FROMCHEAP: "from-cheap",
+      FROMEXPENSIVE: "from-expensive",
+      HIGHRATING: "high-rating"
+    };
+
+    constructor() {
+      this.content = "";
+      this.region = null;
+      this.city = null;
+
+      this.maxCost = 385;
+      this.minCost = 20000;
+      this.category = null;
+      this.sortingRule = this.sortingRules.POPULAR;
+    }
+
+    toDict() {
+      return {
+        "content": this.content,
+        "region": this.region,
+        "city": this.city,
+        "max-cost": this.maxCost,
+        "min-cost": this.minCost,
+        "category": this.category,
+        "sorting-rule": this.sortingRule
+      };
+    }
+  };
+
+  let filterSettings = new FilterSettings();
 
   document.addEventListener("click", (e) => {
     if (e.target.closest(".like-empty") != null) {
@@ -139,38 +231,6 @@
   }
 
 
-  function getProductWidget(product) {
-    return `
-      <div class="col-12 col-md-4 col-xl-3">
-        <div class="product">
-          <input type="hidden" class="product-id-input" value="${product.id}">
-          <div class="product-image">
-            <img src="${product.main_image.url}" alt="product">
-          </div>
-          <div class="product-info">
-            <div class="text-section">
-              <h3 class="product-title">${product.title}</h3>
-              <p class="product-price">${product.cost}</p>
-            </div>
-            <div class="like-section">
-              <i class="fa-regular fa-heart like-empty" style="display: ${product.is_liked ? 'none' : 'block'};"></i>
-              <i class="fa-solid fa-heart like-full" style="display: ${product.is_liked ? 'block' : 'none'};"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  function addProduct(product) {
-    const productWidget = getProductWidget(product);
-    document.querySelector('.products').insertAdjacentHTML('beforeend', productWidget);
-  }
-
-  function removeAllProducts() {
-    document.querySelector('.products').innerHTML = '';
-  }
-
   function onFindProductsClicked() {
     const search = $("#filter-text-input").val();
     let region, city;
@@ -183,16 +243,21 @@
       city = second;
     }
 
+    filterSettings.region = region;
+    filterSettings.city = city;
+
+    let data = {
+      "csrfmiddlewaretoken": CSRF_TOKEN,
+      "city": city,
+      "action": "filter-products",
+    };
+
+    data = { ...data, ...filterSettings.toDict() };
+
     $.ajax({
       method: "POST",
       url: "{% url 'catalog:catalog' %}",
-      data: {
-        "csrfmiddlewaretoken": CSRF_TOKEN,
-        "search_text": search,
-        "region": region,
-        "city": city,
-        "action": "filter-products",
-      },
+      data: data,
       dataType: "json",
       beforeSend: () => {
         $("#filter-btn").text("Подождите..");
@@ -204,11 +269,14 @@
           showToast(data["error"], false);
           return;
         }
-
-        removeAllProducts();
+        ProductsManager.removeAllProducts();
         data["products"].forEach(product => {
-          addProduct(product);
+          ProductsManager.addProduct(product);
         });
+
+        if (data["products"].length == 0) {
+          showToast("Не найдено товаров по вашему запросу");
+        }
       },
       error: (error) => {
         showToast("Произошла ошибка при фильтрации товаров", false);
@@ -221,22 +289,7 @@
     });
   }
 
-  function insertOptionWidgets(options, optionsRow) {
-    for (let i = 0; i < options.length; i++) {
-      let option = options[i];
-  
-      const optionWidget = `
-        <div style="margin-bottom: 0.5rem;" class="col-12 col-md-6 col-xl-4">
-          <div class="select-option">
-            <i class="fa-solid fa-city" style="color: var(--txt-primary); font-size: 1rem; margin: 0 0.5rem;"></i>
-            <p>${option}</p>
-          </div>
-        </div>
-      `;
-      optionsRow.html(optionsRow.html() + optionWidget);
-    }
-  }
-
+  $("#location-filter-input").on("focus", displayRegions);
   function displayRegions() {
     $.ajax({
       type: "GET",
@@ -251,8 +304,11 @@
           return;
         }
 
+        let main = document.querySelector("main");
+        $("main").prepend(DialogsManager.getNewDialogWidget("regions-dialog"));
+
         let regions = data["regions"];
-        insertOptionWidgets(regions, $("#regions-dialog").children().first().children().first());
+        DialogsManager.insertLocationOptions(regions, "regions-dialog");
         document.getElementById("regions-dialog").showModal();
       },
       error: function (error) {
@@ -262,20 +318,9 @@
 
   }
 
-  const locationInput = $("#location-filter-input");
-  locationInput.on("focus", () => {
-    displayRegions();
-  });
-
-
   // as soon as the region was selected, we display city options
   document.addEventListener("click", (e) => {
-    if (e.target.closest(".select-option") == null) {
-      return;
-    }
-
-    const dialogId = e.target.closest("dialog").getAttribute("id");
-    if (dialogId != "regions-dialog") {
+    if (!eventMatches(e, "#regions-dialog") || !eventMatches(e, ".select-option")) {
       return;
     }
 
@@ -290,7 +335,6 @@
       }
     }
 
-    $("#filter-text-input").attr("value", $("#filter-text-input").val());
     $.ajax({
       method: "GET",
       url: "{% url 'catalog:catalog' %}",
@@ -299,6 +343,9 @@
         "region": region,
       },
       dataType: "json",
+      beforeSend: () => {
+        $("#filter-text-input").attr("value", "");
+      },
       success: (data) => {
         const success = data["success"];
         if (!success) {
@@ -307,26 +354,22 @@
         }
 
         $("#location-filter-input").attr("value", region);
-        document.getElementById("regions-dialog").close();
-        document.getElementById("regions-dialog").remove();
-        $("#regions-dialog").children().first().children().first().html('');
-        $("#filter-wrapper").html($("#filter-wrapper").html() + getNewDialogWidget("cities-dialog"));
-        $("#cities-dialog").children().first().children().first().html("");
+        $("#regions-dialog").remove();
 
+        $("main").prepend(DialogsManager.getNewDialogWidget("cities-dialog"));
         let cities = data["cities"];
-        let optionsRow = $("#cities-dialog").children().first().children().first();
-        insertOptionWidgets(cities, optionsRow);
+        DialogsManager.insertLocationOptions(cities, "cities-dialog");
         document.getElementById("cities-dialog").showModal();
       },
-      error: function(xhr, errmsg, err) {
-          console.log(xhr.status + ":" + xhr.responseText)
+      error: function (xhr, errmsg, err) {
+        console.log(xhr.status + ":" + xhr.responseText)
       }
     });
   });
 
   // When city option was chosen
   document.addEventListener("click", (e) => {
-    if (e.target.closest(".select-option") == null) {
+    if (!eventMatches(e, "#cities-dialog") || !eventMatches(e, ".select-option")) {
       return;
     }
 
@@ -342,10 +385,50 @@
     }
 
     $("#location-filter-input").attr("value", $("#location-filter-input").attr("value") + ", " + city);
-    document.getElementById("cities-dialog").close();
+    $("#cities-dialog").remove();
+  });
 
-    document.getElementById("cities-dialog").remove();
-    $("#filter-wrapper").html($("#filter-wrapper").html() + getNewDialogWidget("regions-dialog"));
+  // more filters
+  document.addEventListener("click", (e) => {
+    if (!eventMatches(e, ".more-filters-btn")) {
+      return;
+    }
+
+    $.ajax({
+      method: "GET",
+      url: "{% url 'catalog:catalog' %}",
+      data: {
+        "action": "get-categories",
+      },
+      beforeSend: () => {
+        $("main").prepend(DialogsManager.getNewDialogWidget("more-filters-dialog"));
+      },
+      success: (data) => {
+        const success = data["success"];
+        if (!success) {
+          showToast(data["error"], false);
+          return;
+        }
+
+        let categories = data["categories"];
+
+        let widget = '<div class="select-list col-12 col-md-12 col-xl-12">'; // for options-row to work properly
+        widget += '<div class="row">';
+        for (let category of categories) {
+          widget += `<button class="select-list-button col-4 col-md-3 col-xl-3">${category}</button>`;
+        }
+        widget += '</div></div>';
+
+        DialogsManager.insertOption(widget, "more-filters-dialog");
+      },
+      error: (error) => {
+        showToast("Произошла ошибка при фильтрации товаров", false);
+        console.error("Error fetching products:", error);
+      },
+      complete: () => {
+        document.getElementById("more-filters-dialog").showModal();
+      }
+    })
   });
 </script>
 
@@ -362,6 +445,26 @@
 </style>
 
 <style>
+  .select-list {
+    width: 100%;
+  }
+
+  .select-list-button {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+
+    color: var(--txt-primary);
+
+    border-radius: 2px;
+    border: 1px solid gray;
+    background: transparent;
+
+    padding: 1px 2px;
+
+    outline: none;
+  }
+
   .select-option {
     cursor: pointer;
     color: var(--txt-primary);

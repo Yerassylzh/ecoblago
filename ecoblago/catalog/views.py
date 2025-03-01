@@ -44,6 +44,8 @@ class CatalogView(ListView):
             return self.get_all_regions()
         elif action == "get-cities":
             return self.get_cities()
+        elif action == "get-categories":
+            return self.get_categories()
 
     def add_product_to_favourites(self) -> JsonResponse:
         product_id = self.request.POST.get("product_id")
@@ -69,10 +71,13 @@ class CatalogView(ListView):
         city_names = [city.name for city in region.cities.all()]
         return JsonResponse({"success": True, "cities": city_names})
     
+    def get_categories(self) -> JsonResponse:
+        return JsonResponse({"success": True, "categories": [category.name for category in Category.objects.all()]})
+
     def get_filtered_products(self) -> JsonResponse:
         region_name = self.request.POST.get("region")
         city_name = self.request.POST.get("city")
-        search_text = self.request.POST.get("search_text")
+        search_text = self.request.POST.get("content")
 
         kwargs = {}
         if region_name and city_name:
