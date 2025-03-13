@@ -5,7 +5,7 @@ This is a Django-based web application that provides the opportunity to purchase
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/Yerassylzh/ecoblago.git
-cd gamehub
+cd ecoblago
 ```
 
 ### 2. Create and Activate a Virtual Environment
@@ -31,7 +31,6 @@ DJANGO_ALLOWED_HOSTS=127.0.0.1, localhost
 
 ### 4. Install Dependencies
 ```bash
-cd gamehub
 pip install -r requirements.txt
 ```
 
@@ -42,7 +41,7 @@ python manage.py loaddata fixtures/data.json
 ```
 
 ### 6. Create a Superuser
-#### Create an admin user to access the Django admin interface.
+#### Create an admin user to access the Django admin interface (if needed).
 ```bash
 python manage.py createsuperuser
 ```
