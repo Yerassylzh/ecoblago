@@ -110,7 +110,7 @@ class CatalogView(ListView):
         context["my_user"] = self.request.user
         context["theme"] = self.request.COOKIES.get("theme", "light")
         context["lang"] = self.request.COOKIES.get("lang", "ru")
-        context["liked_products"] = Product.objects.select_related("liked_by").filter(liked_by__pk=self.request.user.pk).all()
+        context["liked_products"] = self.request.user.liked_products.all()
 
         return context
 
