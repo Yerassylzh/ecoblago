@@ -75,9 +75,13 @@ class CatalogView(ListView):
         return JsonResponse({"success": True, "categories": [category.name for category in Category.objects.all()]})
 
     def get_filtered_products(self) -> JsonResponse:
+        search_text = self.request.POST.get("content")
         region_name = self.request.POST.get("region")
         city_name = self.request.POST.get("city")
-        search_text = self.request.POST.get("content")
+        min_cost = int(self.request.POST.get("min-cost"))
+        max_cost = int(self.request.POST.get("max-cost"))
+        category_names = self.request.POST.getlist("categories[]")
+        sorting_rule = self.request.POST.get("sorting-rule")
 
         kwargs = {}
         if region_name and city_name:
@@ -89,6 +93,9 @@ class CatalogView(ListView):
             .objects
             .filter(
                 description__icontains=search_text,
+                cost__gte=min_cost,
+                cost__lte=max_cost,
+                category__name__in=category_names,
                 **kwargs,
             )
             .prefetch_related("gallery_images", "liked_by")
@@ -100,7 +107,7 @@ class CatalogView(ListView):
             dct["is_liked"] = self.request.user in product.liked_by.all()
             dct["main_image"] = {
                 "url": product.gallery_images.all().first().image.url,
-            } 
+            }
             products.append(dct)
 
         return JsonResponse({"success": True, "products": products})

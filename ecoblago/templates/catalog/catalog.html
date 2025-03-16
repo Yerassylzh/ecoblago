@@ -50,7 +50,7 @@
           <div class="product-info">
             <div class="text-section">
               <h3 class="product-title">{{ product.title }}</h3>
-              <p class="product-price">{{ product.cost }}</p>
+              <p class="product-price">{{ product.cost }} тг</p>
             </div>
             <div class="like-section">
               <i class="fa-regular fa-heart like-empty"
@@ -149,7 +149,8 @@
       POPULAR: "popular",
       FROMCHEAP: "from-cheap",
       FROMEXPENSIVE: "from-expensive",
-      HIGHRATING: "high-rating"
+      HIGHRATING: "high-rating",
+      NEW: "new",
     };
 
     constructor() {
@@ -157,9 +158,9 @@
       this.region = null;
       this.city = null;
 
-      this.maxCost = 385;
-      this.minCost = 20000;
-      this.category = null;
+      this.maxCost = 10000;
+      this.minCost = 500;
+      this.categories = [];
       this.sortingRule = this.sortingRules.POPULAR;
     }
 
@@ -170,7 +171,7 @@
         "city": this.city,
         "max-cost": this.maxCost,
         "min-cost": this.minCost,
-        "category": this.category,
+        "categories": this.categories,
         "sorting-rule": this.sortingRule
       };
     }
@@ -390,6 +391,132 @@
     $("#cities-dialog").remove();
   });
 
+  class DialogMoreFilters {
+    static _getCategoriesSectionWidget(categories) {
+      let categoryWidget = `
+        <div class="filter-categories">
+          <div class="header">Категории</div>
+          <div class="content">
+      `;
+      for (let category of categories) {
+        categoryWidget += `
+          <div class="checkbox-container">
+            <input type="checkbox">
+            <label class="text">${category}</label>
+          </div>
+        `;
+      }
+      categoryWidget += '</div></div>';
+      return categoryWidget;
+    }
+
+    static _getCostRegulatorSectionWidget() {
+      return `
+        <div class="cost-regulator">
+          <div class="header">Цена</div>
+          <div class="content">
+            <div class="price-inputs">
+                <div class="field">
+                    <label for="min-price">Min Price:</label>
+                    <input type="number" id="min-price" value="1000">
+                </div>
+                <div class="field">
+                    <label for="max-price">Max Price:</label>
+                    <input type="number" id="max-price" value="5000">
+                </div>
+            </div>
+            <div class="slider-container">
+                <div class="slider-track"></div>
+                <input type="range" id="min-slider" min="0" max="10000" value="1000" step="100">
+                <input type="range" id="max-slider" min="0" max="10000" value="5000" step="100">
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    static _getSortingRulesWidget() {
+      let options = Object.values(new FilterSettings().sortingRules);
+      let sortingRulesWidget = `
+        <div class="filter-sortingrules">
+          <div class="header">Сортировка</div>
+          <div class="content">
+      `;
+      for (let option of options) {
+        sortingRulesWidget += `
+          <div class="radio-container">
+            <input type="radio" data-sorting-rule=${option}>
+            <label class="text">${option}</label>
+          </div>
+        `;
+      }
+      sortingRulesWidget += '</div></div>';
+      return sortingRulesWidget;
+    }
+
+    static _getSaveButtonWidget() {
+      return '<button class="save-btn" id="save-filters-btn">Сохранить</button>';
+    }
+
+    static getDialogInnerHtml(categories) {
+      let categoriesWidget = DialogMoreFilters._getCategoriesSectionWidget(categories);
+      let costRegulatorWidget = DialogMoreFilters._getCostRegulatorSectionWidget();
+      let sortingRulesWidget = DialogMoreFilters._getSortingRulesWidget();
+      let saveButtonWidget = DialogMoreFilters._getSaveButtonWidget();
+      return categoriesWidget + costRegulatorWidget + sortingRulesWidget + saveButtonWidget;
+    }
+  
+    static _recoverCategoriesSection() {
+      let chosenCategories = new Set(filterSettings.categories);
+      let checkboxes = document.querySelector(".filter-categories").querySelectorAll("input");
+      for (let category of checkboxes) {
+        if (chosenCategories.has(category.nextElementSibling.textContent)) {
+          category.checked = true;
+        }
+      }
+    }
+
+    static _recoverSortingRulesSection() {
+      let sortingRule = filterSettings.sortingRule;
+      let sortingRules = document.querySelector(".filter-sortingrules").querySelectorAll("input");
+      for (let rule of sortingRules) {
+        if (rule.dataset.sortingRule == sortingRule) {
+          rule.checked = true;
+          break;
+        }
+      }
+    }
+
+    static _recoverCostRegulatorSection() {
+      document.getElementById("min-price").value = filterSettings.minCost;
+      document.getElementById("max-price").value = filterSettings.maxCost;
+      document.getElementById("min-slider").value = filterSettings.minCost;
+      document.getElementById("max-slider").value = filterSettings.maxCost;
+      updateTrackBackground(filterSettings.minCost, filterSettings.maxCost);
+    }
+
+    static recoverSavedSettings() {
+      DialogMoreFilters._recoverCategoriesSection();
+      DialogMoreFilters._recoverCostRegulatorSection();
+      DialogMoreFilters._recoverSortingRulesSection(); 
+    }
+
+    static setupCostRegulator() {
+      const minSlider = document.getElementById('min-slider');
+      const maxSlider = document.getElementById('max-slider');
+      const minPriceInput = document.getElementById('min-price');
+      const maxPriceInput = document.getElementById('max-price');
+      const sliderTrack = document.querySelector('.slider-track');
+
+      minSlider.addEventListener('input', updateSlider);
+      maxSlider.addEventListener('input', updateSlider);
+      minPriceInput.addEventListener('input', updateInput);
+      maxPriceInput.addEventListener('input', updateInput);
+
+      updateTrackBackground(minSlider.value, maxSlider.value);
+    }
+  };
+
   // more filters
   document.addEventListener("click", (e) => {
     if (!eventMatches(e, ".more-filters-btn")) {
@@ -415,80 +542,9 @@
           return;
         }
 
-        // Add categories section
-        let categories = data["categories"];
-        let categoryWidget = `
-          <div class="filter-categories">
-            <div class="header">Категории</div>
-            <div class="content">
-        `;
-        for (let category of categories) {
-          categoryWidget += `
-            <div class="checkbox-container">
-              <input type="checkbox">
-              <label class="text">${category}</label>
-            </div>
-          `;
-        }
-        categoryWidget += '</div></div>';
-
-        // Add cost regulation section
-        let costRegulatorWidget = `
-          <div class="cost-regulator">
-            <div class="header">Цена</div>
-            <div class="content">
-              <div class="price-inputs">
-                  <div class="field">
-                      <label for="min-price">Min Price:</label>
-                      <input type="number" id="min-price" value="1000">
-                  </div>
-                  <div class="field">
-                      <label for="max-price">Max Price:</label>
-                      <input type="number" id="max-price" value="5000">
-                  </div>
-              </div>
-              <div class="slider-container">
-                  <div class="slider-track"></div>
-                  <input type="range" id="min-slider" min="0" max="10000" value="1000" step="100">
-                  <input type="range" id="max-slider" min="0" max="10000" value="5000" step="100">
-              </div>
-            </div>
-          </div>
-        `;
-
-        // Add sorting rules section
-        let options = ["popular", "from-cheap", "from-expensive", "high-rating"];
-        let sortingRulesWidget = `
-          <div class="filter-sortingrules">
-            <div class="header">Сортировка</div>
-            <div class="content">
-        `;
-        for (let option of options) {
-          sortingRulesWidget += `
-            <div class="radio-container">
-              <input type="radio">
-              <label class="text">${option}</label>
-            </div>
-          `;
-        }
-        sortingRulesWidget += '</div></div>';
-
-        let res = categoryWidget + costRegulatorWidget + sortingRulesWidget;
-        $("#mini-popup").html(res);
-
-        const minSlider = document.getElementById('min-slider');
-        const maxSlider = document.getElementById('max-slider');
-        const minPriceInput = document.getElementById('min-price');
-        const maxPriceInput = document.getElementById('max-price');
-        const sliderTrack = document.querySelector('.slider-track');
-
-        minSlider.addEventListener('input', updateSlider);
-        maxSlider.addEventListener('input', updateSlider);
-        minPriceInput.addEventListener('input', updateInput);
-        maxPriceInput.addEventListener('input', updateInput);
-
-        updateTrackBackground(minSlider.value, maxSlider.value);
-
+        $("#mini-popup").html(DialogMoreFilters.getDialogInnerHtml(data["categories"]));
+        DialogMoreFilters.recoverSavedSettings();
+        DialogMoreFilters.setupCostRegulator();
       },
       error: (error) => {
         showToast("Произошла ошибка при фильтрации товаров", false);
@@ -498,6 +554,37 @@
         document.getElementById("mini-popup").showModal();
       }
     })
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!eventMatches(e, "#save-filters-btn")) {
+      return;
+    }
+
+    let categories = document.querySelector(".filter-categories").querySelectorAll("input");
+    let selectedCategories = [];
+    for (let category of categories) {
+      if (category.checked) {
+        selectedCategories.push(category.nextElementSibling.textContent);
+      }
+    }
+    filterSettings.categories = selectedCategories;
+
+    let minPrice = document.getElementById("min-price").value;
+    let maxPrice = document.getElementById("max-price").value;
+    filterSettings.minCost = minPrice;
+    filterSettings.maxCost = maxPrice;
+
+    let sortingRules = document.querySelector(".filter-sortingrules").querySelectorAll("input");
+    for (let rule of sortingRules) {
+      if (rule.checked) {
+        filterSettings.sortingRule = rule.nextElementSibling.textContent;
+        break;
+      }
+    }
+
+    showToast("Фильтры были сохранены", true);
+    $("#mini-popup").remove();
   });
 
   document.addEventListener("click", (e) => {
@@ -556,18 +643,13 @@
 
   function updateTrackBackground(minValue, maxValue) {
     const sliderContainer = document.querySelector('.slider-container');
+    const sliderTrack = document.querySelector('.slider-track');
     const minPercent = (minValue / maxPrice) * 100;
     const maxPercent = (maxValue / maxPrice) * 100;
 
-    sliderContainer.style.background = `
-        linear-gradient(
-            to right,
-            #d3d3d3 ${minPercent}%,
-            #4CAF50 ${minPercent}%,
-            #4CAF50 ${maxPercent}%,
-            #d3d3d3 ${maxPercent}%
-        )
-    `;
+    sliderTrack.style.color = "var(--green-primary);";
+    sliderTrack.style.left = `${minPercent}%`;
+    sliderTrack.style.width = `${maxPercent - minPercent}%`;
   }
 
 </script>
@@ -585,19 +667,46 @@
 </style>
 
 <style>
+  .save-btn {
+    margin-top: 1rem;
+
+    width: 50%;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 1.25rem;
+
+    border: none;
+    outline: none;
+    border-radius: 0.25rem;
+    background-color: var(--green-primary);
+    color: white;
+
+    padding: 0.5rem 1rem;
+  }
+
+  .save-btn:hover {
+    filter: brightness(92%);
+  }
+
+  .mini-popup {
+    background-color: var(--background-color);
+  }
+
+  .header {
+    color: var(--txt-primary) !important;
+  }
+
   .cost-regulator {
     width: 100%;
+    background-color: var(--background-color);
   }
 
   .price-inputs {
     width: 100%;
-
     display: flex;
     flex-direction: row;
-
     align-items: center;
     justify-content: space-between;
-
     margin-bottom: 1rem;
   }
 
@@ -607,6 +716,11 @@
     width: 45%;
   }
 
+  .field>input {
+    background-color: var(--widget-color);
+    color: var(--txt-primary);
+  }
+
   label {
     margin-bottom: 5px;
     color: #666;
@@ -614,14 +728,18 @@
 
   input[type="number"] {
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--green-primary);
+    outline: none;
     border-radius: 5px;
     width: 100%;
   }
 
+  input[type="number"]:focus {
+    border: 1px solid var(--green-primary);
+  }
+
   .slider-container {
     width: 100%;
-
     position: relative;
     height: 6px;
     background-color: #ddd;
@@ -631,7 +749,7 @@
   .slider-track {
     position: absolute;
     height: 100%;
-    background-color: #4CAF50;
+    background-color: var(--green-primary);
     border-radius: 5px;
   }
 
@@ -639,7 +757,8 @@
     position: absolute;
     width: 100%;
     height: 6px;
-    --webkit-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
     background: none;
     pointer-events: none;
   }
@@ -649,7 +768,7 @@
     appearance: none;
     width: 16px;
     height: 16px;
-    background-color: #4CAF50;
+    background-color: var(--green-primary);
     border-radius: 50%;
     cursor: pointer;
     pointer-events: all;
@@ -658,10 +777,39 @@
   input[type="range"]::-moz-range-thumb {
     width: 16px;
     height: 16px;
-    background-color: #4CAF50;
+    background-color: var(--green-primary);
     border-radius: 50%;
     cursor: pointer;
     pointer-events: all;
+  }
+
+  input[type="range"]::-moz-range-progress {
+    background-color: var(--green-primary);
+  }
+
+  input[type="range"]::-ms-thumb {
+    width: 16px;
+    height: 16px;
+    background-color: var(--green-primary);
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: all;
+  }
+
+  input[type="range"]::-ms-track {
+    width: 100%;
+    height: 6px;
+    background: none;
+    border-color: transparent;
+    color: transparent;
+  }
+
+  input[type="range"]::-ms-fill-lower {
+    background-color: var(--green-primary);
+  }
+
+  input[type="range"]::-ms-fill-upper {
+    background-color: var(--green-primary);
   }
 
   .filter-sortingrules>.content {
@@ -690,8 +838,6 @@
     font-family: "Inter", sans-serif;
     font-weight: 300;
 
-    /* border: 2px solid var(--green-primary); */
-    /* padding: 0.5rem 1rem; */
     color: var(--txt-primary);
 
     border-radius: 12px;

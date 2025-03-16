@@ -87,10 +87,9 @@ class Product(models.Model):
         max_length=255,
     )
 
-    cost = models.CharField(
+    cost = models.PositiveIntegerField(
         verbose_name="цена",
         name="cost",
-        max_length=255,
     )
 
     description = models.TextField(
