@@ -36,6 +36,7 @@ pip install -r requirements.txt
 
 ### 5. Set Up the Database and load fixtures
 ```bash
+cd ecoblago
 python manage.py migrate
 python manage.py loaddata fixtures/data.json
 ```
