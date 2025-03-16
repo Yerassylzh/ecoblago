@@ -6,7 +6,6 @@ This is a Django-based web application that provides the opportunity to purchase
 ```bash
 git clone https://github.com/Yerassylzh/ecoblago.git
 cd ecoblago
-cd ecoblago
 ```
 
 ### 2. Create and Activate a Virtual Environment
