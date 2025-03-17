@@ -43,6 +43,13 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+LOGIN_REQUIRED_IGNORE_PATHS = [
+    r"/admin/",
+    r"/authpage/",
+    r"/media/",
+    r"/static/",
+]
+
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
