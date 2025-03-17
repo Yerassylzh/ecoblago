@@ -48,6 +48,7 @@ LOGIN_REQUIRED_IGNORE_PATHS = [
     r"/authpage/",
     r"/media/",
     r"/static/",
+    r"/__debug__/",
 ]
 
 INTERNAL_IPS = [
