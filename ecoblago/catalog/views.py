@@ -1,11 +1,12 @@
 from typing import Union
 
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, DetailView
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.forms.models import model_to_dict
 from django.db.models.functions import Lower
 from django.db.models import Q
+from django.db.models import Prefetch
 
 from catalog.models import Product, Region, Category, City, GalleryImage
 from catalog.forms import ProductForm
@@ -212,4 +213,37 @@ class MyProductsView(ListView):
         context["theme"] = self.request.COOKIES.get("theme", "light")
         context["lang"] = self.request.COOKIES.get("lang", "ru")
 
+        return context
+
+
+class ProductDetailsView(DetailView):
+    models = Product
+    template_name = "catalog/product_details.html"
+    
+    def setup(self, *args, **kwargs) -> None:
+        super().setup(*args, **kwargs)
+        self.context = self.get_context_data()
+    
+    def get(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
+        return self.render_to_response(self.context)
+    
+    def get_object(self, *args, **kwargs) -> Product:
+        return get_object_or_404(
+            Product.objects.all()
+            .select_related("region", "city", "category")
+            .prefetch_related(
+                "gallery_images",
+            ),
+            pk=self.kwargs["pk"]
+        )
+
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+
+        context = super().get_context_data(**kwargs)
+        context["image_urls"] = [image.image.url for image in self.object.gallery_images.all()]
+        context["main_image_url"] = context["image_urls"][0]
+        context["my_user"] = self.request.user
+        context["theme"] = self.request.COOKIES.get("theme", "light")
+        context["lang"] = self.request.COOKIES.get("lang", "ru")
         return context

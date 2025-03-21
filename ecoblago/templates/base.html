@@ -189,7 +189,11 @@
   }
 </style>
 
-<script>
+<script>  
+  function eventMatches(e, selector) {
+    return e.target.matches(selector) || e.target.closest(selector) != null;
+  }
+
   function switchTheme(theme) {
     htmlElement.setAttribute('data-theme', theme);
 

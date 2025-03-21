@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "catalog.apps.CatalogConfig",
     "profilepage.apps.ProfilepageConfig",
     "settingspage.apps.SettingspageConfig",
+    "core.apps.CoreConfig",
     "sorl.thumbnail",
     "django_extensions",
 ]
@@ -111,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_URL = "authpage:authpage"
 
-LANGUAGE_CODE = "en"
+LANGUAGE_CODE = "ru"
 
 LANGUAGES = [
     ("en", _("English")),

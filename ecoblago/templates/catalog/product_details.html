@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load custom_filters %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}">
+{% endblock links %}
+
+{% block navbar %}
+{% include 'includes/navbar.html' %}
+{% endblock navbar %}
+
+{% block main %}
+<main class="txt-primary">
+  <div class="row main-row">
+    <div class="col-12 col-md-10 col-xl-9">
+      <div class="wrapper">
+        <div class="details-bar">
+          <p>{{ object.title|capfirst }}</p>
+          <div class="images-container">
+            <img src="{{ main_image_url }}" class="product-image" data-image-index=0>
+            <button class="left-arrow"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="right-arrow"><i class="fa-solid fa-arrow-right"></i></button>
+            <div style="display: none;" class="additional-images">
+              {% for url in image_urls %}
+                <img src="{{ url }}" class="product-image" data-image-index="{{ forloop.counter0 }}">
+              {% endfor %}
+            </div>
+          </div>
+          <div class="section">
+            <p>Описание</p>
+            <hr>
+            <div>{{ object.description }}</div>
+          </div>
+          <div class="section-seller-profile">
+            <p>Продавец</p>
+            <hr>
+            <div class="seller-profile">
+              <input type="hidden" value="{{ object.seller.id }}" class="seller-id-input">
+              <img src="{{ object.seller.image.url }}" alt="">
+              <div class="seller-profile-name">
+                <p class="name">{{ object.seller.first_name }} {{ object.seller.last_name }}</p>
+                <p class="member-since">На ecoblago с {{ object.seller.date_joined|date:"F j, Y" }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="section">
+            <p>Цена</p>
+            <hr>
+            <div>{{ object.cost|thousand_separator }} тг</div>
+          </div>
+          <div class="section">
+            <p>Локация</p>
+            <hr>
+            <div>{{ object.region|capfirst }}, {{ object.city|capfirst }}</div>
+          </div>
+          <div class="section">
+            <p>Категория</p>
+            <hr>
+            <div>{{ object.category.name|capfirst }}</div>
+          </div>
+          <div class="section">
+            <p>Контакты</p>
+            <hr>
+            <div style="padding: 3px 0;">{{ object.seller.phone_number }}</div>
+            <div style="padding: 3px 0;">{{ object.seller.email }}</div>
+          </div>
+        </div>
+        {% include 'includes/footer.html' %}
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  const CSRF_TOKEN = "{{ csrf_token }}";
+
+  document.addEventListener("click", (e) => {
+    if (!eventMatches(e, ".seller-profile")) return;
+
+    const sellerProfile = e.target.closest(".seller-profile");
+    const sellerId = parseInt(sellerProfile.querySelector(".seller-id-input").value);
+    window.location.href = "{% url 'profilepage:profilepage' '0' %}".replace('0', sellerId); // Django cannot proccess url if i use ${...}
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!eventMatches(e, ".right-arrow")) return;
+
+    const imageContainer = e.target.closest(".images-container");
+    const currentInd = parseInt(imageContainer.firstElementChild.dataset.imageIndex);
+    const images = imageContainer.lastElementChild.children;
+    const nextInd = (currentInd + 1) % images.length;
+
+    imageContainer.firstElementChild.setAttribute("src", images[nextInd].getAttribute("src"));
+    imageContainer.firstElementChild.dataset.imageIndex = nextInd;
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!eventMatches(e, ".left-arrow")) return;
+
+    const imageContainer = e.target.closest(".images-container");
+    const currentInd = parseInt(imageContainer.firstElementChild.dataset.imageIndex);
+    const images = imageContainer.lastElementChild.children;
+    const nextInd = (currentInd - 1 + images.length) % images.length;
+
+    imageContainer.firstElementChild.setAttribute("src", images[nextInd].getAttribute("src"));
+    imageContainer.firstElementChild.dataset.imageIndex = nextInd;
+  });
+</script>
+
+<style>
+  .seller-profile:hover {
+    cursor: pointer;
+  }
+
+  .seller-profile-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .seller-profile-name>p {
+    margin: 0;
+  }
+  .seller-profile-name>.name {
+    font-size: 1.25rem;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .seller-profile-name>.member-since {
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  .seller-profile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 1rem 0 0.3rem 0;
+  }
+
+  .seller-profile>img {
+    width: 60px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .seller-profile>p {
+    font-size: 1.25rem;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+  }
+
+  .images-container {
+    width: 80%;
+    position: relative;
+    margin: 1rem 0;
+  }
+
+  .product-image {
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  .left-arrow {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+
+    width: 25px;
+    height: 25px;
+
+    background-color: rgba(200, 200, 200, 0.5);
+    border-radius: 50%;
+    outline: none;
+    border: none;
+  }
+
+  .right-arrow {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+
+    width: 25px;
+    height: 25px;
+    background-color: rgba(200, 200, 200, 0.5);
+    border-radius: 50%;
+    outline: none;
+    border: none;
+  }
+
+  .left-arrow>i,
+  .right-arrow>i {
+    color: rgb(230, 230, 230);
+  }
+
+  .left-arrow:hover {
+    background-color: rgba(200, 200, 200, 0.7);
+  }
+
+  .right-arrow:hover {
+    background-color: rgba(200, 200, 200, 0.7);
+  }
+
+  hr {
+    margin: 0.5rem 0;
+  }
+
+  p {
+    color: var(--txt-primary);
+  }
+
+  .details-bar .section>p {
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+  }
+
+  .section-seller-profile {
+    padding-top: 2rem;
+  }
+
+  .section-seller-profile>p {
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+  }
+
+  .details-bar>.section {
+    padding-top: 2rem;
+  }
+
+  .details-bar {
+    width: 100%;
+    padding: 1rem 2.5rem 0 2.5rem;
+  }
+
+  .wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: var(--background-color);
+    min-height: 100vh;
+  }
+
+
+  .main-row {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .details-bar>p {
+    font-size: 2rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+  }
+
+  .details-bar>.section>div {
+    font-size: 1rem;
+    font-weight: 300;
+    font-family: 'Inter', sans-serif;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  textarea {
+    min-height: 250px;
+  }
+</style>
+{% endblock main %}

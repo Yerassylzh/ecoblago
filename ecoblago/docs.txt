@@ -16,3 +16,8 @@
         <div>{% trans "Описание" %}</div>
     </div>
 
+
+
+how to dump data to fixtures:
+
+python -Xutf8 manage.py dumpdata --natural-foreign --natural-primary -e contenttypes -e auth.Permission --indent 2 > fixtures/data.json

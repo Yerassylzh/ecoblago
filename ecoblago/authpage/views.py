@@ -113,7 +113,6 @@ class AuthpageView(LoginNotRequiredMixin, TemplateView):
         return JsonResponse(data=self.context_ajax)
 
     def register_user(self) -> JsonResponse:
-        print(self.request.POST)
         form = RegistrationForm(data=self.request.POST)
         if form.is_valid():
             form.save()

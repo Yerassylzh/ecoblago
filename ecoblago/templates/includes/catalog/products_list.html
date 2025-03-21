@@ -1,0 +1,20 @@
+{% load custom_filters %}
+
+<div class="products row">
+  {% for product in object_list %}
+  <div class="col-12 col-md-4 col-xl-3">
+    <div class="product">
+      <input type="hidden" class="product-id-input" value="{{ product.id }}">
+      <div class="product-image">
+        <img src="{{ product.gallery_images.first.image.url }}" alt="product">
+      </div>
+      <div class="product-info">
+        <div class="text-section">
+          <h3 class="product-title">{{ product.title }}</h3>
+          <p class="product-price">{{ product.cost|thousand_separator }} тг</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>

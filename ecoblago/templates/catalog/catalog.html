@@ -39,40 +39,13 @@
         </div>
       </div>
     </div>
-    <div class="products row">
-      {% for product in object_list %}
-      <div class="col-12 col-md-4 col-xl-3">
-        <div class="product">
-          <input type="hidden" class="product-id-input" value="{{ product.id }}">
-          <div class="product-image">
-            <img src="{{ product.gallery_images.first.image.url }}" alt="product">
-          </div>
-          <div class="product-info">
-            <div class="text-section">
-              <h3 class="product-title">{{ product.title }}</h3>
-              <p class="product-price">{{ product.cost }} тг</p>
-            </div>
-            <div class="like-section">
-              <i class="fa-regular fa-heart like-empty"
-                {% if product in liked_products %}style="display: none;" {% else %}style="display: block;" {% endif %}></i>
-              <i class="fa-solid fa-heart like-full"
-                {% if product in liked_products %}style="display: block;" {% else %}style="display: none;" {% endif %}></i>
-            </div>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
+    {% include 'includes/catalog/products_list.html' %}
   </div>
   {% include 'includes/footer.html' %}
 </main>
 
 <script>
   const CSRF_TOKEN = "{{ csrf_token }}"
-
-  function eventMatches(e, selector) {
-    return e.target.matches(selector) || e.target.closest(selector) != null;
-  }
 
   class DialogsManager {
     static getNewDialogWidget(id) {
@@ -652,6 +625,15 @@
     sliderTrack.style.width = `${maxPercent - minPercent}%`;
   }
 
+  document.addEventListener("click", (e) => {
+    if (!eventMatches(e, ".product-image")) {
+      return;
+    }
+
+    const productId = e.target.closest(".product-image").previousElementSibling.value;
+    window.location.href = `/catalog/product_details/${productId}`;
+  });
+
 </script>
 
 <style>
@@ -663,6 +645,10 @@
   [data-theme="dark"] {
     --background-color: var(--body-color) !important;
     --widget-color: rgb(40, 40, 40);
+  }
+
+  .product-image:hover {
+    cursor: pointer;
   }
 </style>
 

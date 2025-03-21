@@ -9,10 +9,10 @@
 },
 {
   "model": "sessions.session",
-  "pk": "kq60viej9bta6xubptoqgswlmvna9weh",
+  "pk": "7yodqn0j7uqx3xh9fr91wcl7sl5my7sd",
   "fields": {
-    "session_data": ".eJxVjMEOgjAQRP-lZ9PgLgXK0bvfQLbtrlRNaygkGuO_CwkHPc7Mm_dWAy3zOCyFpyEG1StAdfgtHfkbp20JV0qXrH1O8xSd3hC9r0Wfc-D7aWf_BCOVcX1TzSzOg1jq6IidAdOioAcKaw42oHGmcYAsKCIE3kLdiRcTamyk3aSFS4k5Dfx8xOmlejAWqqr6fAF8bkGg:1tlSnj:-eHoxJZAe9n9r2NXb3-wOXJGUfnOWDqykcLuEaQ1DeI",
-    "expire_date": "2025-03-23T13:10:43.727Z"
+    "session_data": ".eJxVjMEOwiAQRP-FsyEtCy316N1vIAvsWtSAKW2iMf67bdKDHmfmzXsLh8s8uqXS5FIUR9GKw2_nMdwob0O8Yr4UGUqep-Tlhsh9rfJcIt1PO_snGLGO6xs1EfugeECLLVijTA8MQWFccxwiGG86r4AYmBlVGJS2HNhEDR33m7RSralkR89Hml7iaDvdNJ8vz1tBDA:1tuC4E:2dtmjkmbX97V07uvKvK1eMOy71ugcyTGGPgbcB1Ol1M",
+    "expire_date": "2025-03-18T15:07:50.654Z"
   }
 },
 {
@@ -25,6 +25,30 @@
 },
 {
   "model": "sessions.session",
+  "pk": "qhkfmhtxovlho2ond58vkq7xgdew38r1",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyEtCy316N1vIAvsWtSAKW2iMf67bdKDHmfmzXsLh8s8uqXS5FIUR9GKw2_nMdwob0O8Yr4UGUqep-Tlhsh9rfJcIt1PO_snGLGO6xs1EfugeECLLVijTA8MQWFccxwiGG86r4AYmBlVGJS2HNhEDR33m7RSralkR89Hml7iaDvdNJ8vz1tBDA:1tuBVC:23BsHQMNGSTaHiSPBFziAL9H3MEhQjAWeoyAd0HNOy8",
+    "expire_date": "2025-03-18T14:31:38.107Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "qot5cybyakywd4b1hsbosgsbzh53ewvz",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAUBf-FtSFA6QW6dO83EB4Xixow0CYa479rky50e2bOvIh16zLbtWOzOZKJaHL43bwLVywbiBdXzpWGWpaWPd0UutNOTzXi7bi7f4HZ9fn7VsJ4z6SQinmDEQQLQWph5CCTwWFU3HPDEsDIpQaOYFAFDylql4IB2KIde8-1WHzcc3uSSYNk7P0BVXw_RQ:1tvd6L:1aY4WfiEgFYOKtLwDVlfe8hX64d8y2a_dAs21xjRJ40",
+    "expire_date": "2025-03-22T14:11:57.609Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "rtxh682o42nfi7ou9etifje85vha0f1d",
+  "fields": {
+    "session_data": ".eJxVjMEOgjAQRP-lZ9PAlgLl6N1vaLbtrlRNSygkGuO_CwkHPc7Mm_cWFtdltGuh2cYgBlGL02_n0N8p7UO4Ybpm6XNa5ujkjshjLfKSAz3OB_snGLGM2xsbInYe2GCPteo16E6x8oBhy8EEpZ1uHShixcwI3kDTs2cdGtVyt0sLlRJzsvSc4vwSA2gDVVV9vlFpQWw:1tuby5:hjKIctRESWgoZL_8CTax0bX9Ny9eg-G0iB8tJDkt_cg",
+    "expire_date": "2025-04-17T18:47:13.577Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "uokoduar7fbhk2pizfd9i6cg4bca9m8c",
   "fields": {
     "session_data": ".eJxVjMEOgjAQRP-lZ9PgLgXK0bvfQLbtrlRNaygkGuO_CwkHPc7Mm_dWAy3zOCyFpyEG1StAdfgtHfkbp20JV0qXrH1O8xSd3hC9r0Wfc-D7aWf_BCOVcX1TzSzOg1jq6IidAdOioAcKaw42oHGmcYAsKCIE3kLdiRcTamyk3aSFS4k5Dfx8xOmlejAWqqr6fAF8bkGg:1tkJJ9:6mwJVvg-465DQSG5kFwen2RasKtgUb4IRIs_QUJBWN0",
@@ -32,42 +56,29 @@
   }
 },
 {
-  "model": "authpage.user",
+  "model": "sessions.session",
+  "pk": "zi5l2bet9nuo7gmxpmxtnpjtf6s9ltbw",
   "fields": {
-    "password": "pbkdf2_sha256$870000$Dm4GZ2weltCWOhzfXtZ6jc$bV7hXZI1EEWAPcYITo3RqS29OKdqixxP0hj//vybuQE=",
-    "last_login": "2025-03-16T10:38:18.435Z",
-    "is_superuser": true,
-    "username": "__yerazh__",
-    "first_name": "Ерасыл",
-    "last_name": "Жасуланов",
-    "email": "zhasulanov.erasyl@mail.ru",
-    "is_staff": true,
-    "is_active": true,
-    "date_joined": "2025-02-15T14:02:38.904Z",
-    "phone_number": "+7 (708) 822-1205",
-    "about": "аываыв",
-    "image": "uploads/WIN_20250226_13_00_52_Pro_8mfruIX.jpg",
-    "groups": [],
-    "user_permissions": [],
-    "liked_products": []
+    "session_data": ".eJxVjMEOwiAQRP-FsyEtCy316N1vIAvsWtSAKW2iMf67bdKDHmfmzXsLh8s8uqXS5FIUR9GKw2_nMdwob0O8Yr4UGUqep-Tlhsh9rfJcIt1PO_snGLGO6xs1EfugeECLLVijTA8MQWFccxwiGG86r4AYmBlVGJS2HNhEDR33m7RSralkR89Hml7iaDvdNJ8vz1tBDA:1tvc5p:sKlz70aAxmUbsF7wOoYcefrYsYXrsGykKTnhDCgyb3o",
+    "expire_date": "2025-03-22T13:07:21.421Z"
   }
 },
 {
   "model": "authpage.user",
   "fields": {
-    "password": "pbkdf2_sha256$870000$qUdoi6V7FfvwIOAgfFovG6$HRQxKIL4XyUlUKmLElvQchT4nM902DJhgoAWxwKWbyo=",
-    "last_login": "2025-02-16T11:07:10.051Z",
+    "password": "pbkdf2_sha256$870000$V2JyKw3VYwVM891AGNTu5f$4A67WBxA5evcv3uYT+0yJ8NTUENjSMonEIOX/S850LA=",
+    "last_login": "2025-03-21T14:11:57.410Z",
     "is_superuser": false,
-    "username": "mark",
+    "username": "__yerazh__",
     "first_name": "Ерасыл",
     "last_name": "Жасуланов",
     "email": "zhasulanov.erasyl@mail.ru",
     "is_staff": false,
     "is_active": true,
-    "date_joined": "2025-02-15T17:47:47.519Z",
-    "phone_number": "+7 (707) 745-4567",
+    "date_joined": "2025-03-21T14:11:53.151Z",
+    "phone_number": "+7 (708) 822-1205",
     "about": "",
-    "image": "",
+    "image": "uploads/noname_user_H3hx4RI.png",
     "groups": [],
     "user_permissions": [],
     "liked_products": []
@@ -21286,30 +21297,13 @@
 },
 {
   "model": "catalog.product",
-  "pk": 20,
-  "fields": {
-    "title": "Clothes",
-    "phone_number": "+7 708 822 1205",
-    "email": "zhasulanov.erasyl@mail.ru",
-    "cost": 100,
-    "description": "At the good state",
-    "seller": [
-      "__yerazh__"
-    ],
-    "category": 4,
-    "region": 9,
-    "city": 1367
-  }
-},
-{
-  "model": "catalog.product",
-  "pk": 21,
+  "pk": 26,
   "fields": {
     "title": "Food for cats",
     "phone_number": "+7 708 822 1205",
     "email": "zhasulanov.erasyl@mail.ru",
-    "cost": 2000,
-    "description": "Too tasty",
+    "cost": 10000,
+    "description": "Tasty and usefull for your cat's health))",
     "seller": [
       "__yerazh__"
     ],
@@ -21320,18 +21314,26 @@
 },
 {
   "model": "catalog.galleryimage",
-  "pk": 52,
+  "pk": 61,
   "fields": {
-    "image": "uploads/Снимок_экрана_286_Ep2Sb1Y.png",
-    "product": 20
+    "image": "uploads/Снимок_экрана_286_k04434e.png",
+    "product": 26
   }
 },
 {
   "model": "catalog.galleryimage",
-  "pk": 53,
+  "pk": 62,
   "fields": {
-    "image": "uploads/Снимок_экрана_285_PKcMqMy.png",
-    "product": 21
+    "image": "uploads/Снимок_экрана_287_jw52JCs.png",
+    "product": 26
+  }
+},
+{
+  "model": "catalog.galleryimage",
+  "pk": 63,
+  "fields": {
+    "image": "uploads/Снимок_экрана_284_5vitg0a.png",
+    "product": 26
   }
 }
 ]

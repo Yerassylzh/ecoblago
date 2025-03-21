@@ -13,6 +13,7 @@ class User(AbstractUser):
             PhoneNumberValidator(),
         ],
         max_length=255,
+        unique=True,
     )
 
     about = models.TextField(
