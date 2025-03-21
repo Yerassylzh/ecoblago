@@ -9,8 +9,7 @@ dotenv.load_dotenv(BASE_DIR.parent.joinpath(".env"))
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
-DEBUG_STR = os.getenv("DJANGO_DEBUG").lower()
-DEBUG = DEBUG_STR in {"true", "yes", "1", "y", "t"}
+DEBUG = True
 
 ALLOWED_HOSTS = os.getenv(
     "DJANGO_ALLOWED_HOSTS",
