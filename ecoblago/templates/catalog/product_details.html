@@ -66,6 +66,12 @@
             <div style="padding: 3px 0;">{{ object.seller.phone_number }}</div>
             <div style="padding: 3px 0;">{{ object.seller.email }}</div>
           </div>
+          <div class="buttons-wrapper">
+          {% if product.seller.id == my_user.id %}
+            <button class="delete-product-btn" style="margin-top: 1rem;">Удалить продукт</button>
+            <button class="edit-product-btn" style="margin-top: 1rem;">Редактировать продукт</button> 
+          {% endif %}
+          </div>
         </div>
         {% include 'includes/footer.html' %}
       </div>
@@ -75,6 +81,37 @@
 
 <script>
   const CSRF_TOKEN = "{{ csrf_token }}";
+
+  document.addEventListener("click", (e) => {
+    if (!eventMatches(e, ".edit-product-btn")) return;
+
+    const productId = '{{ object.id }}';
+    window.location.href = "{% url 'catalog:edit' 0 %}".replace('0', productId);
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!eventMatches(e, ".delete-product-btn")) return;
+
+    const productId = "{{ object.id }}";
+    $.ajax({
+      type: "POST",
+      url: "{% url 'catalog:product_details' 0 %}".replace('0', productId),
+      data: {
+        csrfmiddlewaretoken: CSRF_TOKEN,
+        action: "delete",
+        product_id: productId
+      },
+      success: (data) => {
+        showToast("Продукт успешно удален", true);
+        setTimeout(() => {
+          window.location.href = "{% url 'catalog:catalog' %}";
+        }, 2000);
+      },
+      error: (err) => {
+        showToast("Произошла ошибка при удалении продукта", false);
+      }
+    })
+  });
 
   document.addEventListener("click", (e) => {
     if (!eventMatches(e, ".seller-profile")) return;
@@ -110,6 +147,53 @@
 </script>
 
 <style>
+  .buttons-wrapper {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 1rem;
+    
+    margin-top: 1rem;
+  }
+
+  .delete-product-btn {
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    color: white;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    background-color: var(--red-primary);
+    border-radius: 0.25rem;
+    border: none;
+    outline: none;
+  }
+
+  .delete-product-btn:hover {
+    background-color: rgb(250, 0, 0);
+    cursor: pointer;
+  }
+
+  .edit-product-btn {
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    color: var(--text-color);
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    background-color: var(--background-color);
+    border-radius: 0.25rem;
+    border: 1.5px solid var(--red-primary);
+    outline: none;
+  }
+
+  .edit-product-btn:hover {
+    background-color: rgb(240, 240, 240);
+    cursor: pointer;
+  }
+  
   .seller-profile:hover {
     cursor: pointer;
   }

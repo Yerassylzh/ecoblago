@@ -13,6 +13,12 @@
           <h3 class="product-title">{{ product.title }}</h3>
           <p class="product-price">{{ product.cost|thousand_separator }} тг</p>
         </div>
+        <div class="like-section">
+          <i class="fa-regular fa-heart like-empty"
+            {% if product in liked_products %}style="display: none;" {% else %}style="display: block;" {% endif %}></i>
+          <i class="fa-solid fa-heart like-full"
+            {% if product in liked_products %}style="display: block;" {% else %}style="display: none;" {% endif %}></i>
+        </div>
       </div>
     </div>
   </div>
