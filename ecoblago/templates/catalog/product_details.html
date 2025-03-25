@@ -4,12 +4,8 @@
 {% load custom_filters %}
 
 {% block links %}
-<link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/catalog/product_details.css' %}?v={% now 'U' %}">
 {% endblock links %}
-
-{% block navbar %}
-{% include 'includes/navbar.html' %}
-{% endblock navbar %}
 
 {% block main %}
 <main class="txt-primary">
@@ -29,19 +25,19 @@
             </div>
           </div>
           <div class="section">
-            <p>Описание</p>
+            <p>{% trans 'Описание' %}</p>
             <hr>
             <div>{{ object.description }}</div>
           </div>
           <div class="section-seller-profile">
-            <p>Продавец</p>
+            <p>{% trans 'Продавец' %}</p>
             <hr>
             <div class="seller-profile">
               <input type="hidden" value="{{ object.seller.id }}" class="seller-id-input">
               <img src="{{ object.seller.image.url }}" alt="">
               <div class="seller-profile-name">
                 <p class="name">{{ object.seller.first_name }} {{ object.seller.last_name }}</p>
-                <p class="member-since">На ecoblago с {{ object.seller.date_joined|date:"F j, Y" }}</p>
+                <p class="member-since">{% trans 'На Ecoblago с' %} {{ object.seller.date_joined|date:"F j, Y" }}</p>
               </div>
             </div>
           </div>
@@ -51,25 +47,25 @@
             <div>{{ object.cost|thousand_separator }} тг</div>
           </div>
           <div class="section">
-            <p>Локация</p>
+            <p>{% trans 'Локация' %}</p>
             <hr>
             <div>{{ object.region|capfirst }}, {{ object.city|capfirst }}</div>
           </div>
           <div class="section">
-            <p>Категория</p>
+            <p>{% trans 'Категория' %}</p>
             <hr>
             <div>{{ object.category.name|capfirst }}</div>
           </div>
           <div class="section">
-            <p>Контакты</p>
+            <p>{% trans 'Контакты' %}</p>
             <hr>
             <div style="padding: 3px 0;">{{ object.seller.phone_number }}</div>
             <div style="padding: 3px 0;">{{ object.seller.email }}</div>
           </div>
           <div class="buttons-wrapper">
           {% if product.seller.id == my_user.id %}
-            <button class="delete-product-btn" style="margin-top: 1rem;">Удалить продукт</button>
-            <button class="edit-product-btn" style="margin-top: 1rem;">Редактировать продукт</button> 
+            <button class="delete-product-btn" style="margin-top: 1rem;">{% trans 'Удалить продукт' %}</button>
+            <button class="edit-product-btn" style="margin-top: 1rem;">{% trans 'Редактировать продукт' %}</button> 
           {% endif %}
           </div>
         </div>
@@ -80,296 +76,9 @@
 </main>
 
 <script>
-  const CSRF_TOKEN = "{{ csrf_token }}";
-
-  document.addEventListener("click", (e) => {
-    if (!eventMatches(e, ".edit-product-btn")) return;
-
-    const productId = '{{ object.id }}';
-    window.location.href = "{% url 'catalog:edit' 0 %}".replace('0', productId);
-  });
-
-  document.addEventListener("click", (e) => {
-    if (!eventMatches(e, ".delete-product-btn")) return;
-
-    const productId = "{{ object.id }}";
-    $.ajax({
-      type: "POST",
-      url: "{% url 'catalog:product_details' 0 %}".replace('0', productId),
-      data: {
-        csrfmiddlewaretoken: CSRF_TOKEN,
-        action: "delete",
-        product_id: productId
-      },
-      success: (data) => {
-        showToast("Продукт успешно удален", true);
-        setTimeout(() => {
-          window.location.href = "{% url 'catalog:catalog' %}";
-        }, 2000);
-      },
-      error: (err) => {
-        showToast("Произошла ошибка при удалении продукта", false);
-      }
-    })
-  });
-
-  document.addEventListener("click", (e) => {
-    if (!eventMatches(e, ".seller-profile")) return;
-
-    const sellerProfile = e.target.closest(".seller-profile");
-    const sellerId = parseInt(sellerProfile.querySelector(".seller-id-input").value);
-    window.location.href = "{% url 'profilepage:profilepage' '0' %}".replace('0', sellerId); // Django cannot proccess url if i use ${...}
-  });
-
-  document.addEventListener("click", (e) => {
-    if (!eventMatches(e, ".right-arrow")) return;
-
-    const imageContainer = e.target.closest(".images-container");
-    const currentInd = parseInt(imageContainer.firstElementChild.dataset.imageIndex);
-    const images = imageContainer.lastElementChild.children;
-    const nextInd = (currentInd + 1) % images.length;
-
-    imageContainer.firstElementChild.setAttribute("src", images[nextInd].getAttribute("src"));
-    imageContainer.firstElementChild.dataset.imageIndex = nextInd;
-  });
-
-  document.addEventListener("click", (e) => {
-    if (!eventMatches(e, ".left-arrow")) return;
-
-    const imageContainer = e.target.closest(".images-container");
-    const currentInd = parseInt(imageContainer.firstElementChild.dataset.imageIndex);
-    const images = imageContainer.lastElementChild.children;
-    const nextInd = (currentInd - 1 + images.length) % images.length;
-
-    imageContainer.firstElementChild.setAttribute("src", images[nextInd].getAttribute("src"));
-    imageContainer.firstElementChild.dataset.imageIndex = nextInd;
-  });
+  const PRODUCT_ID = "{{ object.id }}";
 </script>
 
-<style>
-  .buttons-wrapper {
-    width: 100%;
+<script src="{% static 'js/catalog/product_details/product_details.js' %}?v={% now 'U' %}"></script>
 
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-
-    gap: 1rem;
-    
-    margin-top: 1rem;
-  }
-
-  .delete-product-btn {
-    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
-    color: white;
-    font-size: 1rem;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    background-color: var(--red-primary);
-    border-radius: 0.25rem;
-    border: none;
-    outline: none;
-  }
-
-  .delete-product-btn:hover {
-    background-color: rgb(250, 0, 0);
-    cursor: pointer;
-  }
-
-  .edit-product-btn {
-    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
-    color: var(--text-color);
-    font-size: 1rem;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    background-color: var(--background-color);
-    border-radius: 0.25rem;
-    border: 1.5px solid var(--red-primary);
-    outline: none;
-  }
-
-  .edit-product-btn:hover {
-    background-color: rgb(240, 240, 240);
-    cursor: pointer;
-  }
-  
-  .seller-profile:hover {
-    cursor: pointer;
-  }
-
-  .seller-profile-name {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-  }
-
-  .seller-profile-name>p {
-    margin: 0;
-  }
-  .seller-profile-name>.name {
-    font-size: 1.25rem;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
-  }
-
-  .seller-profile-name>.member-since {
-    font-size: 1rem;
-    font-weight: 400;
-    font-family: 'Inter', sans-serif;
-    color: rgba(0, 0, 0, 0.5);
-  }
-
-  .seller-profile {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    margin: 1rem 0 0.3rem 0;
-  }
-
-  .seller-profile>img {
-    width: 60px;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-
-  .seller-profile>p {
-    font-size: 1.25rem;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-  }
-
-  .images-container {
-    width: 80%;
-    position: relative;
-    margin: 1rem 0;
-  }
-
-  .product-image {
-    width: 100%;
-    border-radius: 5px;
-  }
-
-  .left-arrow {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-
-    width: 25px;
-    height: 25px;
-
-    background-color: rgba(200, 200, 200, 0.5);
-    border-radius: 50%;
-    outline: none;
-    border: none;
-  }
-
-  .right-arrow {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-
-    width: 25px;
-    height: 25px;
-    background-color: rgba(200, 200, 200, 0.5);
-    border-radius: 50%;
-    outline: none;
-    border: none;
-  }
-
-  .left-arrow>i,
-  .right-arrow>i {
-    color: rgb(230, 230, 230);
-  }
-
-  .left-arrow:hover {
-    background-color: rgba(200, 200, 200, 0.7);
-  }
-
-  .right-arrow:hover {
-    background-color: rgba(200, 200, 200, 0.7);
-  }
-
-  hr {
-    margin: 0.5rem 0;
-  }
-
-  p {
-    color: var(--txt-primary);
-  }
-
-  .details-bar .section>p {
-    font-size: 1.5rem;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-  }
-
-  .section-seller-profile {
-    padding-top: 2rem;
-  }
-
-  .section-seller-profile>p {
-    font-size: 1.5rem;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-  }
-
-  .details-bar>.section {
-    padding-top: 2rem;
-  }
-
-  .details-bar {
-    width: 100%;
-    padding: 1rem 2.5rem 0 2.5rem;
-  }
-
-  .wrapper {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    background-color: var(--background-color);
-    min-height: 100vh;
-  }
-
-
-  .main-row {
-    width: 100%;
-    min-height: 100vh;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-  }
-
-  .details-bar>p {
-    font-size: 2rem;
-    font-weight: 600;
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-  }
-
-  .details-bar>.section>div {
-    font-size: 1rem;
-    font-weight: 300;
-    font-family: 'Inter', sans-serif;
-  }
-
-  body {
-    overflow-x: hidden;
-  }
-
-  textarea {
-    min-height: 250px;
-  }
-</style>
 {% endblock main %}

@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     "settingspage.apps.SettingspageConfig",
     "core.apps.CoreConfig",
     "sorl.thumbnail",
-    "django_extensions",
+    "rosetta"
 ]
 
 MIDDLEWARE = [
@@ -41,6 +41,7 @@ MIDDLEWARE = [
     "login_required.middleware.LoginRequiredMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "core.middleware.LanguageMiddleware",
 ]
 
 LOGIN_REQUIRED_IGNORE_PATHS = [
@@ -49,6 +50,8 @@ LOGIN_REQUIRED_IGNORE_PATHS = [
     r"/media/",
     r"/static/",
     r"/__debug__/",
+    r"/rosetta/",
+    r"/jsi18n/",
 ]
 
 INTERNAL_IPS = [

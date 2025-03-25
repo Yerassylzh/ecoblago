@@ -11,8 +11,8 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.db.models import ImageField
-from django.utils import translation
 from django.utils.translation import gettext as _
+from django.utils import translation
 
 from authpage.models import User
 from django.contrib.auth import logout
@@ -94,6 +94,3 @@ class SettingspageView(TemplateView):
 
         self.context = self.get_context_data()
         self.context["my_user"] = self.request.user
-
-        if translation.get_language() != self.context["lang"]:
-            translation.activate(self.context["lang"])

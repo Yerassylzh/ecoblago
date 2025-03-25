@@ -2,9 +2,11 @@ from django.contrib import admin
 from django.urls import path, include
 import django.contrib.auth.urls
 from django.conf.urls.static import static
+from django.urls import include, re_path
 from django.conf import settings
+from django.views.i18n import JavaScriptCatalog
 
-import ecoblago, authpage.urls, catalog.urls, profilepage.urls, settingspage.urls
+import ecoblago, authpage.urls, catalog.urls, profilepage.urls, settingspage.urls, rosetta.urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -15,8 +17,17 @@ urlpatterns = [
     path("settingspage/", include(settingspage.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+urlpatterns += [
+    path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
+]
+
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
         path('__debug__/', include(debug_toolbar.urls)),
+    ]
+
+if 'rosetta' in settings.INSTALLED_APPS:
+    urlpatterns += [
+        path('rosetta/', include(rosetta.urls))
     ]

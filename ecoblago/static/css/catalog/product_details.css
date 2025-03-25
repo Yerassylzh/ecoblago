@@ -1,0 +1,223 @@
+.buttons-wrapper {
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  gap: 1rem;
+
+  margin-top: 1rem;
+}
+
+.delete-product-btn {
+  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+  color: white;
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  background-color: var(--red-primary);
+  border-radius: 0.25rem;
+  border: none;
+  outline: none;
+}
+
+.delete-product-btn:hover {
+  background-color: rgb(250, 0, 0);
+  cursor: pointer;
+}
+
+.edit-product-btn {
+  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+  color: var(--text-color);
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  background-color: var(--background-color);
+  border-radius: 0.25rem;
+  border: 1.5px solid var(--red-primary);
+  outline: none;
+}
+
+.edit-product-btn:hover {
+  background-color: rgb(240, 240, 240);
+  cursor: pointer;
+}
+
+.seller-profile:hover {
+  cursor: pointer;
+}
+
+.seller-profile-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.seller-profile-name > p {
+  margin: 0;
+}
+.seller-profile-name > .name {
+  font-size: 1.25rem;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+}
+
+.seller-profile-name > .member-since {
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.seller-profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 1rem 0 0.3rem 0;
+}
+
+.seller-profile > img {
+  width: 60px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.seller-profile > p {
+  font-size: 1.25rem;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+}
+
+.images-container {
+  width: 80%;
+  position: relative;
+  margin: 1rem 0;
+}
+
+.product-image {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.left-arrow {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+
+  width: 25px;
+  height: 25px;
+
+  background-color: rgba(200, 200, 200, 0.5);
+  border-radius: 50%;
+  outline: none;
+  border: none;
+}
+
+.right-arrow {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+
+  width: 25px;
+  height: 25px;
+  background-color: rgba(200, 200, 200, 0.5);
+  border-radius: 50%;
+  outline: none;
+  border: none;
+}
+
+.left-arrow > i,
+.right-arrow > i {
+  color: rgb(230, 230, 230);
+}
+
+.left-arrow:hover {
+  background-color: rgba(200, 200, 200, 0.7);
+}
+
+.right-arrow:hover {
+  background-color: rgba(200, 200, 200, 0.7);
+}
+
+hr {
+  margin: 0.5rem 0;
+}
+
+p {
+  color: var(--txt-primary);
+}
+
+.details-bar .section > p {
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+}
+
+.section-seller-profile {
+  padding-top: 2rem;
+}
+
+.section-seller-profile > p {
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+}
+
+.details-bar > .section {
+  padding-top: 2rem;
+}
+
+.details-bar {
+  width: 100%;
+  padding: 1rem 2.5rem 0 2.5rem;
+}
+
+.wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: var(--background-color);
+  min-height: 100vh;
+}
+
+.main-row {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.details-bar > p {
+  font-size: 2rem;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+}
+
+.details-bar > .section > div {
+  font-size: 1rem;
+  font-weight: 300;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+textarea {
+  min-height: 250px;
+}

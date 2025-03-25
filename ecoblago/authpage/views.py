@@ -29,9 +29,6 @@ class AuthpageView(LoginNotRequiredMixin, TemplateView):
         self.context = self.get_context_data(*args, **kwargs)
         self.context_ajax = self.get_context_ajax(*args, **kwargs)
 
-        if translation.get_language() != self.context["lang"]:
-            translation.activate(self.context["lang"])
-
     def get_context_ajax(self, *args, **kwargs):
         context = {}
         return context
@@ -46,6 +43,8 @@ class AuthpageView(LoginNotRequiredMixin, TemplateView):
 
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:
+            if self.context["next"].startswith("/rosetta/") and not self.request.user.is_superuser:
+                return HttpResponse("You are not allowed to access this page", status=404)
             return redirect(self.context["next"])
 
         elif "action" in self.request.GET:

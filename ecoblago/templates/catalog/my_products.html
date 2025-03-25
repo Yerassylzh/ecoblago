@@ -1,13 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block links %}
-<link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/catalog/my_products.css' %}?v={% now 'U' %}">
 {% endblock links %}
-
-{% block navbar %}
-{% include 'includes/navbar.html' %}
-{% endblock navbar %}
 
 {% block main %}
 <main class="txt-primary">
@@ -28,89 +25,8 @@
     --background-color: var(--body-color) !important;
     --widget-color: rgb(40, 40, 40);
   }
-
-  .product-image:hover {
-    cursor: pointer;
-  }
 </style>
 
-<script>
-  document.addEventListener("click", (e) => {
-    if (!eventMatches(e, ".product-image")) {
-      return;
-    }
-
-    const productId = e.target.closest(".product-image").previousElementSibling.value;
-    window.location.href = `/catalog/product_details/${productId}`;
-  });
-  
-</script>
-
-<style>
-  .main-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    min-height: 80vh;
-    padding: 1.5rem 2rem;
-  }
-
-  body {
-    overflow-x: hidden;
-  }
-
-  .products {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
-  .product {
-    margin: 0;
-    padding: 0;
-    border-radius: 0.75rem;
-    background-color: var(--widget-color);
-    margin-bottom: 1rem;
-  }
-
-  .product-image img {
-    border-radius: 0.75rem 0.75rem 0 0;
-    width: 100%;
-    aspect-ratio: 460/300;
-  }
-
-  .text-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 100%;
-  }
-
-  .like-section {
-    height: 100%;
-  }
-
-  .product-info {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 0.25rem 0.5rem 1.75rem 0.5rem;
-  }
-
-  .product-title {
-    font-size: 1.25rem;
-    font-weight: 500;
-    margin: 0;
-  }
-
-  .product-price {
-    font-size: 1rem;
-    font-weight: 300;
-    margin: 0;
-  }
-</style>
+<script src="{% static 'js/catalog/my_products/my_products.js' %}?v={% now 'U' %}"></script>
 
 {% endblock main %}

@@ -1,4 +1,5 @@
 {% load custom_filters %}
+{% load i18n %}
 
 <div class="products row">
   {% for product in object_list %}
@@ -10,7 +11,7 @@
       </div>
       <div class="product-info">
         <div class="text-section">
-          <h3 class="product-title">{{ product.title }}</h3>
+            <h3 class="product-title">{{ product.title|truncatechars:19 }}</h3>
           <p class="product-price">{{ product.cost|thousand_separator }} тг</p>
         </div>
         <div class="like-section">

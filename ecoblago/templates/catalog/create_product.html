@@ -4,14 +4,6 @@
 
 {% load custom_filters %}
 
-{% block links %}
-<link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}">
-{% endblock links %}
-
-{% block navbar %}
-{% include 'includes/navbar.html' %}
-{% endblock navbar %}
-
 {% block main %}
 
 {% include 'includes/catalog/create_product.html' %}
@@ -19,54 +11,6 @@
 {{ regions|json_script:"regions-data" }}
 {{ categories|json_script:"categories-data" }}
 
-<script>
-  const regionsJson = JSON.parse(document.getElementById('regions-data').textContent);
-  const regions = Array.from(regionsJson);
-
-  const categoriesJson = JSON.parse(document.getElementById('categories-data').textContent);
-  const categories = Array.from(categoriesJson);
-
-
-  // Sending request to create a product
-  function createProduct() {
-    let formData = getProductFormData();
-    formData.append("csrfmiddlewaretoken", CSRF_TOKEN);
-    formData.append("action", "create-product");
-
-    $.ajax({
-      method: "POST",
-      url: "{% url 'catalog:create' %}",
-      data: formData,
-      dataType: "json",
-      processData: false,
-      contentType: false,
-      beforeSend: function () {
-        $("#publish-btn").text("Подождите...");
-        $("#publish-btn").attr("disabled", "true");
-      },
-      success: (data) => {
-        const success = data["success"];
-        if (success) {
-          showToast("Обявление успешно добавлено", true);
-          setTimeout(() => {
-            window.location.href = "{% url 'catalog:catalog' %}";
-          }, 3000);
-        } else {
-          showToast(data["error"], false);
-        }
-      },
-      error: function (xhr, errmsg, err) {
-        console.log(xhr.status + ":" + xhr.responseText)
-        showToast("Произошла ошибка при добавлении обявления", false);
-      },
-      complete: function () {
-        $("#publish-btn").text("Подать обявление");
-        $("#publish-btn").removeAttr("disabled");
-      }
-    })
-  }
-
-  $("#publish-btn").on("click", createProduct);
-</script>
+<script src="{% static 'js/catalog/create_product/create_product.js' %}?v={% now 'U' %}"></script>
 
 {% endblock main %}

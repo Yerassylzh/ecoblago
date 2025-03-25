@@ -4,12 +4,11 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, TemplateView, DetailView
 from django.http import HttpRequest, HttpResponse, JsonResponse, HttpResponseForbidden
 from django.forms.models import model_to_dict
-from django.db.models.functions import Lower
-from django.db.models import Q
-from django.db.models import Prefetch
 
 from catalog.models import Product, Region, Category, City, GalleryImage
 from catalog.forms import ProductForm
+
+from django.utils.translation import get_language, activate
 
 
 class CatalogView(ListView):
@@ -18,8 +17,11 @@ class CatalogView(ListView):
     
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
-        self.object_list = Product.objects.prefetch_related("gallery_images").all()
+        self.object_list = self.get_queryset()
         self.context = self.get_context_data()
+
+    def get_queryset(self):
+        return Product.objects.prefetch_related("gallery_images").all()
 
     def post(self, request: HttpRequest) -> Union[HttpResponse, JsonResponse]:
         if "action" in self.request.POST:
@@ -34,18 +36,18 @@ class CatalogView(ListView):
         action = self.request.POST.get("action")
         if action == "add-product-to-favourites":
             return self.add_product_to_favourites()
-        elif action == "remove-product-from-favourites":
+        if action == "remove-product-from-favourites":
             return self.remove_product_from_favourites()
-        elif action == "filter-products":
+        if action == "filter-products":
             return self.get_filtered_products()
 
     def handle_ajax_get(self) -> JsonResponse:
         action = self.request.GET["action"]
         if action == "get-regions":
             return self.get_all_regions()
-        elif action == "get-cities":
+        if action == "get-cities":
             return self.get_cities()
-        elif action == "get-categories":
+        if action == "get-categories":
             return self.get_categories()
 
     def add_product_to_favourites(self) -> JsonResponse:
@@ -76,27 +78,31 @@ class CatalogView(ListView):
         return JsonResponse({"success": True, "categories": [category.name for category in Category.objects.all()]})
 
     def get_filtered_products(self) -> JsonResponse:
-        search_text = self.request.POST.get("content")
-        region_name = self.request.POST.get("region")
-        city_name = self.request.POST.get("city")
+        search_text = self.request.POST.get("content").strip()
+        region_name = self.request.POST.get("region").strip()
+        city_name = self.request.POST.get("city").strip()
         min_cost = int(self.request.POST.get("min-cost"))
         max_cost = int(self.request.POST.get("max-cost"))
         category_names = self.request.POST.getlist("categories[]")
-        sorting_rule = self.request.POST.get("sorting-rule")
+        sorting_rule = self.request.POST.get("sorting-rule").strip()
 
         kwargs = {}
         if region_name and city_name:
             kwargs["region__name"] = region_name
             kwargs["city__name"] = city_name
+        
+        if len(search_text) > 0:
+            kwargs["description__icontains"] = search_text
+
+        if len(category_names) > 0:
+            kwargs["category__name__in"] = category_names
 
         queryset = (
-            Product
-            .objects
+            self
+            .object_list
             .filter(
-                description__icontains=search_text,
                 cost__gte=min_cost,
                 cost__lte=max_cost,
-                category__name__in=category_names,
                 **kwargs,
             )
             .prefetch_related("gallery_images", "liked_by")
@@ -260,7 +266,7 @@ class ProductDetailsView(DetailView):
         context["my_user"] = self.request.user
         context["theme"] = self.request.COOKIES.get("theme", "light")
         context["lang"] = self.request.COOKIES.get("lang", "ru")
-
+    
         return context
 
 
@@ -294,7 +300,6 @@ class EditProductView(DetailView):
 
         form = ProductForm(self.request.POST, self.request.FILES, instance=self.object)
         if form.is_valid():
-            print(form.instance)
             form.instance.seller = self.request.user
             form.instance.gallery_images.all().delete()
             form.save()

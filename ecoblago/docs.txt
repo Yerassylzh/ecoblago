@@ -18,6 +18,9 @@
 
 
 
-how to dump data to fixtures:
-
+How to dump data to fixtures:
 python -Xutf8 manage.py dumpdata --natural-foreign --natural-primary -e contenttypes -e auth.Permission --indent 2 > fixtures/data.json
+
+Crucial step when configuring JavaScriptCatalog view:
+python manage.py makemessages -d djangojs --all
+python manage.py compilemessages

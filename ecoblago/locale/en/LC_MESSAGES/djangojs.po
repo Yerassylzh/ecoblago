@@ -1,0 +1,273 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-03-25 17:07+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\static\js\catalog\catalog\more_filters.js:1
+
+
+msgid "Настройки"
+msgstr "Settings"
+
+msgid "Безопасность"
+msgstr "Security"
+
+msgid "Изменить пароль"
+msgstr "Change password"
+
+msgid "Экоблаго"
+msgstr "Ecoblago"
+
+msgid "Новый пароль"
+msgstr "New password"
+
+msgid "Подтвердите новый пароль"
+msgstr "Confirm new password"
+
+msgid "Подтвердить"
+msgstr "Confirm"
+
+msgid "Цветовая тема"
+msgstr "Color theme"
+
+msgid "Светлая"
+msgstr "Light"
+
+msgid "Темная"
+msgstr "Dark"
+
+msgid "Язык"
+msgstr "Language"
+
+msgid "Казахский"
+msgstr "Kazakh"
+
+msgid "Русский"
+msgstr "Russian"
+
+msgid "Английский"
+msgstr "English"
+
+msgid "Аккаунт"
+msgstr "Account"
+
+msgid "Выйти с аккаунта"
+msgstr "Log out"
+
+msgid "Удалить аккаунт"
+msgstr "Delete account"
+
+msgid "Вход"
+msgstr ""
+
+msgid "Регистрация"
+msgstr ""
+
+msgid "Локация"
+msgstr ""      
+
+
+msgid "Product was removed from favorites"
+msgstr ""
+
+
+msgid "Описание"
+msgstr ""
+
+
+msgid "Контакты"
+msgstr ""
+
+
+msgid "Название товара"
+msgstr ""
+
+
+msgid "Мы — платформа, где можно делиться вещами и продуктами с нуждающимися, помогая людям и экологии. Удобный сервис для благотворительности и перераспределения ресурсов. Помогайте легко: размещайте вещи, которые не нужны вам, но пригодятся другим."
+msgstr ""
+
+
+msgid "Ссылки"
+msgstr ""
+
+
+msgid "Редактировать продукт"
+msgstr ""
+
+
+msgid "Не найдено товаров по вашему запросу"
+msgstr ""
+
+
+msgid "Продавец"
+msgstr ""
+
+
+msgid "Обявление успешно добавлено"
+msgstr ""
+
+
+msgid "Product was added to favorites"
+msgstr ""
+
+
+msgid "Сохранить"
+msgstr ""
+
+
+msgid "Изменить"
+msgstr ""
+
+
+msgid "Почта"
+msgstr ""
+
+
+msgid "Произошла ошибка при сохранении изменений"
+msgstr ""
+
+
+msgid "Произошла ошибка при получении городов"
+msgstr ""
+
+
+msgid "Не удалось получить список городов"
+msgstr ""
+
+
+msgid "Сохранить изменения"
+msgstr ""
+
+
+msgid "Номер телефона"
+msgstr ""
+
+
+msgid "Произошла ошибка при фильтрации товаров"
+msgstr ""
+
+
+msgid "Город"
+msgstr ""
+
+
+msgid "Продукт успешно удален"
+msgstr ""
+
+
+msgid "Фильтры были сохранены"
+msgstr ""
+
+
+msgid "Цена"
+msgstr ""
+
+
+msgid "Что ищете?"
+msgstr ""
+
+
+msgid "Вся страна"
+msgstr ""
+
+
+msgid "Product was not added to favorites"
+msgstr ""
+
+
+msgid "Удалить продукт"
+msgstr ""
+
+
+msgid "Фото"
+msgstr ""
+
+
+msgid "Изменить изображение"
+msgstr ""
+
+
+msgid "Изменения успешно сохранены"
+msgstr ""
+
+
+msgid "Категория"
+msgstr ""
+
+
+msgid "Product was not removed from favorites"
+msgstr ""
+
+
+msgid "Сортировка"
+msgstr ""
+
+
+msgid "Подождите"
+msgstr ""
+
+
+msgid "Поиск"
+msgstr ""
+
+
+msgid "Создать обьявление"
+msgstr ""
+
+
+msgid "Название"
+msgstr ""
+
+
+msgid "О себе"
+msgstr ""
+
+
+msgid "Редактирование обявления"
+msgstr ""
+
+
+msgid "Подать обявление"
+msgstr ""
+
+
+msgid "На ecoblago с"
+msgstr ""
+
+
+msgid "Наша цель — сделать мир добрее и экологичнее, объединяя людей для взаимной помощи."
+msgstr ""
+
+
+msgid "Все просто, быстро и доступно."
+msgstr ""
+
+
+msgid "Мои обявление"
+msgstr ""
+
+
+msgid "Произошла ошибка при удалении продукта"
+msgstr ""
+
+
+msgid "Произошла ошибка при добавлении обявления"
+msgstr ""
+
+
+msgid "Добавить фото"
+msgstr ""

@@ -1,17 +1,21 @@
 {% load static %}
+{% load i18n %}
+
+{% block link %}
+  <link rel="stylesheet" href="{% static 'css/includes/footer.css' %}?v={% now 'U' %}">
+{% endblock link %}
 
 <div class="footer">
   <img src="{% static 'img/ecoblago.png' %}" alt="Экоблаго" style="width: 90px; height: 90px;">
-  <label class="brand-name">Экоблаго</label>
+  <label class="brand-name">{% trans 'Экоблаго' %}</label>
   <p class="footer-description">
-    Мы — платформа, где можно делиться вещами и продуктами с нуждающимися, помогая людям и экологии. Удобный сервис для благотворительности и перераспределения ресурсов.
-    Помогайте легко: размещайте вещи, которые не нужны вам, но пригодятся другим.
+    {% trans 'Мы — платформа, где можно делиться вещами и продуктами с нуждающимися, помогая людям и экологии. Удобный сервис для благотворительности и перераспределения ресурсов. Помогайте легко: размещайте вещи, которые не нужны вам, но пригодятся другим.' %}
   </p>
   <p class="footer-description">
-    Все просто, быстро и доступно.
+    {% trans 'Все просто, быстро и доступно.' %}
   </p>
   <p class="footer-description">
-    Наша цель — сделать мир добрее и экологичнее, объединяя людей для взаимной помощи.
+    {% trans 'Наша цель — сделать мир добрее и экологичнее, объединяя людей для взаимной помощи.' %}
   </p>
   <div class="links-section">
     <p class="footer-description" style="font-size: 1.2rem; font-weight: 400; margin-top: 1.5rem;">
@@ -23,88 +27,4 @@
       <a class="link">Figma</a>  
     </div>
   </div>
-
 </div>
-
-<style>
-  .links-section {
-    width: fit-content;
-  }
-
-  .transparent-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-  }
-
-  .link {
-    cursor: pointer;
-  }
-
-  .link {
-    font-size: 1rem;
-    color: rgb(247, 247, 247);
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    text-decoration: none;
-  }
-
-  .link:hover {
-    text-decoration: underline;
-  }
-
-  .link-container {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    align-items: center;
-  }
-
-  .links {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-    width: 100%;
-  }
-
-  .footer {
-    background-color: #24C276;
-    text-align: center;
-    padding: 2rem 3.75rem 4rem 3.75rem;
-    font-size: 1.1rem;
-    font-family: 'Inter', sans-serif;
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    
-    bottom: 0;
-    margin: 100px 0 0 0;
-    
-    text-align: center;
-  }
-
-  .brand-name {
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-  }
-
-  .footer-description {
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    margin: 0;
-
-    font-weight: 300;
-    font-family: 'Inter', sans-serif;
-  }
-</style>

@@ -70,3 +70,204 @@ msgstr "Выйти с аккаунта"
 
 msgid "Удалить аккаунт"
 msgstr "Удалить аккаунт"
+
+msgid "Вход"
+msgstr ""
+
+msgid "Регистрация"
+msgstr ""
+
+msgid "Локация"
+msgstr ""      
+
+
+msgid "Product was removed from favorites"
+msgstr ""
+
+
+msgid "Описание"
+msgstr ""
+
+
+msgid "Контакты"
+msgstr ""
+
+
+msgid "Название товара"
+msgstr ""
+
+
+msgid "Мы — платформа, где можно делиться вещами и продуктами с нуждающимися, помогая людям и экологии. Удобный сервис для благотворительности и перераспределения ресурсов. Помогайте легко: размещайте вещи, которые не нужны вам, но пригодятся другим."
+msgstr ""
+
+
+msgid "Ссылки"
+msgstr ""
+
+
+msgid "Редактировать продукт"
+msgstr ""
+
+
+msgid "Не найдено товаров по вашему запросу"
+msgstr ""
+
+
+msgid "Продавец"
+msgstr ""
+
+
+msgid "Обявление успешно добавлено"
+msgstr ""
+
+
+msgid "Product was added to favorites"
+msgstr ""
+
+
+msgid "Сохранить"
+msgstr ""
+
+
+msgid "Изменить"
+msgstr ""
+
+
+msgid "Почта"
+msgstr ""
+
+
+msgid "Произошла ошибка при сохранении изменений"
+msgstr ""
+
+
+msgid "Произошла ошибка при получении городов"
+msgstr ""
+
+
+msgid "Не удалось получить список городов"
+msgstr ""
+
+
+msgid "Сохранить изменения"
+msgstr ""
+
+
+msgid "Номер телефона"
+msgstr ""
+
+
+msgid "Произошла ошибка при фильтрации товаров"
+msgstr ""
+
+
+msgid "Город"
+msgstr ""
+
+
+msgid "Продукт успешно удален"
+msgstr ""
+
+
+msgid "Фильтры были сохранены"
+msgstr ""
+
+
+msgid "Цена"
+msgstr ""
+
+
+msgid "Что ищете?"
+msgstr ""
+
+
+msgid "Вся страна"
+msgstr ""
+
+
+msgid "Product was not added to favorites"
+msgstr ""
+
+
+msgid "Удалить продукт"
+msgstr ""
+
+
+msgid "Фото"
+msgstr ""
+
+
+msgid "Изменить изображение"
+msgstr ""
+
+
+msgid "Изменения успешно сохранены"
+msgstr ""
+
+
+msgid "Категория"
+msgstr ""
+
+
+msgid "Product was not removed from favorites"
+msgstr ""
+
+
+msgid "Сортировка"
+msgstr ""
+
+
+msgid "Подождите"
+msgstr ""
+
+
+msgid "Поиск"
+msgstr ""
+
+
+msgid "Создать обьявление"
+msgstr ""
+
+
+msgid "Название"
+msgstr ""
+
+
+msgid "О себе"
+msgstr ""
+
+
+msgid "Редактирование обявления"
+msgstr ""
+
+
+msgid "Подать обявление"
+msgstr ""
+
+
+msgid "На ecoblago с"
+msgstr ""
+
+
+msgid "Наша цель — сделать мир добрее и экологичнее, объединяя людей для взаимной помощи."
+msgstr ""
+
+
+msgid "Все просто, быстро и доступно."
+msgstr ""
+
+
+msgid "Мои обявление"
+msgstr ""
+
+
+msgid "Произошла ошибка при удалении продукта"
+msgstr ""
+
+
+msgid "Произошла ошибка при добавлении обявления"
+msgstr ""
+
+
+msgid "Добавить фото"
+msgstr ""
