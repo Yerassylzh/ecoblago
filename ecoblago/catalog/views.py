@@ -120,7 +120,6 @@ class CatalogView(ListView):
 
         products = []
         for product in queryset:
-            dct = model_to_dict(product)
             dct = {
                 "is_liked": product in self.context["liked_products"],
                 "title": product.title,
