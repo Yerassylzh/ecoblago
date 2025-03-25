@@ -7,7 +7,9 @@
     <div class="product">
       <input type="hidden" class="product-id-input" value="{{ product.id }}">
       <div class="product-image">
-        <img src="{{ product.gallery_images.first.image.url }}" alt="product">
+      {% with first_image=product.gallery_images.all|get_item_at:0 %}
+        <img src="{{ first_image.image.url }}" alt="product">
+      {% endwith %}
       </div>
       <div class="product-info">
         <div class="text-section">

@@ -70,6 +70,7 @@ function onFindProductsClicked() {
         city = second;
     }
 
+    filterSettings.content = search;
     filterSettings.region = region;
     filterSettings.city = city;
 

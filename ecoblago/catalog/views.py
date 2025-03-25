@@ -4,11 +4,13 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, TemplateView, DetailView
 from django.http import HttpRequest, HttpResponse, JsonResponse, HttpResponseForbidden
 from django.forms.models import model_to_dict
+from django.db.models import Prefetch
 
 from catalog.models import Product, Region, Category, City, GalleryImage
 from catalog.forms import ProductForm
 
 from django.utils.translation import get_language, activate
+from django.db.models import Q
 
 
 class CatalogView(ListView):
@@ -21,7 +23,14 @@ class CatalogView(ListView):
         self.context = self.get_context_data()
 
     def get_queryset(self):
-        return Product.objects.prefetch_related("gallery_images").all()
+        return (
+            Product
+            .objects
+            .prefetch_related(
+                "gallery_images",
+            )
+            .only("id", "title", "cost")
+        )
 
     def post(self, request: HttpRequest) -> Union[HttpResponse, JsonResponse]:
         if "action" in self.request.POST:
@@ -87,12 +96,13 @@ class CatalogView(ListView):
         sorting_rule = self.request.POST.get("sorting-rule").strip()
 
         kwargs = {}
+        args = []
         if region_name and city_name:
             kwargs["region__name"] = region_name
             kwargs["city__name"] = city_name
         
         if len(search_text) > 0:
-            kwargs["description__icontains"] = search_text
+            args.append(Q(description__icontains=search_text) | Q(title__icontains=search_text))
 
         if len(category_names) > 0:
             kwargs["category__name__in"] = category_names
@@ -101,19 +111,23 @@ class CatalogView(ListView):
             self
             .object_list
             .filter(
+                *args,
                 cost__gte=min_cost,
                 cost__lte=max_cost,
                 **kwargs,
             )
-            .prefetch_related("gallery_images", "liked_by")
         )
 
         products = []
         for product in queryset:
             dct = model_to_dict(product)
-            dct["is_liked"] = self.request.user in product.liked_by.all()
-            dct["main_image"] = {
-                "url": product.gallery_images.all().first().image.url,
+            dct = {
+                "is_liked": product in self.context["liked_products"],
+                "title": product.title,
+                "cost": product.cost,
+                "main_image": {
+                    "url": product.gallery_images.all()[0].image.url,
+                }
             }
             products.append(dct)
 
@@ -165,8 +179,11 @@ class CreateProductView(TemplateView):
         if form.is_valid():
             form.instance.seller = self.request.user
             form.save()
-            for gallery_image in gallery_images:
-                GalleryImage.objects.create(image=gallery_image, product=form.instance)
+            gallery_images_list = [
+                GalleryImage(image=image, product=form.instanse)
+                for image in gallery_images
+            ]
+            GalleryImage.objects.bulk_create(gallery_images_list)
             return JsonResponse({"success": True})
 
         if len(form.errors) > 0:

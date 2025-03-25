@@ -15,3 +15,10 @@ def to_int(value):
         return int(value)
     except (ValueError, TypeError):
         return value
+
+@register.filter
+def get_item_at(lst, index):
+    try:
+        return lst[index]
+    except (IndexError, TypeError):
+        return None
