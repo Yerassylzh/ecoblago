@@ -2,6 +2,7 @@
 {% load static %}
 {% load i18n %}
 
+{% block navbar %}{% include 'includes/navbar.html' %}{% endblock navbar %}
 {% block links %}
   <link rel="stylesheet" href="{% static 'css/catalog/my_products.css' %}?v={% now 'U' %}">
 {% endblock links %}

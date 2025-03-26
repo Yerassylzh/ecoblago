@@ -77,4 +77,8 @@
 
   font-weight: 300;
   font-family: "Inter", sans-serif;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }

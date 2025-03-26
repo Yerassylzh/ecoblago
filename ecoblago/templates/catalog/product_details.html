@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="{% static 'css/catalog/product_details.css' %}?v={% now 'U' %}">
 {% endblock links %}
 
+{% block navbar %}{% include 'includes/navbar.html' %}{% endblock navbar %}
+
 {% block main %}
 <main class="txt-primary">
   <div class="row main-row">
@@ -37,12 +39,12 @@
               <img src="{{ object.seller.image.url }}" alt="">
               <div class="seller-profile-name">
                 <p class="name">{{ object.seller.first_name }} {{ object.seller.last_name }}</p>
-                <p class="member-since">{% trans 'На Ecoblago с' %} {{ object.seller.date_joined|date:"F j, Y" }}</p>
+                <p class="member-since">{% trans 'На ecoblago с' %} {{ object.seller.date_joined|date:"F j, Y" }}</p>
               </div>
             </div>
           </div>
           <div class="section">
-            <p>Цена</p>
+            <p>{% trans 'Цена' %}</p>
             <hr>
             <div>{{ object.cost|thousand_separator }} тг</div>
           </div>

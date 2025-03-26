@@ -1,4 +1,13 @@
-<div class="input-field-wrapper">
+{% load i18n %}
+
+<div class="input-field-wrapper personal-info-input-wrapper">
   <input placeholder="{{ input_field.title }}" type="text" value="{{ input_field.content }}" readonly>
   <div>{{ input_field.title }}</div>
 </div>
+
+<script>
+  document.querySelectorAll(".personal-info-input-wrapper").forEach(element => {
+    const lastChild = element.lastElementChild;
+    lastChild.textContent = gettext(lastChild.textContent);
+  });
+</script>

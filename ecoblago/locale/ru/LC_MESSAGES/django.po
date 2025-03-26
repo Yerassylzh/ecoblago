@@ -9,16 +9,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-02-07 13:01+0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2025-03-26 22:09+0000\n"
+"Last-Translator: Ерасыл Жасуланов <zhasulanov.erasyl@mail.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"X-Translated-Using: django-rosetta 0.10.1\n"
 
 msgid "Настройки"
 msgstr "Настройки"
@@ -72,202 +71,202 @@ msgid "Удалить аккаунт"
 msgstr "Удалить аккаунт"
 
 msgid "Вход"
-msgstr ""
+msgstr "Вход"
 
 msgid "Регистрация"
-msgstr ""
+msgstr "Регистрация"
 
 msgid "Локация"
-msgstr ""      
-
+msgstr "Локация"
 
 msgid "Product was removed from favorites"
-msgstr ""
-
+msgstr "Товар был удален из избранного"
 
 msgid "Описание"
-msgstr ""
-
+msgstr "Описание"
 
 msgid "Контакты"
-msgstr ""
-
+msgstr "Контакты"
 
 msgid "Название товара"
+msgstr "Название товара"
+
+msgid ""
+"Мы — платформа, где можно делиться вещами и продуктами с нуждающимися, "
+"помогая людям и экологии. Удобный сервис для благотворительности и "
+"перераспределения ресурсов. Помогайте легко: размещайте вещи, которые не "
+"нужны вам, но пригодятся другим."
 msgstr ""
-
-
-msgid "Мы — платформа, где можно делиться вещами и продуктами с нуждающимися, помогая людям и экологии. Удобный сервис для благотворительности и перераспределения ресурсов. Помогайте легко: размещайте вещи, которые не нужны вам, но пригодятся другим."
-msgstr ""
-
+"Мы — платформа, где можно делиться вещами и продуктами с нуждающимися, "
+"помогая людям и экологии. Удобный сервис для благотворительности и "
+"перераспределения ресурсов. Помогайте легко: размещайте вещи, которые не "
+"нужны вам, но пригодятся другим."
 
 msgid "Ссылки"
-msgstr ""
-
+msgstr "Ссылки"
 
 msgid "Редактировать продукт"
-msgstr ""
-
+msgstr "Редактировать продукт"
 
 msgid "Не найдено товаров по вашему запросу"
-msgstr ""
-
+msgstr "Не найдено товаров по вашему запросу"
 
 msgid "Продавец"
-msgstr ""
-
+msgstr "Продавец"
 
 msgid "Обявление успешно добавлено"
-msgstr ""
-
+msgstr "Обявление успешно добавлено"
 
 msgid "Product was added to favorites"
-msgstr ""
-
+msgstr "Товар был добавлен в избранное"
 
 msgid "Сохранить"
-msgstr ""
-
+msgstr "Сохранить"
 
 msgid "Изменить"
-msgstr ""
-
+msgstr "Изменить"
 
 msgid "Почта"
-msgstr ""
-
+msgstr "Почта"
 
 msgid "Произошла ошибка при сохранении изменений"
-msgstr ""
-
+msgstr "Произошла ошибка при сохранении изменений"
 
 msgid "Произошла ошибка при получении городов"
-msgstr ""
-
+msgstr "Произошла ошибка при получении городов"
 
 msgid "Не удалось получить список городов"
-msgstr ""
-
+msgstr "Не удалось получить список городов"
 
 msgid "Сохранить изменения"
-msgstr ""
-
+msgstr "Сохранить изменения"
 
 msgid "Номер телефона"
-msgstr ""
-
+msgstr "Номер телефона"
 
 msgid "Произошла ошибка при фильтрации товаров"
-msgstr ""
-
+msgstr "Произошла ошибка при фильтрации товаров"
 
 msgid "Город"
-msgstr ""
-
+msgstr "Город"
 
 msgid "Продукт успешно удален"
-msgstr ""
-
+msgstr "Продукт успешно удален"
 
 msgid "Фильтры были сохранены"
-msgstr ""
-
+msgstr "Фильтры были сохранены"
 
 msgid "Цена"
-msgstr ""
-
+msgstr "Цена"
 
 msgid "Что ищете?"
-msgstr ""
-
+msgstr "Что ищете?"
 
 msgid "Вся страна"
-msgstr ""
-
+msgstr "Вся страна"
 
 msgid "Product was not added to favorites"
-msgstr ""
-
+msgstr "Товар не был добавлен в избранное"
 
 msgid "Удалить продукт"
-msgstr ""
-
+msgstr "Удалить продукт"
 
 msgid "Фото"
-msgstr ""
-
+msgstr "Фото"
 
 msgid "Изменить изображение"
-msgstr ""
-
+msgstr "Изменить изображение"
 
 msgid "Изменения успешно сохранены"
-msgstr ""
-
+msgstr "Изменения успешно сохранены"
 
 msgid "Категория"
-msgstr ""
-
+msgstr "Категория"
 
 msgid "Product was not removed from favorites"
-msgstr ""
-
+msgstr "Товар не был удален из избранного"
 
 msgid "Сортировка"
-msgstr ""
-
+msgstr "Сортировка"
 
 msgid "Подождите"
-msgstr ""
-
+msgstr "Подождите"
 
 msgid "Поиск"
-msgstr ""
-
+msgstr "Поиск"
 
 msgid "Создать обьявление"
-msgstr ""
-
+msgstr "Создать обьявление"
 
 msgid "Название"
-msgstr ""
-
+msgstr "Название"
 
 msgid "О себе"
-msgstr ""
-
+msgstr "О себе"
 
 msgid "Редактирование обявления"
-msgstr ""
-
+msgstr "Редактирование обявления"
 
 msgid "Подать обявление"
-msgstr ""
-
+msgstr "Подать обявление"
 
 msgid "На ecoblago с"
+msgstr "На Экоблаго с"
+
+msgid ""
+"Наша цель — сделать мир добрее и экологичнее, объединяя людей для взаимной "
+"помощи."
 msgstr ""
-
-
-msgid "Наша цель — сделать мир добрее и экологичнее, объединяя людей для взаимной помощи."
-msgstr ""
-
+"Наша цель — сделать мир добрее и экологичнее, объединяя людей для взаимной "
+"помощи."
 
 msgid "Все просто, быстро и доступно."
-msgstr ""
-
+msgstr "Все просто, быстро и доступно."
 
 msgid "Мои обявление"
-msgstr ""
-
+msgstr "Мои обявление"
 
 msgid "Произошла ошибка при удалении продукта"
-msgstr ""
-
+msgstr "Произошла ошибка при удалении продукта"
 
 msgid "Произошла ошибка при добавлении обявления"
-msgstr ""
-
+msgstr "Произошла ошибка при добавлении обявления"
 
 msgid "Добавить фото"
-msgstr ""
+msgstr "Добавить фото"
+
+msgid "Категории"
+msgstr "Категории"
+
+msgid "Min Price"
+msgstr "Минимум"
+
+msgid "Max Price"
+msgstr "Максимум"
+
+msgid "Имя"
+msgstr "Имя"
+
+msgid "Фамилия"
+msgstr "Фамилия"
+
+msgid "Электронная почта"
+msgstr "Электронная почта"
+
+msgid "Хэндл"
+msgstr "Хэндл"
+
+msgid "Цена товара"
+msgstr "Цена товара"
+
+msgid "Местоположение"
+msgstr "Местоположение"
+
+msgid "Регион"
+msgstr "Регион"
+
+msgid "Город"
+msgstr "Город"
+
+msgid "Опубликовать"
+msgstr "Опубликовать"

@@ -9,6 +9,8 @@
 <title>Профиль {{ user.first_name }} {{ user.last_name }}</title>
 {% endblock links %}
 
+{% block navbar %}{% include 'includes/navbar.html' %}{% endblock navbar %}
+
 {% block main %}
 <main class="txt-primary">
   <div class="row main-row">
@@ -53,6 +55,7 @@
             </div>
           </div>
 
+          {% comment %}
           <div class="additional-data">
             <div class="additional-info">
               <p class="additional-info-tag">Отзывы</p>
@@ -69,6 +72,7 @@
               </div>
             </div>
           </div>
+          {% endcomment %}
         </div>
         {% include 'includes/footer.html' %}
       </div>

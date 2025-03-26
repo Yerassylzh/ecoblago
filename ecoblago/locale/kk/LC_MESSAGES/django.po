@@ -9,16 +9,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-02-07 13:01+0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2025-03-26 22:11+0000\n"
+"Last-Translator: Ерасыл Жасуланов <zhasulanov.erasyl@mail.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"X-Translated-Using: django-rosetta 0.10.1\n"
 
 msgid "Экоблаго"
 msgstr "Экоблаго"
@@ -72,202 +71,202 @@ msgid "Удалить аккаунт"
 msgstr "Аккаунтты жою"
 
 msgid "Вход"
-msgstr ""
+msgstr "Кіру"
 
 msgid "Регистрация"
-msgstr ""
+msgstr "Тіркелу"
 
 msgid "Локация"
-msgstr ""      
-
+msgstr "Орналасқан жері"
 
 msgid "Product was removed from favorites"
-msgstr ""
-
+msgstr "Өнім таңдаулылардан жойылды"
 
 msgid "Описание"
-msgstr ""
-
+msgstr "Сипаттамасы"
 
 msgid "Контакты"
-msgstr ""
-
+msgstr "Байланыс"
 
 msgid "Название товара"
+msgstr "Тауардың атауы"
+
+msgid ""
+"Мы — платформа, где можно делиться вещами и продуктами с нуждающимися, "
+"помогая людям и экологии. Удобный сервис для благотворительности и "
+"перераспределения ресурсов. Помогайте легко: размещайте вещи, которые не "
+"нужны вам, но пригодятся другим."
 msgstr ""
-
-
-msgid "Мы — платформа, где можно делиться вещами и продуктами с нуждающимися, помогая людям и экологии. Удобный сервис для благотворительности и перераспределения ресурсов. Помогайте легко: размещайте вещи, которые не нужны вам, но пригодятся другим."
-msgstr ""
-
+"Біз адамдар мен экологияға көмектесу арқылы мұқтаж адамдармен заттар мен "
+"өнімдерді бөлісуге арналған платформамыз. Қайырымдылық және ресурстарды "
+"қайта бөлу үшін ыңғайлы қызмет. Оңай көмектесіңіз: сізге қажет емес, бірақ "
+"басқаларға пайдалы заттарды орналастырыңыз."
 
 msgid "Ссылки"
-msgstr ""
-
+msgstr "Сілтемелер"
 
 msgid "Редактировать продукт"
-msgstr ""
-
+msgstr "Өнімді өңдеу"
 
 msgid "Не найдено товаров по вашему запросу"
-msgstr ""
-
+msgstr "Сіздің сұранысыңыз бойынша тауарлар табылған жоқ"
 
 msgid "Продавец"
-msgstr ""
-
+msgstr "Сатушы"
 
 msgid "Обявление успешно добавлено"
-msgstr ""
-
+msgstr "Тауар сәтті қосылды"
 
 msgid "Product was added to favorites"
-msgstr ""
-
+msgstr "Өнім таңдаулыларға қосылды"
 
 msgid "Сохранить"
-msgstr ""
-
+msgstr "Сақтау"
 
 msgid "Изменить"
-msgstr ""
-
+msgstr "Өзгерту"
 
 msgid "Почта"
-msgstr ""
-
+msgstr "Пошта"
 
 msgid "Произошла ошибка при сохранении изменений"
-msgstr ""
-
+msgstr "Өзгерістерді сақтау кезінде қате пайда болды"
 
 msgid "Произошла ошибка при получении городов"
-msgstr ""
-
+msgstr "Қалаларды алу кезінде қате пайда болды"
 
 msgid "Не удалось получить список городов"
-msgstr ""
-
+msgstr "Қалалардың тізімін алу мүмкін болмады"
 
 msgid "Сохранить изменения"
-msgstr ""
-
+msgstr "Өзгерістерді сақтау"
 
 msgid "Номер телефона"
-msgstr ""
-
+msgstr "Телефон нөмірі"
 
 msgid "Произошла ошибка при фильтрации товаров"
-msgstr ""
-
+msgstr "Тауарларды сүзу кезінде қате пайда болды"
 
 msgid "Город"
-msgstr ""
-
+msgstr "Қала"
 
 msgid "Продукт успешно удален"
-msgstr ""
-
+msgstr "Өнім сәтті жойылды"
 
 msgid "Фильтры были сохранены"
-msgstr ""
-
+msgstr "Сүзгілер сақталды"
 
 msgid "Цена"
-msgstr ""
-
+msgstr "Бағасы"
 
 msgid "Что ищете?"
-msgstr ""
-
+msgstr "Не іздеп жүрсіз?"
 
 msgid "Вся страна"
-msgstr ""
-
+msgstr "Бүкіл мемлекет"
 
 msgid "Product was not added to favorites"
-msgstr ""
-
+msgstr "Өнім таңдаулыларға қосылмады"
 
 msgid "Удалить продукт"
-msgstr ""
-
+msgstr "Өнімді жою"
 
 msgid "Фото"
-msgstr ""
-
+msgstr "Фото"
 
 msgid "Изменить изображение"
-msgstr ""
-
+msgstr "Суретті өзгерту"
 
 msgid "Изменения успешно сохранены"
-msgstr ""
-
+msgstr "Өзгерістер сәтті сақталды"
 
 msgid "Категория"
-msgstr ""
-
+msgstr "Категория"
 
 msgid "Product was not removed from favorites"
-msgstr ""
-
+msgstr "Өнім таңдаулылардан жойылған жоқ"
 
 msgid "Сортировка"
-msgstr ""
-
+msgstr "Сұрыптау"
 
 msgid "Подождите"
-msgstr ""
-
+msgstr "Күте тұрыңыз"
 
 msgid "Поиск"
-msgstr ""
-
+msgstr "Іздеу"
 
 msgid "Создать обьявление"
-msgstr ""
-
+msgstr "Хабарландыру жасаңыз"
 
 msgid "Название"
-msgstr ""
-
+msgstr "Атауы"
 
 msgid "О себе"
-msgstr ""
-
+msgstr "Өзі туралы"
 
 msgid "Редактирование обявления"
-msgstr ""
-
+msgstr "Жарнаманы өзгерту"
 
 msgid "Подать обявление"
-msgstr ""
-
+msgstr "Өтініш беру"
 
 msgid "На ecoblago с"
+msgstr "Экоблаго да "
+
+msgid ""
+"Наша цель — сделать мир добрее и экологичнее, объединяя людей для взаимной "
+"помощи."
 msgstr ""
-
-
-msgid "Наша цель — сделать мир добрее и экологичнее, объединяя людей для взаимной помощи."
-msgstr ""
-
+"Біздің мақсатымыз-адамдарды өзара көмекке біріктіру арқылы әлемді мейірімді "
+"және жасыл ету."
 
 msgid "Все просто, быстро и доступно."
-msgstr ""
-
+msgstr "Барлығы оңай, жылдам және қол жетімді."
 
 msgid "Мои обявление"
-msgstr ""
-
+msgstr "Менің өнімдерім"
 
 msgid "Произошла ошибка при удалении продукта"
-msgstr ""
-
+msgstr "Өнімді жою кезінде қате пайда болды"
 
 msgid "Произошла ошибка при добавлении обявления"
-msgstr ""
-
+msgstr "Жарнаманы қосу кезінде қате пайда болды"
 
 msgid "Добавить фото"
-msgstr ""
+msgstr "Фотосурет қосыңыз"
+
+msgid "Категории"
+msgstr "Категориялар"
+
+msgid "Min Price"
+msgstr "Минимум"
+
+msgid "Max Price"
+msgstr "Максимум"
+
+msgid "Имя"
+msgstr "Есімі"
+
+msgid "Фамилия"
+msgstr "Тегі"
+
+msgid "Электронная почта"
+msgstr "Электрондық пошта"
+
+msgid "Хэндл"
+msgstr "Хэндл"
+
+msgid "Цена товара"
+msgstr "Тауар бағасы"
+
+msgid "Местоположение"
+msgstr "Орналасқан жері"
+
+msgid "Регион"
+msgstr "Аймақ"
+
+msgid "Город"
+msgstr "Қала"
+
+msgid "Опубликовать"
+msgstr "Жариялау"

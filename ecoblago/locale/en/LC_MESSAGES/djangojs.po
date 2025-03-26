@@ -9,17 +9,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-25 17:07+0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2025-03-26 21:29+0000\n"
+"Last-Translator: Ерасыл Жасуланов <zhasulanov.erasyl@mail.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Translated-Using: django-rosetta 0.10.1\n"
+
 #: .\static\js\catalog\catalog\more_filters.js:1
-
-
 msgid "Настройки"
 msgstr "Settings"
 
@@ -72,202 +72,199 @@ msgid "Удалить аккаунт"
 msgstr "Delete account"
 
 msgid "Вход"
-msgstr ""
+msgstr "Log in"
 
 msgid "Регистрация"
-msgstr ""
+msgstr "Sign up"
 
 msgid "Локация"
-msgstr ""      
-
+msgstr "Location"
 
 msgid "Product was removed from favorites"
-msgstr ""
-
+msgstr "Product was removed from favorites"
 
 msgid "Описание"
-msgstr ""
-
+msgstr "Description"
 
 msgid "Контакты"
-msgstr ""
-
+msgstr "Contacts"
 
 msgid "Название товара"
+msgstr "Product name"
+
+msgid ""
+"Мы — платформа, где можно делиться вещами и продуктами с нуждающимися, "
+"помогая людям и экологии. Удобный сервис для благотворительности и "
+"перераспределения ресурсов. Помогайте легко: размещайте вещи, которые не "
+"нужны вам, но пригодятся другим."
 msgstr ""
-
-
-msgid "Мы — платформа, где можно делиться вещами и продуктами с нуждающимися, помогая людям и экологии. Удобный сервис для благотворительности и перераспределения ресурсов. Помогайте легко: размещайте вещи, которые не нужны вам, но пригодятся другим."
-msgstr ""
-
+"We are a platform where you can share things and products with those in "
+"need, helping people and the environment. A convenient service for charity "
+"and resource redistribution. Help easily: place things that you don't need, "
+"but others will need."
 
 msgid "Ссылки"
-msgstr ""
-
+msgstr "Links"
 
 msgid "Редактировать продукт"
-msgstr ""
-
+msgstr "Edit the product"
 
 msgid "Не найдено товаров по вашему запросу"
-msgstr ""
-
+msgstr "No products found"
 
 msgid "Продавец"
-msgstr ""
-
+msgstr "Seller"
 
 msgid "Обявление успешно добавлено"
-msgstr ""
-
+msgstr "The product was added successfully"
 
 msgid "Product was added to favorites"
-msgstr ""
-
+msgstr "Product was added to favorites"
 
 msgid "Сохранить"
-msgstr ""
-
+msgstr "Save"
 
 msgid "Изменить"
-msgstr ""
-
+msgstr "Change"
 
 msgid "Почта"
-msgstr ""
-
+msgstr "Mail"
 
 msgid "Произошла ошибка при сохранении изменений"
-msgstr ""
-
+msgstr "An error occurred while saving the changes"
 
 msgid "Произошла ошибка при получении городов"
-msgstr ""
-
+msgstr "An error occurred when loading cities"
 
 msgid "Не удалось получить список городов"
-msgstr ""
-
+msgstr "Couldn't get a list of cities"
 
 msgid "Сохранить изменения"
-msgstr ""
-
+msgstr "Save changes"
 
 msgid "Номер телефона"
-msgstr ""
-
+msgstr "Phone number"
 
 msgid "Произошла ошибка при фильтрации товаров"
-msgstr ""
-
+msgstr "An error occurred when filtering products"
 
 msgid "Город"
-msgstr ""
-
+msgstr "City"
 
 msgid "Продукт успешно удален"
-msgstr ""
-
+msgstr "The product was successfully deleted"
 
 msgid "Фильтры были сохранены"
-msgstr ""
-
+msgstr "The filters have been saved"
 
 msgid "Цена"
-msgstr ""
-
+msgstr "Price"
 
 msgid "Что ищете?"
-msgstr ""
-
+msgstr "What are you looking for?"
 
 msgid "Вся страна"
-msgstr ""
-
+msgstr "The whole country"
 
 msgid "Product was not added to favorites"
-msgstr ""
-
+msgstr "Product was not added to favorites"
 
 msgid "Удалить продукт"
-msgstr ""
-
+msgstr "Delete a product"
 
 msgid "Фото"
-msgstr ""
-
+msgstr "Photo"
 
 msgid "Изменить изображение"
-msgstr ""
-
+msgstr "Change the image"
 
 msgid "Изменения успешно сохранены"
-msgstr ""
-
+msgstr "The changes were saved successfully"
 
 msgid "Категория"
-msgstr ""
-
+msgstr "Category"
 
 msgid "Product was not removed from favorites"
-msgstr ""
-
+msgstr "Product was not removed from favorites"
 
 msgid "Сортировка"
-msgstr ""
-
+msgstr "Sorting"
 
 msgid "Подождите"
-msgstr ""
-
+msgstr "Wait"
 
 msgid "Поиск"
-msgstr ""
-
+msgstr "Search"
 
 msgid "Создать обьявление"
-msgstr ""
-
+msgstr "Create a product"
 
 msgid "Название"
-msgstr ""
-
+msgstr "Title"
 
 msgid "О себе"
-msgstr ""
-
+msgstr "About me"
 
 msgid "Редактирование обявления"
-msgstr ""
-
+msgstr "Editing a product"
 
 msgid "Подать обявление"
-msgstr ""
-
+msgstr "Create a product"
 
 msgid "На ecoblago с"
+msgstr "On Ecoblago since"
+
+msgid ""
+"Наша цель — сделать мир добрее и экологичнее, объединяя людей для взаимной "
+"помощи."
 msgstr ""
-
-
-msgid "Наша цель — сделать мир добрее и экологичнее, объединяя людей для взаимной помощи."
-msgstr ""
-
+"Our goal is to make the world a kinder and greener place by bringing people "
+"together for mutual help."
 
 msgid "Все просто, быстро и доступно."
-msgstr ""
-
+msgstr "Everything is simple, fast and affordable."
 
 msgid "Мои обявление"
-msgstr ""
-
+msgstr "My products"
 
 msgid "Произошла ошибка при удалении продукта"
-msgstr ""
-
+msgstr "An error occurred while deleting the product"
 
 msgid "Произошла ошибка при добавлении обявления"
-msgstr ""
-
+msgstr "An error occurred when adding an product."
 
 msgid "Добавить фото"
-msgstr ""
+msgstr "Add a photo"
+
+msgid "Категории"
+msgstr "Categories"
+
+msgid "Min Price"
+msgstr "Min price"
+
+msgid "Max Price"
+msgstr "Max price"
+
+msgid "Имя"
+msgstr "First name"
+
+msgid "Фамилия"
+msgstr "Last name"
+
+msgid "Электронная почта"
+msgstr "Email address"
+
+msgid "Хэндл"
+msgstr "Handle"
+
+msgid "Цена товара"
+msgstr "Cost"
+
+msgid "Местоположение"
+msgstr "Location"
+
+msgid "Регион"
+msgstr "Region"
+
+msgid "Опубликовать"
+msgstr "Publish"

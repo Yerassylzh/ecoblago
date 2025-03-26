@@ -27,7 +27,7 @@ class DialogMoreFilters {
     _getCategoriesSectionWidget(categories) {
         let categoryWidget = `
         <div class="filter-categories">
-          <div class="header">Категории</div>
+          <div class="header">${gettext("Категории")}</div>
           <div class="content">
       `;
         for (let category of categories) {
@@ -45,15 +45,15 @@ class DialogMoreFilters {
     _getCostRegulatorSectionWidget() {
         return `
         <div class="cost-regulator">
-          <div class="header">Цена</div>
+          <div class="header">${gettext("Цена")}</div>
           <div class="content">
             <div class="price-inputs">
                 <div class="field">
-                    <label for="min-price">Min Price:</label>
+                    <label for="min-price">${gettext("Min Price")}:</label>
                     <input type="number" id="min-price" value="1000">
                 </div>
                 <div class="field">
-                    <label for="max-price">Max Price:</label>
+                    <label for="max-price">${gettext("Max Price")}:</label>
                     <input type="number" id="max-price" value="20000">
                 </div>
             </div>
@@ -71,7 +71,7 @@ class DialogMoreFilters {
         let options = Object.values(new FilterSettings().sortingRules);
         let sortingRulesWidget = `
         <div class="filter-sortingrules">
-          <div class="header">${gettext('Сортировка')}</div>
+          <div class="header">${gettext("Сортировка")}</div>
           <div class="content">
       `;
         for (let option of options) {
