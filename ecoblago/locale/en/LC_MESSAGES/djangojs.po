@@ -268,3 +268,9 @@ msgstr "Region"
 
 msgid "Опубликовать"
 msgstr "Publish"
+
+msgid "Продолжить"
+msgstr ""
+
+msgid "Запомнить меня на месяц"
+msgstr ""

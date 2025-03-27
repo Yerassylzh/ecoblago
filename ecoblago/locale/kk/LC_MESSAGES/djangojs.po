@@ -19,6 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 #: .\static\js\catalog\catalog\more_filters.js:1
 
+msgid "Запомнить меня на месяц"
+msgstr ""
+
+msgid "Продолжить"
+msgstr ""
+
 msgid "Экоблаго"
 msgstr "Экоблаго"
 

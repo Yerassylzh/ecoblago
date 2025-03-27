@@ -20,6 +20,13 @@ msgstr ""
 "X-Translated-Using: django-rosetta 0.10.1\n"
 
 #: .\static\js\catalog\catalog\more_filters.js:1
+
+msgid "Запомнить меня на месяц"
+msgstr ""
+
+msgid "Продолжить"
+msgstr ""
+
 msgid "Настройки"
 msgstr "Настройки"
 
