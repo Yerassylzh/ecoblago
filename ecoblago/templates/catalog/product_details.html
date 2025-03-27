@@ -77,6 +77,18 @@
   </div>
 </main>
 
+<style>
+  :root {
+    --background-color: var(--body-color) !important;
+    --widget-color: white;
+  }
+
+  [data-theme="dark"] {
+    --background-color: var(--body-color) !important;
+    --widget-color: rgb(40, 40, 40);
+  }
+</style>
+
 <script>
   const PRODUCT_ID = "{{ object.id }}";
 </script>

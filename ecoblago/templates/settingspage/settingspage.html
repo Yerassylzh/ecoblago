@@ -100,6 +100,18 @@
   const htmlElement = document.documentElement;
 </script>
 
+<style>
+  :root {
+    --background-color: var(--body-color) !important;
+    --widget-color: white;
+  }
+
+  [data-theme="dark"] {
+    --background-color: var(--body-color) !important;
+    --widget-color: rgb(40, 40, 40);
+  }
+</style>
+
 <script src="{% static 'js/settingspage/settingspage/settingspage.js' %}?v={% now 'U' %}"></script>
 
 {% endblock main %}

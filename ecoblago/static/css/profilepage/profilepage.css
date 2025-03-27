@@ -18,13 +18,16 @@ body {
 }
 
 .profile-bar {
-  background-color: white;
   min-height: 100vh;
 }
 
 main {
   width: 100%;
   min-height: 100vh;
+}
+
+.input-field-wrapper > div {
+  background-color: var(--widget-color);
 }
 
 .personal-data {
@@ -47,6 +50,7 @@ main {
   display: flex;
   justify-content: space-evenly;
   align-items: flex-start;
+  background-color: var(--widget-color);
 }
 
 .personal-image-wrapper {
@@ -123,7 +127,6 @@ body {
 }
 
 .profile-bar {
-  background-color: var(--background-color);
   min-height: 100vh;
 }
 
@@ -217,7 +220,6 @@ body {
 }
 
 .profile-bar {
-  background-color: var(--background-color);
   width: 100%;
 }
 
@@ -245,8 +247,10 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background-color: var(--background-color);
+  background-color: var(--widget-color);
   min-height: 100vh;
+
+  padding-top: 1rem;
 }
 
 .edit-about-input {

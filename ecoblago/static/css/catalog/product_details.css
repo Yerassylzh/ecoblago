@@ -34,14 +34,14 @@
   font-size: 1rem;
   font-family: "Inter", sans-serif;
   font-weight: 400;
-  background-color: var(--background-color);
+  background: transparent;
   border-radius: 0.25rem;
   border: 1.5px solid var(--red-primary);
   outline: none;
 }
 
 .edit-product-btn:hover {
-  background-color: rgb(240, 240, 240);
+  filter: brightness(0.9);
   cursor: pointer;
 }
 
@@ -187,7 +187,7 @@ p {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background-color: var(--background-color);
+  background-color: var(--widget-color);
   min-height: 100vh;
 }
 
@@ -220,4 +220,8 @@ body {
 
 textarea {
   min-height: 250px;
+}
+
+.member-since {
+  color: var(--txt-secondary) !important;
 }
