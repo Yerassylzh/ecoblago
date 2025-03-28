@@ -95,7 +95,7 @@
 }
 
 .images-container {
-  width: 80%;
+  width: min(100%, 700px);
   position: relative;
   margin: 1rem 0;
 }

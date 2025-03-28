@@ -3,11 +3,6 @@
   opacity: 0.3;
 }
 
-.popup {
-    min-height: 500px;
-    min-width: 500px;
-}
-
 .popup::-webkit-scrollbar {
   width: 10px;
 }
@@ -32,8 +27,6 @@
   border: none;
   outline: none;
   border-radius: 0.5rem;
-
-  max-height: 80vh;
 }
 
 dialog[open] {
@@ -44,6 +37,9 @@ dialog[open] {
 }
 
 dialog {
-  min-height: 300px;
-  min-width: 300px;
+  min-height: min(70vh, 300px);
+  min-width: min(70vw, 300px);
+
+  max-height: 80vh;
+  max-width: 80vw;
 }

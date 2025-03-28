@@ -8,20 +8,12 @@
   cursor: pointer;
 }
 
-.link {
-  cursor: pointer;
+.links > a {
+  color: white;
 }
 
-.link {
-  font-size: 1rem;
-  color: rgb(247, 247, 247);
-  font-family: "Inter", sans-serif;
-  font-weight: 300;
-  text-decoration: none;
-}
-
-.link:hover {
-  text-decoration: underline;
+.links > a > i {
+  font-size: 2rem;
 }
 
 .link-container {
@@ -33,10 +25,10 @@
 
 .links {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 2rem;
   margin-top: 0.5rem;
   width: 100%;
 }

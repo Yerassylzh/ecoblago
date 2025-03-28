@@ -70,7 +70,7 @@ class DialogMoreFilters {
     _getSortingRulesWidget() {
         let options = Object.values(new FilterSettings().sortingRules);
         let sortingRulesWidget = `
-        <div class="filter-sortingrules">
+        <div class="filter-sortingrules" style="display: none;">
           <div class="header">${gettext("Сортировка")}</div>
           <div class="content">
       `;
