@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-07 13:01+0500\n"
-"PO-Revision-Date: 2025-03-27 13:37+0000\n"
+"POT-Creation-Date: 2025-03-29 22:16+0500\n"
+"PO-Revision-Date: 2025-03-29 22:29+0000\n"
 "Last-Translator: Ерасыл Жасуланов <zhasulanov.erasyl@mail.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,87 +19,193 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 "X-Translated-Using: django-rosetta 0.10.1\n"
 
-msgid "Больше информации об ЭкоБлаго"
-msgstr "Экоблаго туралы қосымша ақпарат"
-
+#: .\authpage\forms.py:18 .\authpage\forms.py:105
+#: .\templates\authpage\authpage.html:42
 msgid "Запомнить меня на месяц"
 msgstr "Аккаунтты ай бойы есте сақтау"
 
-msgid "Продолжить"
-msgstr "Ары қарай"
+#: .\authpage\forms.py:27 .\templates\includes\catalog\create_product.html:90
+#: .\templates\includes\catalog\create_product.html:96
+msgid "Номер телефона"
+msgstr "Телефон нөмірі"
 
-msgid "Экоблаго"
-msgstr "Экоблаго"
+#: .\authpage\forms.py:35 .\templates\includes\catalog\create_product.html:101
+#: .\templates\includes\catalog\create_product.html:107
+msgid "Почта"
+msgstr "Пошта"
 
-msgid "Настройки"
-msgstr "Параметрлер"
+#: .\authpage\forms.py:43
+msgid "Имя"
+msgstr "Есімі"
 
-msgid "Безопасность"
-msgstr "Қауіпсіздік"
+#: .\authpage\forms.py:51
+msgid "Фамилия"
+msgstr "Тегі"
 
-msgid "Изменить пароль"
-msgstr "Құпия сөзді өзгерту"
+#: .\authpage\forms.py:59
+msgid "Хэндл пользователя"
+msgstr "Хэндл"
 
-msgid "Новый пароль"
+#: .\authpage\forms.py:67 .\authpage\forms.py:122
+#, fuzzy
+#| msgid "Новый пароль"
+msgid "Пароль"
 msgstr "Жаңа құпиясөз"
 
-msgid "Подтвердите новый пароль"
+#: .\authpage\forms.py:75
+#, fuzzy
+#| msgid "Подтвердите новый пароль"
+msgid "Подтвердите пароль"
 msgstr "Жаңа құпиясөзді растаңыз"
 
-msgid "Подтвердить"
-msgstr "Растау"
+#: .\authpage\forms.py:114
+msgid "Имя пользователя"
+msgstr "Пайдаланушы аты"
 
-msgid "Цветовая тема"
-msgstr "Түс тақырыбы"
+#: .\authpage\views.py:104
+#, fuzzy
+#| msgid "Подтвердите новый пароль"
+msgid "Неверный логин или пароль"
+msgstr "Жаңа құпиясөзді растаңыз"
 
-msgid "Светлая"
-msgstr "Жарық"
+#: .\catalog\forms.py:13 .\templates\catalog\product_details.html:57
+#: .\templates\includes\catalog\create_product.html:36
+#: .\templates\includes\catalog\create_product.html:42
+msgid "Категория"
+msgstr "Категория"
 
-msgid "Темная"
-msgstr "Қараңғы"
+#: .\catalog\forms.py:14 .\templates\includes\catalog\create_product.html:78
+msgid "Регион"
+msgstr "Аймақ"
 
-msgid "Язык"
-msgstr "Тіл"
+#: .\catalog\forms.py:15 .\templates\includes\catalog\create_product.html:85
+msgid "Город"
+msgstr "Қала"
 
-msgid "Казахский"
-msgstr "Қазақша"
+#: .\catalog\views.py:192 .\catalog\views.py:347
+msgid "Добавьте как минимум одну картинку"
+msgstr "Кем дегенде бір суретті қосыңыз"
 
-msgid "Русский"
-msgstr "Орысша"
+#: .\catalog\views.py:215 .\catalog\views.py:374
+msgid "Unknown error"
+msgstr "Белгісіз қате"
 
-msgid "Английский"
-msgstr "Ағылшынша"
+#: .\catalog\views.py:287
+msgid "You are not the seller of this product"
+msgstr "Сіз бұл өнімді сатушы емессіз"
 
-msgid "Аккаунт"
-msgstr "Аккаунт"
-
-msgid "Выйти с аккаунта"
-msgstr "Аккаунттан шығу"
-
-msgid "Удалить аккаунт"
-msgstr "Аккаунтты жою"
-
-msgid "Вход"
-msgstr "Кіру"
-
-msgid "Регистрация"
-msgstr "Тіркелу"
-
-msgid "Локация"
-msgstr "Орналасқан жері"
-
-msgid "Product was removed from favorites"
-msgstr "Өнім таңдаулылардан жойылды"
-
+#: .\docs.txt:16 .\templates\catalog\product_details.html:30
+#: .\templates\includes\catalog\create_product.html:61
+#: .\templates\includes\catalog\create_product.html:67
 msgid "Описание"
 msgstr "Сипаттамасы"
 
+#: .\ecoblago\settings.py:120
+msgid "English"
+msgstr "Ағылшынша"
+
+#: .\ecoblago\settings.py:121
+msgid "Russian"
+msgstr "Орысша"
+
+#: .\ecoblago\settings.py:122
+msgid "Kazakh"
+msgstr "Қазақша"
+
+#: .\templates\authpage\authpage.html:18
+msgid "Ecoblago"
+msgstr "Экоблаго"
+
+#: .\templates\authpage\authpage.html:21 .\templates\authpage\authpage.html:26
+msgid "Вход"
+msgstr "Кіру"
+
+#: .\templates\authpage\authpage.html:28
+msgid "Регистрация"
+msgstr "Тіркелу"
+
+#: .\templates\authpage\authpage.html:45
+msgid "Продолжить"
+msgstr "Ары қарай"
+
+#: .\templates\catalog\catalog.html:18
+msgid "Что ищете?"
+msgstr "Не іздеп жүрсіз?"
+
+#: .\templates\catalog\catalog.html:24
+msgid "Вся страна"
+msgstr "Бүкіл мемлекет"
+
+#: .\templates\catalog\catalog.html:33
+msgid "Поиск"
+msgstr "Іздеу"
+
+#: .\templates\catalog\product_details.html:35
+msgid "Продавец"
+msgstr "Сатушы"
+
+#: .\templates\catalog\product_details.html:42
+msgid "На ecoblago с"
+msgstr "Экоблаго да "
+
+#: .\templates\catalog\product_details.html:47
+#: .\templates\includes\catalog\create_product.html:26
+msgid "Цена"
+msgstr "Бағасы"
+
+#: .\templates\catalog\product_details.html:52
+msgid "Локация"
+msgstr "Орналасқан жері"
+
+#: .\templates\catalog\product_details.html:62
 msgid "Контакты"
 msgstr "Байланыс"
 
+#: .\templates\catalog\product_details.html:69
+msgid "Удалить продукт"
+msgstr "Өнімді жою"
+
+#: .\templates\catalog\product_details.html:70
+msgid "Редактировать продукт"
+msgstr "Өнімді өңдеу"
+
+#: .\templates\includes\catalog\create_product.html:14
+msgid "Создать объявление"
+msgstr "Хабарландыру жасаңыз"
+
+#: .\templates\includes\catalog\create_product.html:16
+msgid "Название"
+msgstr "Атауы"
+
+#: .\templates\includes\catalog\create_product.html:21
 msgid "Название товара"
 msgstr "Тауардың атауы"
 
+#: .\templates\includes\catalog\create_product.html:31
+msgid "Цена товара"
+msgstr "Тауар бағасы"
+
+#: .\templates\includes\catalog\create_product.html:47
+msgid "Фото"
+msgstr "Фото"
+
+#: .\templates\includes\catalog\create_product.html:54
+msgid "Добавить фото"
+msgstr "Фотосурет қосыңыз"
+
+#: .\templates\includes\catalog\create_product.html:72
+msgid "Местоположение"
+msgstr "Орналасқан жері"
+
+#: .\templates\includes\catalog\create_product.html:111
+msgid "Опубликовать"
+msgstr "Жариялау"
+
+#: .\templates\includes\footer.html:10 .\templates\includes\navbar.html:8
+msgid "Экоблаго"
+msgstr "Экоблаго"
+
+#: .\templates\includes\footer.html:12
 msgid ""
 "Мы — платформа, где можно делиться вещами и продуктами с нуждающимися, "
 "помогая людям и экологии. Удобный сервис для благотворительности и "
@@ -111,117 +217,11 @@ msgstr ""
 "қайта бөлу үшін ыңғайлы қызмет. Оңай көмектесіңіз: сізге қажет емес, бірақ "
 "басқаларға пайдалы заттарды орналастырыңыз."
 
-msgid "Ссылки"
-msgstr "Сілтемелер"
+#: .\templates\includes\footer.html:15
+msgid "Все просто, быстро и доступно."
+msgstr "Барлығы оңай, жылдам және қол жетімді."
 
-msgid "Редактировать продукт"
-msgstr "Өнімді өңдеу"
-
-msgid "Не найдено товаров по вашему запросу"
-msgstr "Сіздің сұранысыңыз бойынша тауарлар табылған жоқ"
-
-msgid "Продавец"
-msgstr "Сатушы"
-
-msgid "Обявление успешно добавлено"
-msgstr "Тауар сәтті қосылды"
-
-msgid "Product was added to favorites"
-msgstr "Өнім таңдаулыларға қосылды"
-
-msgid "Сохранить"
-msgstr "Сақтау"
-
-msgid "Изменить"
-msgstr "Өзгерту"
-
-msgid "Почта"
-msgstr "Пошта"
-
-msgid "Произошла ошибка при сохранении изменений"
-msgstr "Өзгерістерді сақтау кезінде қате пайда болды"
-
-msgid "Произошла ошибка при получении городов"
-msgstr "Қалаларды алу кезінде қате пайда болды"
-
-msgid "Не удалось получить список городов"
-msgstr "Қалалардың тізімін алу мүмкін болмады"
-
-msgid "Сохранить изменения"
-msgstr "Өзгерістерді сақтау"
-
-msgid "Номер телефона"
-msgstr "Телефон нөмірі"
-
-msgid "Произошла ошибка при фильтрации товаров"
-msgstr "Тауарларды сүзу кезінде қате пайда болды"
-
-msgid "Город"
-msgstr "Қала"
-
-msgid "Продукт успешно удален"
-msgstr "Өнім сәтті жойылды"
-
-msgid "Фильтры были сохранены"
-msgstr "Сүзгілер сақталды"
-
-msgid "Цена"
-msgstr "Бағасы"
-
-msgid "Что ищете?"
-msgstr "Не іздеп жүрсіз?"
-
-msgid "Вся страна"
-msgstr "Бүкіл мемлекет"
-
-msgid "Product was not added to favorites"
-msgstr "Өнім таңдаулыларға қосылмады"
-
-msgid "Удалить продукт"
-msgstr "Өнімді жою"
-
-msgid "Фото"
-msgstr "Фото"
-
-msgid "Изменить изображение"
-msgstr "Суретті өзгерту"
-
-msgid "Изменения успешно сохранены"
-msgstr "Өзгерістер сәтті сақталды"
-
-msgid "Категория"
-msgstr "Категория"
-
-msgid "Product was not removed from favorites"
-msgstr "Өнім таңдаулылардан жойылған жоқ"
-
-msgid "Сортировка"
-msgstr "Сұрыптау"
-
-msgid "Подождите"
-msgstr "Күте тұрыңыз"
-
-msgid "Поиск"
-msgstr "Іздеу"
-
-msgid "Создать обьявление"
-msgstr "Хабарландыру жасаңыз"
-
-msgid "Название"
-msgstr "Атауы"
-
-msgid "О себе"
-msgstr "Өзі туралы"
-
-msgid "Редактирование обявления"
-msgstr "Жарнаманы өзгерту"
-
-msgid "Подать обявление"
-msgstr "Өтініш беру"
-
-msgid "На ecoblago с"
-msgstr "Экоблаго да "
-
+#: .\templates\includes\footer.html:18
 msgid ""
 "Наша цель — сделать мир добрее и экологичнее, объединяя людей для взаимной "
 "помощи."
@@ -229,50 +229,91 @@ msgstr ""
 "Біздің мақсатымыз-адамдарды өзара көмекке біріктіру арқылы әлемді мейірімді "
 "және жасыл ету."
 
-msgid "Все просто, быстро и доступно."
-msgstr "Барлығы оңай, жылдам және қол жетімді."
+#: .\templates\includes\footer.html:22
+msgid "Больше информации об ЭкоБлаго"
+msgstr "Экоблаго туралы қосымша ақпарат"
 
-msgid "Мои обявление"
+#: .\templates\includes\navbar.html:16
+msgid "Мои объявление"
 msgstr "Менің өнімдерім"
 
-msgid "Произошла ошибка при удалении продукта"
-msgstr "Өнімді жою кезінде қате пайда болды"
+#: .\templates\includes\navbar.html:19
+msgid "Подать объявление"
+msgstr "Өтініш беру"
 
-msgid "Произошла ошибка при добавлении обявления"
-msgstr "Жарнаманы қосу кезінде қате пайда болды"
+#: .\templates\profilepage\profilepage.html:35
+msgid "Изменить изображение"
+msgstr "Суретті өзгерту"
 
-msgid "Добавить фото"
-msgstr "Фотосурет қосыңыз"
+#: .\templates\profilepage\profilepage.html:45
+msgid "О себе"
+msgstr "Өзі туралы"
 
-msgid "Категории"
-msgstr "Категориялар"
+#: .\templates\profilepage\profilepage.html:49
+msgid "Изменить"
+msgstr "Өзгерту"
 
-msgid "Min Price"
-msgstr "Минимум"
+#: .\templates\settingspage\settingspage.html:7
+#: .\templates\settingspage\settingspage.html:18
+msgid "Настройки"
+msgstr "Параметрлер"
 
-msgid "Max Price"
-msgstr "Максимум"
+#: .\templates\settingspage\settingspage.html:20
+msgid "Безопасность"
+msgstr "Қауіпсіздік"
 
-msgid "Имя"
-msgstr "Есімі"
+#: .\templates\settingspage\settingspage.html:24
+msgid "Изменить пароль"
+msgstr "Құпия сөзді өзгерту"
 
-msgid "Фамилия"
-msgstr "Тегі"
+#: .\templates\settingspage\settingspage.html:32
+msgid "Новый пароль"
+msgstr "Жаңа құпиясөз"
 
-msgid "Электронная почта"
-msgstr "Электрондық пошта"
+#: .\templates\settingspage\settingspage.html:36
+msgid "Подтвердите новый пароль"
+msgstr "Жаңа құпиясөзді растаңыз"
 
-msgid "Хэндл"
-msgstr "Хэндл"
+#: .\templates\settingspage\settingspage.html:39
+msgid "Подтвердить"
+msgstr "Растау"
 
-msgid "Цена товара"
-msgstr "Тауар бағасы"
+#: .\templates\settingspage\settingspage.html:52
+msgid "Цветовая тема"
+msgstr "Түс тақырыбы"
 
-msgid "Местоположение"
-msgstr "Орналасқан жері"
+#: .\templates\settingspage\settingspage.html:57
+msgid "Светлая"
+msgstr "Жарық"
 
-msgid "Регион"
-msgstr "Аймақ"
+#: .\templates\settingspage\settingspage.html:61
+msgid "Темная"
+msgstr "Қараңғы"
 
-msgid "Опубликовать"
-msgstr "Жариялау"
+#: .\templates\settingspage\settingspage.html:66
+msgid "Язык"
+msgstr "Тіл"
+
+#: .\templates\settingspage\settingspage.html:71
+msgid "Казахский"
+msgstr "Қазақша"
+
+#: .\templates\settingspage\settingspage.html:75
+msgid "Русский"
+msgstr "Орысша"
+
+#: .\templates\settingspage\settingspage.html:79
+msgid "Английский"
+msgstr "Ағылшынша"
+
+#: .\templates\settingspage\settingspage.html:84
+msgid "Аккаунт"
+msgstr "Аккаунт"
+
+#: .\templates\settingspage\settingspage.html:87
+msgid "Выйти с аккаунта"
+msgstr "Аккаунттан шығу"
+
+#: .\templates\settingspage\settingspage.html:88
+msgid "Удалить аккаунт"
+msgstr "Аккаунтты жою"

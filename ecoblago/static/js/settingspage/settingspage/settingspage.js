@@ -1,4 +1,3 @@
-
 function matches(e, name) {
     if (!e.target.matches(name) && e.target.closest(name) == null) {
         return false;
@@ -7,7 +6,7 @@ function matches(e, name) {
 }
 
 function logout() {
-    if (confirm("Вы точно хотите выйти c аккаунта?")) {
+    if (confirm(gettext("Вы точно хотите выйти c аккаунта?"))) {
         $.ajax({
             method: "POST",
             url: SETTINGSPAGE_URL,
@@ -20,11 +19,11 @@ function logout() {
                 if (data["success"]) {
                     window.location.href = AUTHPAGE_URL;
                 } else {
-                    showToast("Ошибка при выходе", false);
+                    showToast(gettext("Ошибка при выходе"), false);
                 }
             },
             error: function (xhr, errmsg, err) {
-                showToast("Произошла ошибка", false);
+                showToast(gettext("Произошла ошибка"), false);
                 console.log(xhr.status + ":" + xhr.responseText);
             }
         });
@@ -32,7 +31,7 @@ function logout() {
 }
 
 function deleteAccount() {
-    if (confirm("Вы точно хотите удалить аккаунт?")) {
+    if (confirm(gettext("Вы точно хотите удалить аккаунт?"))) {
         $.ajax({
             method: "POST",
             url: SETTINGSPAGE_URL,
@@ -45,11 +44,11 @@ function deleteAccount() {
                 if (data["success"]) {
                     window.location.href = AUTHPAGE_URL;
                 } else {
-                    showToast("Ошибка при удалении аккаунта", false);
+                    showToast(gettext("Ошибка при удалении аккаунта"), false);
                 }
             },
             error: function (xhr, errmsg, err) {
-                showToast("Произошла ошибка", false);
+                showToast(gettext("Произошла ошибка"), false);
                 console.log(xhr.status + ":" + xhr.responseText);
             }
         });
@@ -60,12 +59,12 @@ function changePassword() {
     let password1 = document.getElementById("new-password").value
     let password2 = document.getElementById("new-password-confirm").value
     if (password1 == "") {
-        showToast("Введите пароль", false)
+        showToast(gettext("Введите пароль"), false)
         return
     }
     console.log(password1)
     if (password1 != password2) {
-        showToast("Пароли не совпадают", false)
+        showToast(gettext("Пароли не совпадают"), false)
         return
     }
 
@@ -86,14 +85,14 @@ function changePassword() {
         success: function (data) {
             let success = data["success"]
             if (success) {
-                showToast("Пароль успешно изменен", true)
+                showToast(gettext("Пароль успешно изменен"), true)
                 return;
             }
 
             showToast(data["error_message"], false)
         },
         error: function (xhr, errmsg, err) {
-            showToast("Произошла ошибка", false);
+            showToast(gettext("Произошла ошибка"), false);
             console.log(xhr.status + ":" + xhr.responseText)
         },
         complete: function () {
@@ -146,11 +145,11 @@ document.addEventListener("change", (e) => {
             if (data["success"]) {
                 location.reload();
             } else {
-                showToast("Ошибка при изменении языка", false);
+                showToast(gettext("Ошибка при изменении языка"), false);
             }
         },
         error: function (xhr, errmsg, err) {
-            showToast("Произошла ошибка", false);
+            showToast(gettext("Произошла ошибка"), false);
             console.log(xhr.status + ":" + xhr.responseText);
         }
     });
@@ -178,13 +177,13 @@ document.addEventListener("change", (e) => {
         success: function (data) {
             if (data["success"]) {
                 switchTheme(theme);
-                showToast("Тема успешно изменена", true);
+                showToast(gettext("Тема успешно изменена"), true);
             } else {
-                showToast("Ошибка при изменении темы", false);
+                showToast(gettext("Ошибка при изменении темы"), false);
             }
         },
         error: function (xhr, errmsg, err) {
-            showToast("Произошла ошибка", false);
+            showToast(gettext("Произошла ошибка"), false);
             console.log(xhr.status + ":" + xhr.responseText);
         }
     });

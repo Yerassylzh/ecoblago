@@ -1,22 +1,24 @@
 from typing import Union
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, TemplateView, DetailView
-from django.http import HttpRequest, HttpResponse, JsonResponse, HttpResponseForbidden
-from django.forms.models import model_to_dict
-from django.db.models import Prefetch
-
-from catalog.models import Product, Region, Category, City, GalleryImage
-from catalog.forms import ProductForm
-
-from django.utils.translation import get_language, activate
+from django.http import (
+    HttpRequest,
+    HttpResponse,
+    JsonResponse,
+    HttpResponseForbidden,
+)
 from django.db.models import Q
+from django.utils.translation import gettext as _
+
+from catalog.models import Product, Region, Category, GalleryImage
+from catalog.forms import ProductForm
 
 
 class CatalogView(ListView):
     model = Product
     template_name = "catalog/catalog.html"
-    
+
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.object_list = self.get_queryset()
@@ -70,21 +72,32 @@ class CatalogView(ListView):
         product = get_object_or_404(Product, pk=product_id)
         self.request.user.liked_products.remove(product)
         return JsonResponse({"success": True})
-    
+
     def get_all_regions(self) -> JsonResponse:
         regions = [region.name for region in Region.objects.all()]
         return JsonResponse({"success": True, "regions": regions})
 
     def get_cities(self) -> JsonResponse:
         region_name = self.request.GET["region"]
-        region = Region.objects.filter(name=region_name).prefetch_related("cities").first()
+        region = (
+            Region
+            .objects
+            .filter(name=region_name)
+            .prefetch_related("cities")
+            .first()
+        )
         if not region:
             return JsonResponse({"success": False})
         city_names = [city.name for city in region.cities.all()]
         return JsonResponse({"success": True, "cities": city_names})
-    
+
     def get_categories(self) -> JsonResponse:
-        return JsonResponse({"success": True, "categories": [category.name for category in Category.objects.all()]})
+        return JsonResponse({
+            "success": True,
+            "categories": [
+                category.name for category in Category.objects.all()
+            ]
+        })
 
     def get_filtered_products(self) -> JsonResponse:
         search_text = self.request.POST.get("content").strip()
@@ -93,16 +106,18 @@ class CatalogView(ListView):
         min_cost = int(self.request.POST.get("min-cost"))
         max_cost = int(self.request.POST.get("max-cost"))
         category_names = self.request.POST.getlist("categories[]")
-        sorting_rule = self.request.POST.get("sorting-rule").strip()
 
         kwargs = {}
         args = []
         if region_name and city_name:
             kwargs["region__name"] = region_name
             kwargs["city__name"] = city_name
-        
+
         if len(search_text) > 0:
-            args.append(Q(description__icontains=search_text) | Q(title__icontains=search_text))
+            args.append(
+                Q(description__icontains=search_text)
+                | Q(title__icontains=search_text)
+            )
 
         if len(category_names) > 0:
             kwargs["category__name__in"] = category_names
@@ -172,14 +187,17 @@ class CreateProductView(TemplateView):
     def create_product(self) -> JsonResponse:
         gallery_images = self.request.FILES.getlist("gallery_images")
         if len(gallery_images) == 0:
-            return JsonResponse({"success": False, "error": "Добавьте как минимум одну картинку"})
+            return JsonResponse({
+                "success": False,
+                "error": _("Добавьте как минимум одну картинку")
+            })
 
         form = ProductForm(self.request.POST, self.request.FILES)
         if form.is_valid():
             form.instance.seller = self.request.user
             form.save()
             gallery_images_list = [
-                GalleryImage(image=image, product=form.instanse)
+                GalleryImage(image=image, product=form.instance)
                 for image in gallery_images
             ]
             GalleryImage.objects.bulk_create(gallery_images_list)
@@ -189,9 +207,12 @@ class CreateProductView(TemplateView):
             msg = list(form.errors.get_context()["errors"])[0]
             field = msg[0].capitalize()
             error = msg[1][0]
-            return JsonResponse({"success": False, "error": f"{field}: {error}"})
+            return JsonResponse({
+                "success": False,
+                "error": f"{field}: {error}"
+            })
 
-        return JsonResponse({"success": False, "error": "Unknown error"})
+        return JsonResponse({"success": False, "error": _("Unknown error")})
 
     def get_cities_by_region(self) -> JsonResponse:
         region_name = self.request.POST.get("region")
@@ -206,11 +227,13 @@ class CreateProductView(TemplateView):
         context["lang"] = self.request.COOKIES.get("lang", "ru")
         context["form"] = ProductForm()
         context["my_user"] = self.request.user
-        context["categories"] = [category.name for category in Category.objects.all()]
+        context["categories"] = [
+            category.name for category in Category.objects.all()
+        ]
         context["regions"] = [region.name for region in Region.objects.all()]
 
         return context
-    
+
 
 class MyProductsView(ListView):
     model = Product
@@ -240,29 +263,32 @@ class MyProductsView(ListView):
 class ProductDetailsView(DetailView):
     models = Product
     template_name = "catalog/product_details.html"
-    
+
     def setup(self, *args, **kwargs) -> None:
         super().setup(*args, **kwargs)
         self.context = self.get_context_data()
-    
+
     def get(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
         return self.render_to_response(self.context)
 
     def post(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
         if "action" in self.request.POST:
             return self.handle_ajax_post()
-    
+
     def handle_ajax_post(self) -> JsonResponse:
         action = self.request.POST.get("action")
         if action == "delete":
             return self.delete_product()
-    
+
     def delete_product(self) -> JsonResponse:
         if self.object.seller != self.request.user:
-            return JsonResponse({"success": False, "error": "You are not the seller of this product"})
+            return JsonResponse({
+                "success": False,
+                "error": _("You are not the seller of this product")
+            })
         self.object.delete()
         return JsonResponse({"success": True})
-    
+
     def get_object(self, *args, **kwargs) -> Product:
         return get_object_or_404(
             Product.objects.all()
@@ -277,12 +303,14 @@ class ProductDetailsView(DetailView):
         self.object = self.get_object(*args, **kwargs)
 
         context = super().get_context_data(**kwargs)
-        context["image_urls"] = [image.image.url for image in self.object.gallery_images.all()]
+        context["image_urls"] = [
+            image.image.url for image in self.object.gallery_images.all()
+        ]
         context["main_image_url"] = context["image_urls"][0]
         context["my_user"] = self.request.user
         context["theme"] = self.request.COOKIES.get("theme", "light")
         context["lang"] = self.request.COOKIES.get("lang", "ru")
-    
+
         return context
 
 
@@ -295,42 +323,56 @@ class EditProductView(DetailView):
         self.context = self.get_context_data()
 
         if self.object.seller != self.request.user:
-            return HttpResponseForbidden("You are not the seller of this product")
-    
+            return HttpResponseForbidden(
+                "You are not the seller of this product"
+            )
+
     def get(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
         return self.render_to_response(self.context)
 
     def post(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
         if "action" in self.request.POST:
             return self.handle_ajax_post()
-    
+
     def handle_ajax_post(self) -> JsonResponse:
         action = self.request.POST.get("action")
         if action == "edit":
             return self.edit_product()
-    
+
     def edit_product(self) -> JsonResponse:
         gallery_images = self.request.FILES.getlist("gallery_images")
         if len(gallery_images) == 0:
-            return JsonResponse({"success": False, "error": "Добавьте как минимум одну картинку"})
+            return JsonResponse({
+                "success": False,
+                "error": _("Добавьте как минимум одну картинку")
+            })
 
-        form = ProductForm(self.request.POST, self.request.FILES, instance=self.object)
+        form = ProductForm(
+            self.request.POST,
+            self.request.FILES,
+            instance=self.object
+        )
         if form.is_valid():
             form.instance.seller = self.request.user
             form.instance.gallery_images.all().delete()
             form.save()
-            for gallery_image in gallery_images:
-                GalleryImage.objects.create(image=gallery_image, product=form.instance)
+            GalleryImage.objects.bulk_create(
+                GalleryImage(image=image, product=form.instance)
+                for image in gallery_images
+            )
             return JsonResponse({"success": True})
 
         if len(form.errors) > 0:
             msg = list(form.errors.get_context()["errors"])[0]
             field = msg[0].capitalize()
             error = msg[1][0]
-            return JsonResponse({"success": False, "error": f"{field}: {error}"})
+            return JsonResponse({
+                "success": False,
+                "error": f"{field}: {error}"
+            })
 
-        return JsonResponse({"success": False, "error": "Unknown error"})
-    
+        return JsonResponse({"success": False, "error": _("Unknown error")})
+
     def get_object(self, *args, **kwargs) -> Product:
         return get_object_or_404(
             Product.objects.all()
@@ -341,11 +383,13 @@ class EditProductView(DetailView):
             pk=self.kwargs["pk"]
         )
 
-    def get_context_data(self, *args, **kwargs):        
+    def get_context_data(self, *args, **kwargs):
         self.object = self.get_object(*args, **kwargs)
 
         context = super().get_context_data(**kwargs)
-        context["image_urls"] = [image.image.url for image in self.object.gallery_images.all()]
+        context["image_urls"] = [
+            image.image.url for image in self.object.gallery_images.all()
+        ]
         context["main_image_url"] = context["image_urls"][0]
         context["my_user"] = self.request.user
         context["theme"] = self.request.COOKIES.get("theme", "light")
@@ -358,9 +402,13 @@ class EditProductView(DetailView):
         context["region"] = self.object.region
         context["phone-number"] = self.object.phone_number
         context["email"] = self.object.email
-        context["image_urls"] = [image.image.url for image in self.object.gallery_images.all()]
-    
-        context["categories"] = [category.name for category in Category.objects.all()]
+        context["image_urls"] = [
+            image.image.url for image in self.object.gallery_images.all()
+        ]
+
+        context["categories"] = [
+            category.name for category in Category.objects.all()
+        ]
         context["regions"] = [region.name for region in Region.objects.all()]
 
         return context

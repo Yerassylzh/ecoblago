@@ -24,7 +24,7 @@ function createProduct() {
         success: (data) => {
             const success = data["success"];
             if (success) {
-                showToast(gettext('Обявление успешно добавлено'), true);
+                showToast(gettext('Объявление успешно добавлено'), true);
                 setTimeout(() => {
                     window.location.href = CATALOG_URL;
                 }, 3000);
@@ -37,7 +37,7 @@ function createProduct() {
             showToast(gettext('Произошла ошибка при добавлении обявления'), false);
         },
         complete: function () {
-            $("#publish-btn").text(gettext('Подать обявление'));
+            $("#publish-btn").text(gettext('Подать объявление'));
             $("#publish-btn").removeAttr("disabled");
         }
     })

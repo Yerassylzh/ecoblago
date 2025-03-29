@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-25 17:07+0500\n"
-"PO-Revision-Date: 2025-03-27 13:35+0000\n"
+"PO-Revision-Date: 2025-03-29 22:35+0000\n"
 "Last-Translator: Ерасыл Жасуланов <zhasulanov.erasyl@mail.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -20,6 +20,48 @@ msgstr ""
 "X-Translated-Using: django-rosetta 0.10.1\n"
 
 #: .\static\js\catalog\catalog\more_filters.js:1
+msgid "Вы точно хотите выйти c аккаунта?"
+msgstr "Are you sure you want to log out of your account?"
+
+msgid "Вы точно хотите удалить аккаунт?"
+msgstr "Are you sure you want to delete your account?"
+
+msgid "Ошибка при удалении аккаунта"
+msgstr "Account deletion error"
+
+msgid "Ошибка при изменении языка"
+msgstr "Error when changing the language"
+
+msgid "Ошибка при выходе"
+msgstr "Exit error"
+
+msgid "Произошла ошибка"
+msgstr "An error has occurred"
+
+msgid "Введите пароль"
+msgstr "Enter the password"
+
+msgid "Пароли не совпадают"
+msgstr "Passwords don't match"
+
+msgid "Пароль успешно изменен"
+msgstr "Password was changed successfully"
+
+msgid "Тема успешно изменена"
+msgstr "The theme has been successfully changed"
+
+msgid "Ошибка при изменении темы"
+msgstr "Error when changing the theme"
+
+msgid "Изменения сохранены"
+msgstr "The changes are saved"
+
+msgid "Выберите фото"
+msgstr "Select a photo"
+
+msgid "Загрузить"
+msgstr "Upload"
+
 msgid "Настройки"
 msgstr "Settings"
 
@@ -115,7 +157,7 @@ msgstr "No products found"
 msgid "Продавец"
 msgstr "Seller"
 
-msgid "Обявление успешно добавлено"
+msgid "Объявление успешно добавлено"
 msgstr "The product was added successfully"
 
 msgid "Product was added to favorites"
@@ -196,7 +238,7 @@ msgstr "Wait"
 msgid "Поиск"
 msgstr "Search"
 
-msgid "Создать обьявление"
+msgid "Создать объявление"
 msgstr "Create a product"
 
 msgid "Название"
@@ -208,7 +250,7 @@ msgstr "About me"
 msgid "Редактирование обявления"
 msgstr "Editing a product"
 
-msgid "Подать обявление"
+msgid "Подать объявление"
 msgstr "Create a product"
 
 msgid "На ecoblago с"
@@ -224,7 +266,7 @@ msgstr ""
 msgid "Все просто, быстро и доступно."
 msgstr "Everything is simple, fast and affordable."
 
-msgid "Мои обявление"
+msgid "Мои объявление"
 msgstr "My products"
 
 msgid "Произошла ошибка при удалении продукта"

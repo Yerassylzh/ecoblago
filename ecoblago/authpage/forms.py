@@ -1,9 +1,9 @@
-from django.forms import CharField, TextInput, CheckboxInput, BooleanField
-from django.core.validators import EmailValidator
+from django.forms import TextInput, CheckboxInput, BooleanField
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.utils.translation import gettext as _
 
 from authpage.models import User
-from authpage.validators import PhoneNumberValidator
+
 
 class RegistrationForm(UserCreationForm):
     remember_me = BooleanField(
@@ -14,7 +14,7 @@ class RegistrationForm(UserCreationForm):
                 "id": "remember-me",
             },
         ),
-        label="Запомнить меня на месяц",
+        label=_("Запомнить меня на месяц"),
         required=False,
     )
 
@@ -23,7 +23,7 @@ class RegistrationForm(UserCreationForm):
 
         self.fields["phone_number"].widget = TextInput(
             attrs={
-                "placeholder": "Номер телефона",
+                "placeholder": _("Номер телефона"),
                 "type": "text",
                 "id": "phone-number",
             }
@@ -31,7 +31,7 @@ class RegistrationForm(UserCreationForm):
 
         self.fields["email"].widget = TextInput(
             attrs={
-                "placeholder": "Почта",
+                "placeholder": _("Почта"),
                 "type": "text",
                 "id": "email",
             }
@@ -39,7 +39,7 @@ class RegistrationForm(UserCreationForm):
 
         self.fields["first_name"].widget = TextInput(
             attrs={
-                "placeholder": "Имя",
+                "placeholder": _("Имя"),
                 "type": "text",
                 "id": "first_name",
             }
@@ -47,7 +47,7 @@ class RegistrationForm(UserCreationForm):
 
         self.fields["last_name"].widget = TextInput(
             attrs={
-                "placeholder": "Фамилия",
+                "placeholder": _("Фамилия"),
                 "type": "text",
                 "id": "last_name",
             }
@@ -55,7 +55,7 @@ class RegistrationForm(UserCreationForm):
 
         self.fields["username"].widget = TextInput(
             attrs={
-                "placeholder": "Хэндл пользователя",
+                "placeholder": _("Хэндл пользователя"),
                 "type": "text",
                 "id": "username",
             }
@@ -63,7 +63,7 @@ class RegistrationForm(UserCreationForm):
 
         self.fields["password1"].widget = TextInput(
             attrs={
-                "placeholder": "Пароль",
+                "placeholder": _("Пароль"),
                 "type": "password",
                 "id": "password1",
             }
@@ -71,25 +71,41 @@ class RegistrationForm(UserCreationForm):
 
         self.fields["password2"].widget = TextInput(
             attrs={
-                "placeholder": "Подтвердите пароль",
+                "placeholder": _("Подтвердите пароль"),
                 "type": "password",
                 "id": "password2",
             }
         )
 
     def clean_phone_number(self):
-        phone_number : str = "".join(list(filter(lambda c: c not in "() -", self.cleaned_data.get("phone_number"))))
+        phone_number: str = "".join(
+            list(
+                filter(
+                    lambda c: c not in "() -", self.cleaned_data.get(
+                        "phone_number"
+                    )
+                )
+            )
+        )
         if phone_number.startswith("8"):
             phone_number = phone_number[1:]
         else:
             phone_number = phone_number[2:]  # it starts from +7
 
-        cleaned_phone_number = f"+7 ({phone_number[0:3]}) {phone_number[3:6]}-{phone_number[6:]}"
-        return cleaned_phone_number
+        return f"+7 ({phone_number[0:3]}) " + \
+            f"{phone_number[3:6]}-{phone_number[6:]}"
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', "phone_number", 'password1', 'password2']
+        fields = [
+            'first_name',
+            'last_name',
+            'username',
+            'email',
+            "phone_number",
+            'password1',
+            'password2'
+        ]
 
 
 class LoginForm(AuthenticationForm):
@@ -101,7 +117,7 @@ class LoginForm(AuthenticationForm):
                 "id": "remember-me",
             },
         ),
-        label="Запомнить меня на месяц",
+        label=_("Запомнить меня на месяц"),
         required=False,
     )
 
@@ -110,7 +126,7 @@ class LoginForm(AuthenticationForm):
 
         self.fields["username"].widget = TextInput(
             attrs={
-                "placeholder": "Имя пользователя",
+                "placeholder": _("Имя пользователя"),
                 "type": "text",
                 "id": "username",
             }
@@ -118,7 +134,7 @@ class LoginForm(AuthenticationForm):
 
         self.fields["password"].widget = TextInput(
             attrs={
-                "placeholder": "Пароль",
+                "placeholder": _("Пароль"),
                 "type": "password",
                 "id": "password",
             }

@@ -4,7 +4,7 @@
 
 {% block links %}
 <link rel="stylesheet" href="{% static 'css/settingspage/settingspage.css' %}?v={% now 'U' %}">
-<title>Настройки</title>
+<title>{% trans "Настройки" %}</title>
 {% endblock links %}
 
 {% block navbar %}{% include 'includes/navbar.html' %}{% endblock navbar %}

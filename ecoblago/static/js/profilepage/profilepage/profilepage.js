@@ -27,7 +27,7 @@ document.addEventListener("click", (e) => {
 
     editText = document.createElement("a")
     editText.setAttribute("class", "link-text")
-    editText.textContent = "Подтвердить"
+    editText.textContent = gettext("Подтвердить")
     submitButton.appendChild(editText)
 
     aboutSection = document.getElementById("about-section")
@@ -57,7 +57,7 @@ document.addEventListener("click", (e) => {
                 editAboutLink = document.createElement("a")
                 editAboutLink.setAttribute("class", "link-text")
                 editAboutLink.setAttribute("id", "edit-about-link")
-                editAboutLink.textContent = "Изменить"
+                editAboutLink.textContent = gettext("Изменить")
 
                 editAboutButton = document.createElement("button")
                 editAboutButton.setAttribute("class", "transparent-button")
@@ -83,7 +83,7 @@ document.addEventListener("click", (e) => {
             if (success) {
                 addEditAboutLink()
                 addAboutText(aboutTextContent)
-                showToast("Изменения сохранены", true)
+                showToast(gettext("Изменения сохранены"), true)
             } else {
                 addEditAboutLink()
                 addAboutText(aboutTextContent)
@@ -113,7 +113,7 @@ document.addEventListener("click", (e) => {
 
     fileInput = document.createElement("input")
     fileInput.setAttribute("type", "file")
-    fileInput.setAttribute("value", "Выберите фото")
+    fileInput.setAttribute("value", gettext("Выберите фото"))
     fileInput.setAttribute("class", "choose-photo-button")
     fileInput.setAttribute("name", "personal-image")
     form.appendChild(fileInput)
@@ -124,7 +124,7 @@ document.addEventListener("click", (e) => {
 
     uploadText = document.createElement("a")
     uploadText.setAttribute("class", "link-text")
-    uploadText.textContent = "Загрузить"
+    uploadText.textContent = gettext("Загрузить")
     submitButton.appendChild(uploadText)
 
     form.appendChild(submitButton)
