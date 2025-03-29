@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block links %}
-<link rel="stylesheet" href="{% static 'css/settingspage/settingspage.css' %}?v={% now 'U' %}">
+<link rel="stylesheet" href="{% static 'css/settingspage/settingspage.css' %}">
 <title>{% trans "Настройки" %}</title>
 {% endblock links %}
 
@@ -112,6 +112,6 @@
   }
 </style>
 
-<script src="{% static 'js/settingspage/settingspage/settingspage.js' %}?v={% now 'U' %}"></script>
+<script src="{% static 'js/settingspage/settingspage/settingspage.js' %}"></script>
 
 {% endblock main %}

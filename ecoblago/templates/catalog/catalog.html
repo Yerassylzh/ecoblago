@@ -4,7 +4,7 @@
 
 {% block navbar %}{% include 'includes/navbar.html' %}{% endblock navbar %}
 {% block links %}
-  <link rel="stylesheet" href="{% static 'css/catalog/catalog.css' %}?v={% now 'U' %}">
+  <link rel="stylesheet" href="{% static 'css/catalog/catalog.css' %}">
 {% endblock links %}
 
 {% block main %}
@@ -39,11 +39,11 @@
   {% include 'includes/footer.html' %}
 </main>
 
-<script src="{% static 'js/catalog/catalog/filter_settings.js' %}?v={% now 'U' %}"></script>
-<script src="{% static 'js/catalog/catalog/more_filters.js' %}?v={% now 'U' %}"></script>
-<script src="{% static 'js/catalog/catalog/products_manager.js' %}?v={% now 'U' %}"></script>
-<script src="{% static 'js/catalog/catalog/dialogs_manager.js' %}?v={% now 'U' %}"></script>
-<script src="{% static 'js/catalog/catalog/general.js' %}?v={% now 'U' %}"></script>
+<script src="{% static 'js/catalog/catalog/filter_settings.js' %}"></script>
+<script src="{% static 'js/catalog/catalog/more_filters.js' %}"></script>
+<script src="{% static 'js/catalog/catalog/products_manager.js' %}"></script>
+<script src="{% static 'js/catalog/catalog/dialogs_manager.js' %}"></script>
+<script src="{% static 'js/catalog/catalog/general.js' %}"></script>
 
 <style>
   :root {

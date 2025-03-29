@@ -4,7 +4,7 @@
 
 {% block navbar %}{% include 'includes/navbar.html' %}{% endblock navbar %}
 {% block links %}
-  <link rel="stylesheet" href="{% static 'css/catalog/my_products.css' %}?v={% now 'U' %}">
+  <link rel="stylesheet" href="{% static 'css/catalog/my_products.css' %}">
 {% endblock links %}
 
 {% block main %}
@@ -28,6 +28,6 @@
   }
 </style>
 
-<script src="{% static 'js/catalog/my_products/my_products.js' %}?v={% now 'U' %}"></script>
+<script src="{% static 'js/catalog/my_products/my_products.js' %}"></script>
 
 {% endblock main %}

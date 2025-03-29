@@ -3,9 +3,9 @@
 {% load i18n %}
 
 {% block links %}
-<link rel="stylesheet" href="{% static 'css/profilepage/profilepage.css' %}?v={% now 'U' %}">
-<link rel="stylesheet" href="{% static 'css/includes/profilepage/personal_info.css' %}?v={% now 'U' %}">
-<link rel="stylesheet" href="{% static 'css/includes/profilepage/feedback_bar.css' %}?v={% now 'U' %}">
+<link rel="stylesheet" href="{% static 'css/profilepage/profilepage.css' %}">
+<link rel="stylesheet" href="{% static 'css/includes/profilepage/personal_info.css' %}">
+<link rel="stylesheet" href="{% static 'css/includes/profilepage/feedback_bar.css' %}">
 <title>Профиль {{ user.first_name }} {{ user.last_name }}</title>
 {% endblock links %}
 
@@ -96,5 +96,5 @@
   const USER_ID = "{{ user.id }}";
 </script>
 
-<script src="{% static 'js/profilepage/profilepage/profilepage.js' %}?v={% now 'U' %}"></script>
+<script src="{% static 'js/profilepage/profilepage/profilepage.js' %}"></script>
 {% endblock main %}

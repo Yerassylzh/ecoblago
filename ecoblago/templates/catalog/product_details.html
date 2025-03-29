@@ -4,7 +4,7 @@
 {% load custom_filters %}
 
 {% block links %}
-  <link rel="stylesheet" href="{% static 'css/catalog/product_details.css' %}?v={% now 'U' %}">
+  <link rel="stylesheet" href="{% static 'css/catalog/product_details.css' %}">
 {% endblock links %}
 
 {% block navbar %}{% include 'includes/navbar.html' %}{% endblock navbar %}
@@ -93,6 +93,6 @@
   const PRODUCT_ID = "{{ object.id }}";
 </script>
 
-<script src="{% static 'js/catalog/product_details/product_details.js' %}?v={% now 'U' %}"></script>
+<script src="{% static 'js/catalog/product_details/product_details.js' %}"></script>
 
 {% endblock main %}

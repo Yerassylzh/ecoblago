@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block links %}
-  <link rel="stylesheet" href="{% static 'css/authpage/authpage.css' %}?v={% now 'U' %}">
+  <link rel="stylesheet" href="{% static 'css/authpage/authpage.css' %}">
 {% endblock %}
 
 {% block main %}
@@ -57,5 +57,5 @@
   </div>
 </main>
 
-<script src="{% static 'js/authpage/authpage.js' %}?v={% now 'U' %}"></script>
+<script src="{% static 'js/authpage/authpage.js' %}"></script>
 {% endblock %}
