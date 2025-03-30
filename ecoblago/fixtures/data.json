@@ -1,10 +1,18 @@
 [
 {
   "model": "sessions.session",
-  "pk": "3qbdg99r65qgwu2n7gx1ixuh7i1lde0s",
+  "pk": "2r7q4vfm0nvfte4o8yhjfb6y87su96iz",
   "fields": {
-    "session_data": ".eJxVjMsOwiAUBf-FtSFA6QW6dO83EB4Xixow0CYa479rky50e2bOvIh16zLbtWOzOZKJaHL43bwLVywbiBdXzpWGWpaWPd0UutNOTzXi7bi7f4HZ9fn7VsJ4z6SQinmDEQQLQWph5CCTwWFU3HPDEsDIpQaOYFAFDylql4IB2KIde8-1WHzcc3uSSYNk7P0BVXw_RQ:1tvw9V:xFbMYYWG3uMWdowHVgLJOjnsssusKaW-5H5AF-m5X6s",
-    "expire_date": "2025-03-23T10:32:29.285Z"
+    "session_data": ".eJxVjMsOwiAUBf-FtSFA6QW6dO83EB4Xixow0CYa479rky50e2bOvIh16zLbtWOzOZKJaHL43bwLVywbiBdXzpWGWpaWPd0UutNOTzXi7bi7f4HZ9fn7VsJ4z6SQinmDEQQLQWph5CCTwWFU3HPDEsDIpQaOYFAFDylql4IB2KIde8-1WHzcc3uSSYNk7P0BVXw_RQ:1txVkL:5qhwl0tjPaf1ZMLsfjhaLfiJ5J50lf9fEVjiHn7mGiI",
+    "expire_date": "2025-03-27T18:45:01.262Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "4u79xlwxqklak9wdh1yqwib5g7u15np2",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAUBf-FtSFA6QW6dO83EB4Xixow0CYa479rky50e2bOvIh16zLbtWOzOZKJaHL43bwLVywbiBdXzpWGWpaWPd0UutNOTzXi7bi7f4HZ9fn7VsJ4z6SQinmDEQQLQWph5CCTwWFU3HPDEsDIpQaOYFAFDylql4IB2KIde8-1WHzcc3uSSYNk7P0BVXw_RQ:1twHd5:L9b-jA-BJVVgqMmNVBaj05nExjZspGzbI2grTi82D1Q",
+    "expire_date": "2025-03-24T09:28:27.703Z"
   }
 },
 {
@@ -25,6 +33,22 @@
 },
 {
   "model": "sessions.session",
+  "pk": "ev42ntcrjbq549yga11arenvth91f5vb",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAUBf-FtSFA6QW6dO83EB4Xixow0CYa479rky50e2bOvIh16zLbtWOzOZKJaHL43bwLVywbiBdXzpWGWpaWPd0UutNOTzXi7bi7f4HZ9fn7VsJ4z6SQinmDEQQLQWph5CCTwWFU3HPDEsDIpQaOYFAFDylql4IB2KIde8-1WHzcc3uSSYNk7P0BVXw_RQ:1twFas:zTYZTFqATtwDcX9yQo1vivnNRPqkIRexW7J2PvVvsk0",
+    "expire_date": "2025-03-24T07:18:02.444Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "m08gfrypktw2gxq8jy7sh1h4vw7c4ibf",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAUBf-FtSFA6QW6dO83EB4Xixow0CYa479rky50e2bOvIh16zLbtWOzOZKJaHL43bwLVywbiBdXzpWGWpaWPd0UutNOTzXi7bi7f4HZ9fn7VsJ4z6SQinmDEQQLQWph5CCTwWFU3HPDEsDIpQaOYFAFDylql4IB2KIde8-1WHzcc3uSSYNk7P0BVXw_RQ:1tx4f2:7sJhHnMDeghSwRXLsb640C7Aa2QPdnpJ447egJDBVSI",
+    "expire_date": "2025-03-26T13:49:44.855Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "nhijgtpkqqqy1m0st4um1ih8nz2c2jr1",
   "fields": {
     "session_data": ".eJxVjMEOwiAQRP-FsyGVhZb26N1vIAvsWtSAKW2iMf67bdKDHmfmzXsLh8s8uqXS5FIUg1AgDr-lx3CjvC3xivlSZCh5npKXGyL3tcpziXQ_7eyfYMQ6rm_UROyD4h4tHsEaZTpgCArjmmMfwXjTegXEwMyoQq-05cAmami526SVak0lO3o-0vQSg21103y--fhBQA:1tsn9w:pVmRpJw8ddn6V1uVKtOLrn_pL7pGdT7YPgYQ69mvQBM",
@@ -33,10 +57,26 @@
 },
 {
   "model": "sessions.session",
+  "pk": "npl7p19cqmxxbrzbve6r44d1a24dduv2",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAUBf-FtSFA6QW6dO83EB4Xixow0CYa479rky50e2bOvIh16zLbtWOzOZKJaHL43bwLVywbiBdXzpWGWpaWPd0UutNOTzXi7bi7f4HZ9fn7VsJ4z6SQinmDEQQLQWph5CCTwWFU3HPDEsDIpQaOYFAFDylql4IB2KIde8-1WHzcc3uSSYNk7P0BVXw_RQ:1tyCC2:L0HF44TOj85iRyvD5iovVRwfXYeImrvoJ5AK_hIp0Ag",
+    "expire_date": "2025-03-29T16:04:26.357Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "qhkfmhtxovlho2ond58vkq7xgdew38r1",
   "fields": {
     "session_data": ".eJxVjMEOwiAQRP-FsyEtCy316N1vIAvsWtSAKW2iMf67bdKDHmfmzXsLh8s8uqXS5FIUR9GKw2_nMdwob0O8Yr4UGUqep-Tlhsh9rfJcIt1PO_snGLGO6xs1EfugeECLLVijTA8MQWFccxwiGG86r4AYmBlVGJS2HNhEDR33m7RSralkR89Hml7iaDvdNJ8vz1tBDA:1tuBVC:23BsHQMNGSTaHiSPBFziAL9H3MEhQjAWeoyAd0HNOy8",
     "expire_date": "2025-03-18T14:31:38.107Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "qonoj7jvq6jy33ufoglvsrx8zi5tcgnh",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAUBf-FtSFA6QW6dO83EB4Xixow0CYa479rky50e2bOvIh16zLbtWOzOZKJaHL43bwLVywbiBdXzpWGWpaWPd0UutNOTzXi7bi7f4HZ9fn7VsJ4z6SQinmDEQQLQWph5CCTwWFU3HPDEsDIpQaOYFAFDylql4IB2KIde8-1WHzcc3uSSYNk7P0BVXw_RQ:1tyZHs:F4AnkIq9eO2bk07LIBldf51Qo7jyv17FjOUh9Y_ug34",
+    "expire_date": "2025-03-30T16:44:00.386Z"
   }
 },
 {
@@ -67,18 +107,18 @@
   "model": "authpage.user",
   "fields": {
     "password": "pbkdf2_sha256$870000$V2JyKw3VYwVM891AGNTu5f$4A67WBxA5evcv3uYT+0yJ8NTUENjSMonEIOX/S850LA=",
-    "last_login": "2025-03-22T10:32:29.252Z",
-    "is_superuser": false,
+    "last_login": "2025-03-29T16:44:00.325Z",
+    "is_superuser": true,
     "username": "__yerazh__",
     "first_name": "Ерасыл",
     "last_name": "Жасуланов",
     "email": "zhasulanov.erasyl@mail.ru",
-    "is_staff": false,
+    "is_staff": true,
     "is_active": true,
     "date_joined": "2025-03-21T14:11:53.151Z",
     "phone_number": "+7 (708) 822-1205",
-    "about": "Всем саламалейум. Я люблю продовать кормы и одежду",
-    "image": "uploads/WIN_20250226_13_00_52_Pro_dRNerlr.jpg",
+    "about": "I am an experienced seller of products for animals",
+    "image": "uploads/noname_user_amN4HYG.png",
     "groups": [],
     "user_permissions": [],
     "liked_products": []
@@ -21318,35 +21358,27 @@
 },
 {
   "model": "catalog.product",
-  "pk": 38,
+  "pk": 46,
   "fields": {
-    "title": "The first product (edited)",
+    "title": "The test product",
     "phone_number": "+7 708 822 1205",
     "email": "zhasulanov.erasyl@mail.ru",
-    "cost": 4324234,
-    "description": "fsdfsfsfsfsf",
+    "cost": 10000,
+    "description": "The test product",
     "seller": [
       "__yerazh__"
     ],
-    "category": 1,
-    "region": 6,
-    "city": 844
+    "category": 4,
+    "region": 1,
+    "city": 4
   }
 },
 {
   "model": "catalog.galleryimage",
-  "pk": 89,
+  "pk": 104,
   "fields": {
-    "image": "uploads/D0A1D0BDD0B8D0BCD0BED0BA_D18DD0BAD180D0B0D0BDD0B0_284_ujowjvK_9H24fgU.png",
-    "product": 38
-  }
-},
-{
-  "model": "catalog.galleryimage",
-  "pk": 90,
-  "fields": {
-    "image": "uploads/Снимок_экрана_286_9oRiTEo.png",
-    "product": 38
+    "image": "uploads/python-logo-1.png",
+    "product": 46
   }
 }
 ]
