@@ -13,7 +13,7 @@ class FilterSettings {
         this.city = null;
 
         this.maxCost = 480000;
-        this.minCost = 500;
+        this.minCost = 0;
         this.categories = [];
         this.sortingRule = this.sortingRules.POPULAR;
     }

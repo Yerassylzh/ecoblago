@@ -24,7 +24,7 @@ function addToFavourites(like) {
             "csrfmiddlewaretoken": CSRF_TOKEN,
             "action": "add-product-to-favourites",
         },
-        success: function (data) {
+        success: function(data) {
             const success = data["success"];
             if (success) {
                 showToast(gettext("Product was added to favorites"), true);
@@ -46,7 +46,7 @@ function removeFromFavourites(like) {
             "csrfmiddlewaretoken": CSRF_TOKEN,
             "action": "remove-product-from-favourites",
         },
-        success: function (data) {
+        success: function(data) {
             const success = data["success"];
             if (success) {
                 showToast(gettext("Product was removed from favorites"), true);
@@ -80,7 +80,7 @@ function onFindProductsClicked() {
         "action": "filter-products",
     };
 
-    data = { ...data, ...filterSettings.toDict() };
+    data = {...data, ...filterSettings.toDict() };
 
     $.ajax({
         method: "POST",
@@ -97,6 +97,7 @@ function onFindProductsClicked() {
                 showToast(data["error"], false);
                 return;
             }
+
             productsManager.removeAllProducts();
             data["products"].forEach(product => {
                 productsManager.addProduct(product);
@@ -118,6 +119,7 @@ function onFindProductsClicked() {
 }
 
 $("#location-filter-input").on("focus", displayRegions);
+
 function displayRegions() {
     $.ajax({
         type: "GET",
@@ -139,7 +141,7 @@ function displayRegions() {
             dialogsManger.insertLocationOptions(regions, "regions-dialog");
             document.getElementById("regions-dialog").showModal();
         },
-        error: function (error) {
+        error: function(error) {
             console.error("Error fetching regions:", error);
         }
     });
@@ -189,7 +191,7 @@ document.addEventListener("click", (e) => {
             dialogsManger.insertLocationOptions(cities, "cities-dialog");
             document.getElementById("cities-dialog").showModal();
         },
-        error: function (xhr, errmsg, err) {
+        error: function(xhr, errmsg, err) {
             console.log(xhr.status + ":" + xhr.responseText)
         }
     });
@@ -242,7 +244,7 @@ document.addEventListener("click", (e) => {
             }
 
             $("#mini-popup").html(moreFilters.getDialogInnerHtml(data["categories"]));
-            moreFilters.setupCostRegulator();            
+            moreFilters.setupCostRegulator();
             moreFilters.recoverSavedSettings();
         },
         error: (error) => {

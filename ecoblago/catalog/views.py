@@ -141,7 +141,8 @@ class CatalogView(ListView):
                 "cost": product.cost,
                 "main_image": {
                     "url": product.gallery_images.all()[0].image.url,
-                }
+                },
+                "id": product.pk,
             }
             products.append(dct)
 

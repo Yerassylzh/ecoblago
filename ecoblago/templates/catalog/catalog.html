@@ -1,42 +1,34 @@
-{% extends 'base.html' %}
-{% load static %}
-{% load i18n %}
-
-{% block navbar %}{% include 'includes/navbar.html' %}{% endblock navbar %}
-{% block links %}
-  <link rel="stylesheet" href="{% static 'css/catalog/catalog.css' %}">
-{% endblock links %}
-
-{% block main %}
+{% extends 'base.html' %} {% load static %} {% load i18n %} {% block navbar %}{% include 'includes/navbar.html' %}{% endblock navbar %} {% block links %}
+<link rel="stylesheet" href="{% static 'css/catalog/catalog.css' %}"> {% endblock links %} {% block main %}
 <main class="txt-primary">
-  <div class="main-inner">
-    <div class="container-fluid" id="filter-wrapper">
-      <div id="filter" class="row filter">
-        <div class="col-12 col-md-6 col-xl-7 text-search">
-          <div class="iconic-input-field-wrapper">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="{% trans 'Что ищете?' %}" id="filter-text-input">
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-xl-2 location-search">
-          <div class="iconic-input-field-wrapper">
-            <i class="fa-solid fa-location-dot"></i>
-            <input type="text" id="location-filter-input" placeholder="{% trans 'Вся страна' %}">
-          </div>
-        </div>
-        <div class="col-6 col-md-6 col-xl-1 more-filters">
-          <button class="more-filters-btn">
+    <div class="main-inner">
+        <div class="container-fluid" id="filter-wrapper">
+            <div id="filter" class="row filter">
+                <div class="col-12 col-md-6 col-xl-7 text-search">
+                    <div class="iconic-input-field-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="{% trans 'Что ищете?' %}" id="filter-text-input">
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-2 location-search">
+                    <div class="iconic-input-field-wrapper">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <input type="text" id="location-filter-input" placeholder="{% trans 'Вся страна' %}">
+                    </div>
+                </div>
+                <div class="col-6 col-md-6 col-xl-1 more-filters">
+                    <button class="more-filters-btn">
             <i class="fa-solid fa-filter"></i>
           </button>
+                </div>
+                <div class="col-6 col-md-6 col-xl-2 submit-wrapper">
+                    <button class="search-btn" id="filter-btn" onclick="onFindProductsClicked()">{% trans 'Поиск' %}</button>
+                </div>
+            </div>
         </div>
-        <div class="col-6 col-md-6 col-xl-2 submit-wrapper">
-          <button class="search-btn" id="filter-btn" onclick="onFindProductsClicked()">{% trans 'Поиск' %}</button>
-        </div>
-      </div>
+        {% include 'includes/catalog/products_list.html' %}
     </div>
-    {% include 'includes/catalog/products_list.html' %}
-  </div>
-  {% include 'includes/footer.html' %}
+    {% include 'includes/footer.html' %}
 </main>
 
 <script src="{% static 'js/catalog/catalog/filter_settings.js' %}"></script>
@@ -46,15 +38,15 @@
 <script src="{% static 'js/catalog/catalog/general.js' %}"></script>
 
 <style>
-  :root {
-    --background-color: var(--body-color) !important;
-    --widget-color: white;
-  }
-
-  [data-theme="dark"] {
-    --background-color: var(--body-color) !important;
-    --widget-color: rgb(40, 40, 40);
-  }
+     :root {
+        --background-color: var(--body-color) !important;
+        --widget-color: white;
+    }
+    
+    [data-theme="dark"] {
+        --background-color: var(--body-color) !important;
+        --widget-color: rgb(40, 40, 40);
+    }
 </style>
 
 {% endblock main %}
