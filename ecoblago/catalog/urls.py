@@ -10,4 +10,5 @@ urlpatterns = [
     path("my_products", views.MyProductsView.as_view(), name="my_products"),
     path("product_details/<int:pk>", views.ProductDetailsView.as_view(), name="product_details"),
     path("edit/<int:pk>", views.EditProductView.as_view(), name="edit"),
+    path("liked_products", views.LikedProductsView.as_view(), name="liked_products"),
 ]

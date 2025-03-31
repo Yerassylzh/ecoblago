@@ -1,37 +1,79 @@
 {% load static %}
 {% load i18n %}
 
-<nav class="navbar fixed-top navbar-expand-md border-bottom fs-5 {% if theme == 'light' %}bg-light{% else %}bg-dark{% endif %}" id="navbar" style="z-index: 11111;">
+<nav class="navbar fixed-top navbar-expand-lg border-bottom fs-5 {% if theme == 'light' %}bg-light{% else %}bg-dark{% endif %}" id="navbar" style="z-index: 11111;">
   <div class="container-fluid">
-    <a class="navbar-brand p-0 me-auto fs-3 ms-3" href="{% url 'catalog:catalog' %}" aria-label="Экоблаго">
+    <a class="navbar-brand p-0 me-auto fs-3 ms-3 d-flex align-items-center" href="{% url 'catalog:catalog' %}" aria-label="Экоблаго">
       <img src="{% static 'img/ecoblago.png' %}" alt="Logo" class="logo-img d-inline-block align-middle">
       <span class="ms-2 txt-primary">{% trans 'Экоблаго' %}</span>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    
+    <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-3 ms-auto mb-2 mb-lg-0">
-        <li class="nav-item d-flex flex-row align-items-center">
-          <a class="nav-link me-4" aria-current="page" href="{% url 'catalog:my_products' %}">{% trans 'Мои объявление' %}</a>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="catalogDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-store me-1"></i> {% trans 'Каталог' %}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-animated" aria-labelledby="catalogDropdown">
+            <li>
+              <a class="dropdown-item" href="{% url 'catalog:catalog' %}">
+                <i class="fas fa-search me-2"></i> {% trans 'Все объявления' %}
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item" href="{% url 'catalog:liked_products' %}">
+                <i class="fas fa-heart me-2"></i> {% trans 'Понравившиеся' %}
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'catalog:create' %}">
+                <i class="fas fa-plus-circle me-2"></i> {% trans 'Подать объявление' %}
+              </a>
+            </li>
+          </ul>
         </li>
-        <li class="nav-item d-flex flex-row align-items-center">
-          <a class="nav-link me-4" aria-current="page" href="{% url 'catalog:create' %}">{% trans 'Подать объявление' %}</a>
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="myProductsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-box-open me-1"></i> {% trans 'Мои объявления' %}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-animated" aria-labelledby="myProductsDropdown">
+            <li>
+              <a class="dropdown-item" href="{% url 'catalog:my_products' %}">
+                <i class="fas fa-list me-2"></i> {% trans 'Все мои объявления' %}
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item" href="{% url 'catalog:create' %}">
+                <i class="fas fa-plus-circle me-2"></i> {% trans 'Создать новое' %}
+              </a>
+            </li>
+          </ul>
         </li>
-        <!-- To place then on the same line when collapsed -->
-        <div class="d-flex flex-row" style="gap: 0.7rem;">
-          <li class="nav-item d-flex flex-row align-items-center justify-content-center">
-            <a class="nav-link" href="{% url 'settingspage:settingspage' %}">
-              <i class="bi bi-gear fs-3 txt-primary"></i>
-            </a>
-          </li>
-          <li class="nav-item d-flex flex-row align-items-center justify-content-center">
-            <a class="nav-link me-2 d-flex flex-row" href="{% url 'profilepage:profilepage' my_user.id %}">
-              <i class="fas fa-user ms-2 fs-3 d-flex flex-row txt-primary"></i>
-              <!-- <p class="navbar-user-name">{{ user.first_name }} {{ user.last_name }}</p> -->
-            </a>
-          </li>
-        </div>
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user-circle me-1"></i> {% trans 'Аккаунт' %}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-animated" aria-labelledby="userDropdown">
+            <li>
+              <a class="dropdown-item" href="{% url 'profilepage:profilepage' my_user.id %}">
+                <i class="fas fa-user me-2"></i> {% trans 'Мой профиль' %}
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'settingspage:settingspage' %}">
+                <i class="bi bi-gear me-2"></i> {% trans 'Настройки' %}
+              </a>
+            </li>
+          </ul>
+        </li>
       </ul>
     </div>
   </div>

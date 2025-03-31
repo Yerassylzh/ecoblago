@@ -7,7 +7,7 @@ class ProductsManager {
         return `
         <div class="col-12 col-md-4 col-xl-3">
           <div class="product">
-            <input type="hidden" class="product-id-input" value="${product.id}">
+            <input type="hidden" class="product-id-input" value="${product.id}">c
             <div class="product-image">
               <img src="${product.main_image.url}" alt="product">
             </div>

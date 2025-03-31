@@ -22,7 +22,7 @@
 
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
   <link rel="stylesheet" href="{% static 'css/includes/footer.css' %}">
-  <link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/includes/navbar.css' %}?v=1">
   <link rel="stylesheet" href="{% static 'css/includes/checkbox-container.css' %}">
   <link rel="stylesheet" href="{% static 'css/includes/input-field.css' %}">
   <link rel="stylesheet" href="{% static 'css/includes/radio-input.css' %}">
@@ -31,6 +31,7 @@
 
   <script src="{% url 'javascript-catalog' %}"></script>
   <script src="{% static 'js/base.js' %}"></script>
+  <script src="{% static 'js/includes/navbar.js' %}"></script>
 
   {% block links %}{% endblock links %}
 
@@ -121,13 +122,11 @@
   const MY_PRODUCTS_URL = "{% url 'catalog:my_products' %}";
   const PRODUCT_DETAILS_URL = "{% url 'catalog:product_details' 0 %}";
   const EDIT_PRODUCT_URL = "{% url 'catalog:edit' 0 %}";
+  const LIKED_PRODUCTS_URL = "{% url 'catalog:liked_products' %}"
 
   const PROFILEPAGE_URL = "{% url 'profilepage:profilepage' 0 %}";
 
   const SETTINGSPAGE_URL = "{% url 'settingspage:settingspage' %}";
-</script>
-
-<script>
 </script>
 
 </html>

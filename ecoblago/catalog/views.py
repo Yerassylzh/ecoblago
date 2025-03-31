@@ -240,20 +240,78 @@ class MyProductsView(ListView):
     model = Product
     template_name = "catalog/my_products.html"
 
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.object_list = self.get_queryset()
+        self.context = self.get_context_data()
+
     def get(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
         return self.render_to_response(self.context)
+
+    def post(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
+        if "action" in self.request.POST:
+            return self.handle_ajax_post()
+
+    def handle_ajax_post(self) -> JsonResponse:
+        action = self.request.POST["action"]
+        if action == "filter-products":
+            return self.get_filtered_products()
 
     def get_queryset(self):
         return Product.objects.filter(seller=self.request.user)
 
-    def setup(self, request, *args, **kwargs):
-        super().setup(request, *args, **kwargs)
+    def get_filtered_products(self) -> JsonResponse:
+        search_text = self.request.POST.get("content").strip()
+        region_name = self.request.POST.get("region").strip()
+        city_name = self.request.POST.get("city").strip()
+        min_cost = int(self.request.POST.get("min-cost"))
+        max_cost = int(self.request.POST.get("max-cost"))
+        category_names = self.request.POST.getlist("categories[]")
 
-        self.object_list = self.get_queryset()
-        self.context = self.get_context_data()
+        kwargs = {}
+        args = []
+        if region_name and city_name:
+            kwargs["region__name"] = region_name
+            kwargs["city__name"] = city_name
+
+        if len(search_text) > 0:
+            args.append(
+                Q(description__icontains=search_text)
+                | Q(title__icontains=search_text)
+            )
+
+        if len(category_names) > 0:
+            kwargs["category__name__in"] = category_names
+
+        queryset = (
+            self
+            .object_list
+            .filter(
+                *args,
+                cost__gte=min_cost,
+                cost__lte=max_cost,
+                **kwargs,
+            )
+        )
+
+        products = []
+        for product in queryset:
+            dct = {
+                "is_liked": product in self.context["liked_products"],
+                "title": product.title,
+                "cost": product.cost,
+                "main_image": {
+                    "url": product.gallery_images.all()[0].image.url,
+                },
+                "id": product.pk,
+            }
+            products.append(dct)
+
+        return JsonResponse({"success": True, "products": products})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["liked_products"] = self.request.user.liked_products.all()
         context["my_user"] = self.request.user
         context["theme"] = self.request.COOKIES.get("theme", "light")
         context["lang"] = self.request.COOKIES.get("lang", "ru")
@@ -412,4 +470,96 @@ class EditProductView(DetailView):
         ]
         context["regions"] = [region.name for region in Region.objects.all()]
 
+        return context
+
+
+class LikedProductsView(ListView):
+    model = Product
+    template_name = "catalog/liked_products.html"
+
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.object_list = self.get_queryset()
+        self.context = self.get_context_data()
+
+    def get(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
+        if "action" in self.request.GET:
+            return self.handle_ajax_get()
+        return self.render_to_response(self.context)
+    
+    def post(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
+        if "action" in self.request.POST:
+            return self.handle_ajax_post()
+    
+    def handle_ajax_get(self) -> JsonResponse:
+        pass
+    
+    def handle_ajax_post(self) -> JsonResponse:
+        action = self.request.POST["action"]
+        if action == "filter-products":
+            return self.get_filtered_products()
+
+    def get_queryset(self):
+        return (
+            self.request.user.liked_products
+            .prefetch_related("gallery_images")
+            .only("id", "title", "cost")
+        )
+
+    def get_filtered_products(self) -> JsonResponse:
+        search_text = self.request.POST.get("content").strip()
+        region_name = self.request.POST.get("region").strip()
+        city_name = self.request.POST.get("city").strip()
+        min_cost = int(self.request.POST.get("min-cost"))
+        max_cost = int(self.request.POST.get("max-cost"))
+        category_names = self.request.POST.getlist("categories[]")
+
+        kwargs = {}
+        args = []
+        if region_name and city_name:
+            kwargs["region__name"] = region_name
+            kwargs["city__name"] = city_name
+
+        if len(search_text) > 0:
+            args.append(
+                Q(description__icontains=search_text)
+                | Q(title__icontains=search_text)
+            )
+
+        if len(category_names) > 0:
+            kwargs["category__name__in"] = category_names
+
+        queryset = (
+            self
+            .object_list
+            .filter(
+                *args,
+                cost__gte=min_cost,
+                cost__lte=max_cost,
+                **kwargs,
+            )
+        )
+
+        products = []
+        for product in queryset:
+            dct = {
+                "is_liked": product in self.context["liked_products"],
+                "title": product.title,
+                "cost": product.cost,
+                "main_image": {
+                    "url": product.gallery_images.all()[0].image.url,
+                },
+                "id": product.pk,
+            }
+            products.append(dct)
+
+        return JsonResponse({"success": True, "products": products})
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["liked_products"] = self.request.user.liked_products.all()
+        context["my_user"] = self.request.user
+        context["theme"] = self.request.COOKIES.get("theme", "light")
+        context["lang"] = self.request.COOKIES.get("lang", "ru")
         return context
