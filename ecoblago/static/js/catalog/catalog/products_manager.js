@@ -5,15 +5,15 @@ class ProductsManager {
         }
 
         return `
-        <div class="col-12 col-md-4 col-xl-3">
+        <div class="col-6 col-md-4 col-xl-3">
           <div class="product">
-            <input type="hidden" class="product-id-input" value="${product.id}">c
+            <input type="hidden" class="product-id-input" value="${product.id}">
             <div class="product-image">
               <img src="${product.main_image.url}" alt="product">
             </div>
             <div class="product-info">
               <div class="text-section">
-                <h3 class="product-title">${product.title.slice(0, 20)}</h3>
+                <h3 class="product-title">${product.title.slice(0, 30)}</h3>
                 <p class="product-price">${formatCost(product.cost)} тг</p>
               </div>
               <div class="like-section">
