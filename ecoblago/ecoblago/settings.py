@@ -28,7 +28,8 @@ INSTALLED_APPS = [
     "settingspage.apps.SettingspageConfig",
     "core.apps.CoreConfig",
     "sorl.thumbnail",
-    "rosetta"
+    "rosetta",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [

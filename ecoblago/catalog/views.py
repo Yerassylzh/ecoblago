@@ -1,4 +1,5 @@
 from typing import Union
+from io import BytesIO
 
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, TemplateView, DetailView
@@ -9,11 +10,13 @@ from django.http import (
     HttpResponseForbidden,
 )
 from django.db.models import Q
+from django.core.files import File
 from django.utils.translation import gettext as _
+from PIL import Image
 
 from catalog.models import Product, Region, Category, GalleryImage
 from catalog.forms import ProductForm
-
+from core.utils import get_cropped_image
 
 class CatalogView(ListView):
     model = Product
@@ -197,10 +200,27 @@ class CreateProductView(TemplateView):
         if form.is_valid():
             form.instance.seller = self.request.user
             form.save()
-            gallery_images_list = [
-                GalleryImage(image=image, product=form.instance)
-                for image in gallery_images
-            ]
+
+            gallery_images_list = []
+            
+            for image in gallery_images:
+                # Open and crop the image
+                img = Image.open(image)
+                cropped_img = get_cropped_image(img, 4/3)
+                                
+                temp_file = BytesIO()
+                cropped_img.save(temp_file, format=img.format or 'JPEG')
+                temp_file.seek(0)
+                
+                cropped_file = File(temp_file, name=image.name)
+                
+                gallery_images_list.append(
+                    GalleryImage(
+                        image=cropped_file,
+                        product=form.instance
+                    )
+                )
+
             GalleryImage.objects.bulk_create(gallery_images_list)
             return JsonResponse({"success": True})
 
@@ -412,13 +432,27 @@ class EditProductView(DetailView):
             instance=self.object
         )
         if form.is_valid():
-            form.instance.seller = self.request.user
-            form.instance.gallery_images.all().delete()
             form.save()
-            GalleryImage.objects.bulk_create(
-                GalleryImage(image=image, product=form.instance)
-                for image in gallery_images
-            )
+
+            gallery_images_list = []            
+            for image in gallery_images:
+                img = Image.open(image)
+                cropped_img = get_cropped_image(img, 4/3)
+                                
+                temp_file = BytesIO()
+                cropped_img.save(temp_file, format=img.format or 'JPEG')
+                temp_file.seek(0)
+                
+                cropped_file = File(temp_file, name=image.name)
+                
+                gallery_images_list.append(
+                    GalleryImage(
+                        image=cropped_file,
+                        product=form.instance
+                    )
+                )
+
+            GalleryImage.objects.bulk_create(gallery_images_list)
             return JsonResponse({"success": True})
 
         if len(form.errors) > 0:

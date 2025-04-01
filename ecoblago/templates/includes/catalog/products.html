@@ -1,0 +1,60 @@
+{% load i18n %}
+{% load custom_filters %}
+
+<main class="txt-primary">
+  <div class="main-inner">
+    <div class="container-fluid" id="filter-wrapper">
+      <div id="filter" class="row filter">
+        <div class="col-12 col-md-6 col-xl-7 text-search">
+          <div class="iconic-input-field-wrapper">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="{% trans 'Что ищете?' %}" id="filter-text-input" />
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-2 location-search">
+          <div class="iconic-input-field-wrapper">
+            <i class="fa-solid fa-location-dot"></i>
+            <input type="text" id="location-filter-input" placeholder="{% trans 'Вся страна' %}" />
+          </div>
+        </div>
+        <div class="col-6 col-md-6 col-xl-1 more-filters">
+          <button class="more-filters-btn">
+            <i class="fa-solid fa-filter"></i>
+          </button>
+        </div>
+        <div class="col-6 col-md-6 col-xl-2 submit-wrapper">
+          <button class="search-btn" id="filter-btn" onclick="onFindProductsClicked()">
+            {% trans 'Поиск' %}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="products row">
+      {% for product in object_list %}
+      <div class="col-6 col-md-4 col-xl-3">
+        <div class="product">
+          <input type="hidden" class="product-id-input" value="{{ product.id }}">
+          <div class="product-image">
+            {% with first_image=product.gallery_images.all|get_item_at:0 %}
+            <img src="{{ first_image.image.url }}" alt="product">
+            {% endwith %}
+          </div>
+          <div class="product-info">
+            <div class="text-section">
+              <h3 class="product-title">{{ product.title|truncatechars:30 }}</h3>
+              <p class="product-price">{{ product.cost|thousand_separator }} тг.</p>
+            </div>
+            <div class="like-section">
+              <i class="fa-regular fa-heart like-empty" {% if product in liked_products %}style="display: none;" {% else %}style="display: block;" {% endif %}></i>
+              <i class="fa-solid fa-heart like-full" {% if product in liked_products %}style="display: block;" {% else %}style="display: none;" {% endif %}></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+  {% include 'includes/footer.html' %}
+</main>

@@ -4,18 +4,12 @@
 
 {% block navbar %}{% include 'includes/navbar.html' %}{% endblock navbar %}
 {% block links %}
-  <link rel="stylesheet" href="{% static 'css/catalog/catalog.css' %}?v=1">
+  <link rel="stylesheet" href="{% static 'css/catalog/catalog.css' %}?v={% now 'U' %}">
   <title>{% trans 'Понравившиеся' %}</title>
 {% endblock links %}
 
 {% block main %}
-<main class="txt-primary">
-  <div class="main-inner">
-    {% include 'includes/catalog/filters.html' %}
-    {% include 'includes/catalog/products_list.html' %}
-  </div>
-  {% include 'includes/footer.html' %}
-</main>
+{% include 'includes/catalog/products.html' %}
 
 <style>
   :root {
