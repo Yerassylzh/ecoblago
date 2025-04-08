@@ -204,19 +204,15 @@ class CreateProductView(TemplateView):
             gallery_images_list = []
             
             for image in gallery_images:
-                # Open and crop the image
-                img = Image.open(image)
-                cropped_img = get_cropped_image(img, 4/3)
-                                
+                img = Image.open(image)                
                 temp_file = BytesIO()
-                cropped_img.save(temp_file, format=img.format or 'JPEG')
+                img.save(temp_file, format=img.format or 'JPEG')
                 temp_file.seek(0)
-                
-                cropped_file = File(temp_file, name=image.name)
+                file_ = File(temp_file, name=image.name)
                 
                 gallery_images_list.append(
                     GalleryImage(
-                        image=cropped_file,
+                        image=file_,
                         product=form.instance
                     )
                 )
@@ -432,20 +428,16 @@ class EditProductView(DetailView):
             instance=self.object
         )
         if form.is_valid():
-            form.save()
             self.object.gallery_images.all().delete()
+            form.save()
 
             gallery_images_list = []            
             for image in gallery_images:
                 img = Image.open(image)
-                cropped_img = get_cropped_image(img, 4/3)
-                                
                 temp_file = BytesIO()
-                cropped_img.save(temp_file, format=img.format or 'JPEG')
+                img.save(temp_file, format=img.format or 'JPEG')
                 temp_file.seek(0)
-                
                 cropped_file = File(temp_file, name=image.name)
-                
                 gallery_images_list.append(
                     GalleryImage(
                         image=cropped_file,

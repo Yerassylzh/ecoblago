@@ -2,6 +2,16 @@
   cursor: pointer;
 }
 
+.product-image {
+  width: 100%;
+  aspect-ratio: 1.33333333;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .text {
   color: var(--txt-primary) !important;
 }
@@ -430,8 +440,9 @@ body {
 
 .product-image img {
   border-radius: 0.25rem 0.25rem 0 0;
-  width: 100%;
-  aspect-ratio: 1.33333333;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
 }
 
 .text-section {
