@@ -176,7 +176,7 @@ function getProductFormData() {
     const email = $("#product-email-input").val();
 
     let images = [];
-    addImageInputs.forEach((imageInput) => {
+    document.querySelectorAll(".add-image-input").forEach((imageInput) => {
         if (imageInput.files.length > 0) {
             images.push(imageInput.files[0]);
         }
@@ -198,24 +198,49 @@ function getProductFormData() {
     return formData;
 }
 
-// Adding images to the image containers
-const addImageInputs = document.querySelectorAll('.add-image-input');
-addImageInputs.forEach((imageInput) => {
-    imageInput.onchange = () => {
-        const imageContainer = imageInput.closest(".image-container");
-        const hasImage = imageContainer.getAttribute('data-has-image');
+
+
+// Inserting images to the image containers
+document.addEventListener("change", (e) => {
+    if (!eventMatches(e, ".add-image-input")) {
+        return;
+    }
+
+    const imageInput = e.target.closest(".add-image-input");
+    const imageContainer = imageInput.closest(".image-container");
+    const addImageLabel = imageInput.nextElementSibling;
+    const deleteIcon = imageContainer.querySelector('.delete-icon');
+
+    if (imageInput.files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            imageContainer.style.backgroundImage = `url(${e.target.result})`;
+            imageContainer.style.backgroundSize = 'cover';
+            imageContainer.dataset.hasImage = 'true';
+            addImageLabel.style.display = 'none';
+        }
+        reader.readAsDataURL(imageInput.files[0]);
+    }
+
+});
+
+// Handle delete icon click
+document.addEventListener('click', (e) => {
+    if (e.target.closest('.delete-icon')) {
+        const imageContainer = e.target.closest('.image-container');
+        const imageInput = imageContainer.querySelector('.add-image-input');
         const addImageLabel = imageInput.nextElementSibling;
 
-        if (hasImage === 'false') {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                imageContainer.style.backgroundImage = `url(${e.target.result})`
-                imageContainer.style.backgroundSize = 'cover';
-                imageContainer.dataset.hasImage = 'true';
-                addImageLabel.textContent = '';
-                imageInput.setAttribute('disabled', 'true');
-            }
-            reader.readAsDataURL(imageInput.files[0]);
-        }
-    };
+        // Reset the image container
+        imageContainer.style.backgroundImage = '';
+        imageContainer.dataset.hasImage = 'false';
+        
+        // Reset the file input
+        imageInput.value = '';
+        imageInput.removeAttribute('disabled');
+        
+        // Show the add image label and set its text content
+        addImageLabel.style.display = 'flex';
+        addImageLabel.textContent = gettext('Добавить фото');
+    }
 });

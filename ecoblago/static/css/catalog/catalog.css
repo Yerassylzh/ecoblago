@@ -425,6 +425,7 @@ body {
   border-radius: 0.25rem;
   background-color: var(--widget-color);
   margin-bottom: 1rem;
+  box-shadow: 0 0 .75rem rgba(153, 153, 153, 0.25);
 }
 
 .product-image img {

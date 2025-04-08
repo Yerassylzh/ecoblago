@@ -142,9 +142,9 @@ class AuthpageView(LoginNotRequiredMixin, TemplateView):
     def remember_user(self):
         days = None
         if self.request.POST.get("remember_me", "false") == "true":
-            days = 1
-        else:
             days = 30
+        else:
+            days = 1
         self.request.session.set_expiry(days * 24 * 60 * 60)
 
     def get_auth_input_fields(self, auth_type: int) -> list:

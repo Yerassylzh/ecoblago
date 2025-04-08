@@ -116,7 +116,7 @@ body {
   align-items: center;
   justify-content: center;
 
-  background: linear-gradient(to bottom, #24c276, #20ac68);
+  background: var(--green-primary);
   outline: none;
   border: none;
   border-radius: 6px;

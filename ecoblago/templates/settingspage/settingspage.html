@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block links %}
-<link rel="stylesheet" href="{% static 'css/settingspage/settingspage.css' %}">
+<link rel="stylesheet" href="{% static 'css/settingspage/settingspage.css' %}?v={% now 'U' %}">
 <title>{% trans "Настройки" %}</title>
 {% endblock links %}
 

@@ -45,9 +45,19 @@ p {
 .add-image-label {
   font-family: "Inter", sans-serif;
   font-size: 1rem;
-
   background: transparent;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-container[data-has-image="true"] .add-image-label {
+  display: none;
+}
+
+.image-container[data-has-image="false"] .add-image-label {
+  display: flex;
 }
 
 .image-container {
@@ -62,6 +72,42 @@ p {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  position: relative;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.image-container:hover {
+  opacity: 0.9;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 30px;
+  height: 30px;
+  background-color: rgba(255, 0, 0, 0.7);
+  border-radius: 50%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 10;
+}
+
+.image-container[data-has-image="true"] .delete-icon {
+  display: flex !important;
+}
+
+.delete-icon:hover {
+  background-color: rgba(255, 0, 0, 0.9);
+}
+
+.delete-icon i {
+  color: white;
+  font-size: 1rem;
 }
 
 #publish-btn,

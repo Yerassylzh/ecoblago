@@ -433,6 +433,7 @@ class EditProductView(DetailView):
         )
         if form.is_valid():
             form.save()
+            self.object.gallery_images.all().delete()
 
             gallery_images_list = []            
             for image in gallery_images:

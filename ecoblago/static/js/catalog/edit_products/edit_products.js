@@ -69,7 +69,6 @@ const categories = Array.from(categoriesJson);
 // Sending request to save the changes
 function saveChanges() {
     let formData = getProductFormData();
-    console.log(formData["gallery_images"]);
     formData.append("csrfmiddlewaretoken", CSRF_TOKEN);
     formData.append("action", "edit");
 
