@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "sorl.thumbnail",
     "rosetta",
     "django_extensions",
+    "policy.apps.PolicyConfig",
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,7 @@ LOGIN_REQUIRED_IGNORE_PATHS = [
     r"/__debug__/",
     r"/rosetta/",
     r"/jsi18n/",
+    r"/policy/",
 ]
 
 INTERNAL_IPS = [

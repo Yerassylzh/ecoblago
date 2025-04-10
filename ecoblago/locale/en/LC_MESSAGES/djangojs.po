@@ -19,7 +19,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Translated-Using: django-rosetta 0.10.1\n"
 
-#: .\static\js\catalog\catalog\more_filters.js:1
+msgid "Вы не можете зарегистрироваться не согласившись условиями использования"
+msgstr ""
+
 msgid "Вы точно хотите выйти c аккаунта?"
 msgstr "Are you sure you want to log out of your account?"
 

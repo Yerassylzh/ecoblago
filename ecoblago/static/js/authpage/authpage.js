@@ -4,11 +4,29 @@ function removeAll(attrName) {
     })
 }
 
+function resetPolicyCheckbox() {
+    const checkbox = $("#policy-check").parent();
+
+    if (checkbox.css("display") == "none") {
+        checkbox.css("display", "flex");
+    } else {
+        checkbox.css("display", "none");
+    }
+}
+
 document.addEventListener("click", e => {
     if (!e.target.matches("#auth-submit") && e.target.closest("#auth-submit") == null) return
+
     const currentAuthType = document.getElementById("auth-options-container").dataset.currentAuthType
     let isLogin = currentAuthType == "0"
     let isSignup = currentAuthType == "1"
+
+    if (isSignup) {
+        if (!$("#policy-check").is(":checked")) {
+            showToast(gettext("Вы не можете зарегистрироваться не согласившись условиями использования"), false);
+            return;
+        }
+    }
 
     let username = $("#username").val()
     let password = $("#password").val()
@@ -134,6 +152,7 @@ document.addEventListener("click", e => {
 
                     inputFields.appendChild(input_field_wrapper)
                 }
+                resetPolicyCheckbox();
             },
             error: function (xhr, errmsg, err) {
                 console.log(xhr.status + ":" + xhr.responseText)

@@ -37,6 +37,10 @@
           </div>
           {% endfor %}
         </div>
+        <div class="checkbox-container" style="display: none;">
+          <input type="checkbox" id="policy-check">
+          <label for="policy-check" class="text">{% trans 'Я прочитал(а) ' %} <a href="{% url 'policy:terms-of-usage' %}" target="_blank">{% trans 'условия использования' %}</a></label>
+        </div>
         <div class="checkbox-container">
           <input type="checkbox" id="remember-me">
           <label for="remember-me" class="text">{% trans 'Запомнить меня на месяц' %}</label>
@@ -57,5 +61,5 @@
   </div>
 </main>
 
-<script src="{% static 'js/authpage/authpage.js' %}"></script>
+<script src="{% static 'js/authpage/authpage.js' %}?v={% now 'U' %}"></script>
 {% endblock %}

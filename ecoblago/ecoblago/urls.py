@@ -6,7 +6,7 @@ from django.urls import include, re_path
 from django.conf import settings
 from django.views.i18n import JavaScriptCatalog
 
-import ecoblago, authpage.urls, catalog.urls, profilepage.urls, settingspage.urls, rosetta.urls
+import ecoblago, authpage.urls, catalog.urls, profilepage.urls, settingspage.urls, rosetta.urls, policy.urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -15,6 +15,7 @@ urlpatterns = [
     path("catalog/", include(catalog.urls)),
     path("profilepage/", include(profilepage.urls)),
     path("settingspage/", include(settingspage.urls)),
+    path("policy/", include(policy.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [

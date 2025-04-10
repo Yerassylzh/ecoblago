@@ -9,12 +9,12 @@ function getCSRFWidget(token) {
 document.addEventListener("click", (e) => {
     if (!e.target.matches("#edit-about-button") && e.target.closest("#edit-about-button") == null) return
 
-    editAboutButton = document.getElementById("edit-about-button")
-    editAboutButton.remove()
+    editAboutButton = document.getElementById("edit-about-button");
+    editAboutButton.remove();
 
-    aboutText = document.getElementById("about-text")
-    aboutTextContent = aboutText.textContent
-    aboutText.remove()
+    aboutText = document.getElementById("about-section").lastElementChild;
+    aboutTextContent = (aboutText.getAttribute("id") == "about-text" ? aboutText.textContent : "");
+    aboutText.remove();
 
     editAboutInput = document.createElement("textarea")
     editAboutInput.setAttribute("class", "edit-about-input")

@@ -14,6 +14,7 @@ from PIL import Image
 from sorl.thumbnail import get_thumbnail
 
 from authpage.models import User
+from profilepage.models import Feedback
 
 class ProfilepageView(DetailView):
     model = User
@@ -93,6 +94,28 @@ class ProfilepageView(DetailView):
         context["csrf_token"] = get_token(self.request)
         context["theme"] = self.request.COOKIES.get("theme", "light")
         context["lang"] = self.request.COOKIES.get("lang", "ru")
+
+        context["feedbacks"] = []
+        for feedback in (
+            Feedback.objects
+            .filter(
+                reciever_id=kwargs["pk"],
+            )
+            .select_related("author")
+        ):
+            data = {
+                "author": {
+                    "id": feedback.author.pk,
+                    "first_name": feedback.author.first_name,
+                    "image_url": feedback.author.image.url,
+                    "date_joined": feedback.author.date_joined,
+                },
+                "date": feedback.date,
+                "content": feedback.content,
+                "rating": 5,
+            }
+            context["feedbacks"].append(data)
+
         context.update({
             "change_allowed": self.request.user == self.object,
             "default_image_url": "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
