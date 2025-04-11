@@ -315,14 +315,14 @@ body {
   width: 100%;
   height: fit-content;
 
-	padding: 15px;
+  padding: 15px;
 
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
 
-	background: transparent;
+  background: transparent;
   border-radius: 1rem;
 
   margin: 1rem 0 0 0;
@@ -330,8 +330,8 @@ body {
 
   min-height: 150px;
 
-	border-radius: 10px;
-	border: 1px solid #c5c5c5;
+  border-radius: 10px;
+  border: 1px solid #c5c5c5;
 }
 
 .feedback-header {
@@ -340,25 +340,25 @@ body {
   align-items: center;
   justify-content: flex-start;
 
-	width: 100%;
+  width: 100%;
 
   gap: 0.5rem;
-	
-	padding-bottom: 10px;
+
+  padding-bottom: 10px;
 }
 
 .feedback-header > div {
-	width: 100%;
+  width: 100%;
 }
 
 .author-since {
-	font-family: 'Inter', sans-serif;
-	font-size: 0.8rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
 
-	color: var(--txt-secondary);
+  color: var(--txt-secondary);
 
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .author-name {
@@ -366,7 +366,7 @@ body {
   padding: 0;
   font-family: Inter, sans-serif;
   font-size: 1rem;
-	font-weight: 600;
+  font-weight: 600;
 }
 
 .feedback-header > img {
@@ -414,10 +414,56 @@ body {
 }
 
 .feedback-rating-and-date {
-	display: flex;
-	gap: 1rem;
+  display: flex;
+  gap: 1rem;
 }
 
 .feedback-text {
-	margin: 0;
+  margin: 0;
+}
+
+.submit-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--green-primary);
+  outline: none;
+  border: none;
+  border-radius: 6px;
+
+  color: white;
+
+  transition: all 0.1s ease-in-out;
+  padding: 5px;
+  min-width: min(100%, 400px);
+}
+
+.submit-btn:hover {
+  filter: brightness(110%);
+}
+
+.star-rating {
+  direction: rtl;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  color: #ddd;
+  font-size: 1.25rem;
+  padding: 0 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.star-rating label:hover,
+.star-rating label:hover~label,
+.star-rating input:checked~label {
+  color: #ffc107;
 }

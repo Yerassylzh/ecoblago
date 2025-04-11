@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import EmailValidator
+from django.core.validators import EmailValidator, MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import AbstractUser
 
 from authpage.validators import PhoneNumberValidator
@@ -26,8 +26,16 @@ class Feedback(models.Model):
         name="content",
     )
 
-    date = models.DateField(
+    date = models.DateTimeField(
         verbose_name="Дата",
         name="date",
         auto_now=True,
+    )
+    
+    rating = models.PositiveSmallIntegerField(
+        verbose_name="Рейтинг",
+        validators=[
+            MinValueValidator(1, "Invalid rating value"),
+            MaxValueValidator(5, "Invalid rating value"),
+        ],
     )

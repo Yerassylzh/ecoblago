@@ -62,41 +62,42 @@
           <div class="additional-data">
             <div class="additional-info">
               <p class="additional-info-tag">{% trans 'Отзывы' %}</p>
-              <hr class="additional-info-hr">
-                <div class="feedbacks">
-                  {% for feedback in feedbacks %}
-                    <div class="feedback-bar">
-                      <a style="text-decoration: none; color: var(--txt-primary);" target="_blank" href="{% url 'profilepage:profilepage' feedback.author.id %}">
-                        <div class="feedback-header">
-                          <img src="{{ feedback.author.image_url }}">
-                          <div>
-                            <p class="author-name">{{ feedback.author.first_name }}</p>
-                            <p class="author-since">{% trans 'На ecoblago с' %} {{ feedback.author.date_joined|date:"F j, Y" }}</p>
-                          </div>
+              <hr class="additional-info-hr" />
+              <div class="feedbacks">
+                {% for feedback in feedbacks %}
+                  <div class="feedback-bar">
+                    <a style="text-decoration: none; color: var(--txt-primary);" target="_blank" href="{% url 'profilepage:profilepage' feedback.author.id %}">
+                      <div class="feedback-header">
+                        <img src="{{ feedback.author.image_url }}">
+                        <div>
+                          <p class="author-name">{{ feedback.author.first_name }}</p>
+                          <p class="author-since">{% trans 'На ecoblago с' %} {{ feedback.author.date_joined|date:"F j, Y" }}</p>
                         </div>
-                      </a>
-                      <hr class="additional-info-hr">
-                      <div class="feedback-content">
-                        <div class="feedback-rating-and-date">
-                          <div class="rating-container">
-                            <i class="fa-solid fa-star" style="color: gold;"></i>
-                            <i class="fa-solid fa-star" style="color: gold;"></i>
-                            <i class="fa-solid fa-star" style="color: gold;"></i>
-                            <i class="fa-solid fa-star" style="color: gold;"></i>
-                            <i class="fa-solid fa-star" style="color: gold;"></i>
-                          </div>
-                          <p class="feedback-date">{{ feedback.date|timesince }} {% trans 'назад' %}</p>
-                        </div>
-                        <p class="feedback-text">{{ feedback.content }}</p>
                       </div>
+                    </a>
+                    <hr class="additional-info-hr">
+                    <div class="feedback-content">
+                      <div class="feedback-rating-and-date">
+                        <div class="rating-container">
+                          <i class="fa-solid fa-star" style="color: gold;"></i>
+                          <i class="fa-solid fa-star" style="color: gold;"></i>
+                          <i class="fa-solid fa-star" style="color: gold;"></i>
+                          <i class="fa-solid fa-star" style="color: gold;"></i>
+                          <i class="fa-solid fa-star" style="color: gold;"></i>
+                        </div>
+                        <p class="feedback-date">{{ feedback.date|timesince }} {% trans 'назад' %}</p>
+                      </div>
+                      <p class="feedback-text">{{ feedback.content }}</p>
                     </div>
-                  {% empty %}
-                    <p class="nothing-yet">{% trans 'No information available' %}</p>
-                  {% endfor %}
-                </div>
+                  </div>
+                {% empty %}
+                  <p class="nothing-yet">{% trans 'No information available' %}</p>
+                {% endfor %}
               </div>
+              <button style="margin-top: 1rem;" id="add-feedback-btn" class="submit-btn">{% trans 'Leave a feedback' %}</button>
             </div>
-        </div>
+          </div>
+        </div>   
         {% include 'includes/footer.html' %}
       </div>
     </div>
@@ -117,6 +118,7 @@
 
 <script>
   const USER_ID = "{{ user.id }}";
+  const MY_USER_ID = "{{ my_user.id }}"
 </script>
 
 <script src="{% static 'js/profilepage/profilepage/profilepage.js' %}?v={% now 'U' %}"></script>

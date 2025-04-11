@@ -9,12 +9,14 @@ from django.contrib.auth.models import AbstractUser
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.files.base import ContentFile
 from django.db.models import ImageField
+from django.utils import timezone
 
 from PIL import Image
 from sorl.thumbnail import get_thumbnail
 
 from authpage.models import User
 from profilepage.models import Feedback
+from core.decorators import check_change_allowed
 
 class ProfilepageView(DetailView):
     model = User
@@ -23,15 +25,10 @@ class ProfilepageView(DetailView):
     pk_url_kwarg = "pk"
 
     def post(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
-        if not self.context["change_allowed"]:
-            return HttpResponseNotAllowed("You are not allowed to perform this action")
-
         if "personal-image" in self.request.FILES:
             return self.upload_personal_image()
         elif "action" in self.request.POST:
             return self.handle_ajax_post()
-
-        raise Exception(f"Cannot identify the purpose of post request: {self.request}")
 
     def get(self, *args, **kwargs) -> Union[HttpResponse, JsonResponse]:
         return self.render_to_response(self.context)
@@ -40,8 +37,20 @@ class ProfilepageView(DetailView):
         action = self.request.POST.get("action")
         if action == "edit-about":
             return self.edit_about()
+        if action == "save-feedback":
+            return self.save_feedback()
     
-    def edit_about(self) -> JsonResponse:
+    def save_feedback(self) -> JsonResponse:
+        if self.request.user == self.object:
+            return HttpResponseNotAllowed("You are not allowed to perform this action")
+        
+        rating = self.request.POST["rating"]
+        feedback = self.request.POST["feedback"]
+        Feedback.objects.create(author=self.request.user, reciever=self.object, rating=rating, content=feedback)
+        return JsonResponse(data={})
+
+    @check_change_allowed
+    def edit_about(self, *args, **kwargs) -> JsonResponse:
         edited_about_text_content = self.request.POST.get("edited-about-text-content")
         self.object.about = edited_about_text_content
         try:
@@ -56,6 +65,7 @@ class ProfilepageView(DetailView):
         self.context_ajax["about-text-content"] = self.object.about
         return JsonResponse(data=self.context_ajax)
 
+    @check_change_allowed
     def upload_personal_image(self) -> HttpResponse:
         in_memory_image: InMemoryUploadedFile = self.request.FILES.get("personal-image")
 
@@ -102,6 +112,7 @@ class ProfilepageView(DetailView):
                 reciever_id=kwargs["pk"],
             )
             .select_related("author")
+            .order_by("-date")
         ):
             data = {
                 "author": {
@@ -118,7 +129,6 @@ class ProfilepageView(DetailView):
 
         context.update({
             "change_allowed": self.request.user == self.object,
-            "default_image_url": "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
             "my_user": self.request.user,
             "input_fields": [
                 {
