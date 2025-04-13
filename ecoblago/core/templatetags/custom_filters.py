@@ -22,3 +22,18 @@ def get_item_at(lst, index):
         return lst[index]
     except (IndexError, TypeError):
         return None
+
+@register.filter
+def multiply(value, arg):
+    print(str(float(value) * int(arg)))
+    try:
+        return str(float(value) * int(arg))
+    except (TypeError, ValueError):
+        return None
+
+@register.filter
+def to_float(value, precision=2):
+    try:
+        return str(float(f"{value: .{precision}f}"))
+    except (ValueError, TypeError):
+        return value

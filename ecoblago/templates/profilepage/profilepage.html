@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load custom_filters %}
 
 {% block links %}
 <link rel="stylesheet" href="{% static 'css/profilepage/profilepage.css' %}?v={% now 'U' %}">
@@ -61,9 +62,24 @@
 
           <div class="additional-data">
             <div class="additional-info">
-              <p class="additional-info-tag">{% trans 'Отзывы' %}</p>
+              <p class="additional-info-tag">{% trans 'Отзывы' %}</p>  
               <hr class="additional-info-hr" />
               <div class="feedbacks">
+                {% if average_rating %}
+                <div class="average-rating d-flex flex-row align-items-center justify-content-start gap-2 mt-1">
+                  <div class="star-outer">
+                    <div class="star-inner">
+                    </div>
+                    <style>
+                      .star-inner {
+                        width: {{ average_rating|to_float:1|multiply:20 }}%;
+                      }
+                    </style>
+                  </div>
+                  <p class="average-rating-value m-0 mt-1">{{ average_rating|to_float:1 }}</p>
+                </div>
+                {% endif %}
+
                 {% for feedback in feedbacks %}
                   <div class="feedback-bar">
                     <a style="text-decoration: none; color: var(--txt-primary);" target="_blank" href="{% url 'profilepage:profilepage' feedback.author.id %}">
@@ -79,11 +95,9 @@
                     <div class="feedback-content">
                       <div class="feedback-rating-and-date">
                         <div class="rating-container">
-                          <i class="fa-solid fa-star" style="color: gold;"></i>
-                          <i class="fa-solid fa-star" style="color: gold;"></i>
-                          <i class="fa-solid fa-star" style="color: gold;"></i>
-                          <i class="fa-solid fa-star" style="color: gold;"></i>
-                          <i class="fa-solid fa-star" style="color: gold;"></i>
+                          {% for i in "12345" %}
+                            <i class="fa-solid fa-star" style="color: {% if forloop.counter <= feedback.rating %}gold{% else %}lightgray{% endif %};"></i>
+                          {% endfor %}
                         </div>
                         <p class="feedback-date">{{ feedback.date|timesince }} {% trans 'назад' %}</p>
                       </div>

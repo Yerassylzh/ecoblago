@@ -123,9 +123,11 @@ class ProfilepageView(DetailView):
                 },
                 "date": feedback.date,
                 "content": feedback.content,
-                "rating": 5,
+                "rating": feedback.rating,
             }
             context["feedbacks"].append(data)
+
+        context["average_rating"] = sum([feedback['rating'] for feedback in context["feedbacks"]]) / len(context["feedbacks"]) if context["feedbacks"] else 0
 
         context.update({
             "change_allowed": self.request.user == self.object,

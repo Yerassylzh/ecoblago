@@ -153,6 +153,15 @@ function getEditableFeedbackHtml() {
 			</div>
 			<textarea class="form-control" rows="4" id="leave-feedback-textarea" placeholder=${gettext('Feedback')}></textarea>
 			<button id="leave-feedback-btn" type="button" class="btn btn-success">${gettext('Submit')}</button>
+            <style>
+                #leave-feedback-textarea {
+                    background-color: var(--widget-color);
+                    color: var(--txt-primary);
+                }
+                #leave-feedback-textarea::placeholder {
+                    color: var(--txt-secondary);
+                }
+            </style>
 		</div>
 	</div>
 	`;
@@ -190,8 +199,6 @@ document.addEventListener("click", (e) => {
 		showToast(gettext("Please, write down your feedback"), false);
 		return;
 	}
-
-	console.log(feedback);
 
 	$.ajax({
 		method: "POST",

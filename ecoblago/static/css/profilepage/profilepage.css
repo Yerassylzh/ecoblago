@@ -331,7 +331,7 @@ body {
   min-height: 150px;
 
   border-radius: 10px;
-  border: 1px solid #c5c5c5;
+  border: 1px solid var(--txt-secondary);
 }
 
 .feedback-header {
@@ -466,4 +466,28 @@ body {
 .star-rating label:hover~label,
 .star-rating input:checked~label {
   color: #ffc107;
+}
+
+.star-outer {
+	position: relative;
+	font-size: 1.75rem;
+
+	display: inline-block;
+}
+
+.star-outer:before {
+	content: "\2605 \2605 \2605 \2605 \2605";
+	color: #ddd;
+}
+
+.star-inner {
+	position: absolute;
+	left: 0;
+	top: 0;
+	overflow: hidden;
+}
+
+.star-inner::before {
+	content: "\2605 \2605 \2605 \2605 \2605";
+	color: gold;	
 }
