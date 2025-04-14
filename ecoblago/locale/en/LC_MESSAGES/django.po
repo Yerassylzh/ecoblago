@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-31 14:51+0500\n"
-"PO-Revision-Date: 2025-03-31 15:09+0000\n"
+"POT-Creation-Date: 2025-04-14 18:47+0500\n"
+"PO-Revision-Date: 2025-04-14 18:48+0000\n"
 "Last-Translator: Ерасыл Жасуланов <zhasulanov.erasyl@mail.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -20,17 +20,17 @@ msgstr ""
 "X-Translated-Using: django-rosetta 0.10.1\n"
 
 #: .\authpage\forms.py:17 .\authpage\forms.py:120
-#: .\templates\authpage\authpage.html:42
+#: .\templates\authpage\authpage.html:46
 msgid "Запомнить меня на месяц"
 msgstr "Remember me for a month"
 
-#: .\authpage\forms.py:26 .\templates\includes\catalog\create_product.html:90
-#: .\templates\includes\catalog\create_product.html:96
+#: .\authpage\forms.py:26 .\templates\includes\catalog\create_product.html:93
+#: .\templates\includes\catalog\create_product.html:99
 msgid "Номер телефона"
 msgstr "Phone number"
 
-#: .\authpage\forms.py:34 .\templates\includes\catalog\create_product.html:101
-#: .\templates\includes\catalog\create_product.html:107
+#: .\authpage\forms.py:34 .\templates\includes\catalog\create_product.html:104
+#: .\templates\includes\catalog\create_product.html:110
 msgid "Почта"
 msgstr "Mail"
 
@@ -47,12 +47,10 @@ msgid "Хэндл пользователя"
 msgstr "Handle"
 
 #: .\authpage\forms.py:66 .\authpage\forms.py:137
-#| msgid "Новый пароль"
 msgid "Пароль"
 msgstr "New password"
 
 #: .\authpage\forms.py:74
-#| msgid "Подтвердите новый пароль"
 msgid "Подтвердите пароль"
 msgstr "Confirm new password"
 
@@ -61,7 +59,6 @@ msgid "Имя пользователя"
 msgstr "Username"
 
 #: .\authpage\views.py:104
-#| msgid "Подтвердите новый пароль"
 msgid "Неверный логин или пароль"
 msgstr "Wrong login or password"
 
@@ -71,41 +68,41 @@ msgstr "Wrong login or password"
 msgid "Категория"
 msgstr "Category"
 
-#: .\catalog\forms.py:14 .\templates\includes\catalog\create_product.html:78
+#: .\catalog\forms.py:14 .\templates\includes\catalog\create_product.html:81
 msgid "Регион"
 msgstr "Region"
 
-#: .\catalog\forms.py:15 .\templates\includes\catalog\create_product.html:85
+#: .\catalog\forms.py:15 .\templates\includes\catalog\create_product.html:88
 msgid "Город"
 msgstr "City"
 
-#: .\catalog\views.py:193 .\catalog\views.py:357
+#: .\catalog\views.py:196 .\catalog\views.py:422
 msgid "Добавьте как минимум одну картинку"
 msgstr "Add at least one picture."
 
-#: .\catalog\views.py:216 .\catalog\views.py:384
+#: .\catalog\views.py:232 .\catalog\views.py:460
 msgid "Unknown error"
 msgstr "Unknown error"
 
-#: .\catalog\views.py:297
+#: .\catalog\views.py:362
 msgid "You are not the seller of this product"
 msgstr "You are not the seller of this product"
 
 #: .\docs.txt:16 .\templates\catalog\product_details.html:30
-#: .\templates\includes\catalog\create_product.html:61
-#: .\templates\includes\catalog\create_product.html:67
+#: .\templates\includes\catalog\create_product.html:64
+#: .\templates\includes\catalog\create_product.html:70
 msgid "Описание"
 msgstr "Description"
 
-#: .\ecoblago\settings.py:120
+#: .\ecoblago\settings.py:123
 msgid "English"
 msgstr "English"
 
-#: .\ecoblago\settings.py:121
+#: .\ecoblago\settings.py:124
 msgid "Russian"
 msgstr "Russian"
 
-#: .\ecoblago\settings.py:122
+#: .\ecoblago\settings.py:125
 msgid "Kazakh"
 msgstr "Kazakh"
 
@@ -121,7 +118,16 @@ msgstr "Log in"
 msgid "Регистрация"
 msgstr "Sign up"
 
-#: .\templates\authpage\authpage.html:45
+#: .\templates\authpage\authpage.html:42
+msgid "Я прочитал(а) "
+msgstr "I have read"
+
+#: .\templates\authpage\authpage.html:42
+#| msgid "Имя пользователя"
+msgid "условия использования"
+msgstr "the terms of usage"
+
+#: .\templates\authpage\authpage.html:49
 msgid "Продолжить"
 msgstr "Continue"
 
@@ -143,6 +149,7 @@ msgid "Продавец"
 msgstr "Seller"
 
 #: .\templates\catalog\product_details.html:42
+#: .\templates\profilepage\profilepage.html:90
 msgid "На ecoblago с"
 msgstr "On Ecoblago since"
 
@@ -191,23 +198,23 @@ msgstr "Photo"
 msgid "Добавить фото"
 msgstr "Add a photo"
 
-#: .\templates\includes\catalog\create_product.html:72
+#: .\templates\includes\catalog\create_product.html:75
 msgid "Местоположение"
 msgstr "Location"
 
-#: .\templates\includes\catalog\create_product.html:111
+#: .\templates\includes\catalog\create_product.html:114
 msgid "Опубликовать"
 msgstr "Publish"
 
-#: .\templates\includes\catalog\filters.html:10
+#: .\templates\includes\catalog\products.html:11
 msgid "Что ищете?"
 msgstr "What are you looking for?"
 
-#: .\templates\includes\catalog\filters.html:21
+#: .\templates\includes\catalog\products.html:17
 msgid "Вся страна"
 msgstr "The whole country"
 
-#: .\templates\includes\catalog\filters.html:36
+#: .\templates\includes\catalog\products.html:27
 msgid "Поиск"
 msgstr "Search"
 
@@ -247,49 +254,61 @@ msgstr "More information about Ecoblago"
 msgid "Все объявления"
 msgstr "All products"
 
-#: .\templates\includes\navbar.html:35
-msgid "Подать объявление"
-msgstr "Create a product"
-
-#: .\templates\includes\navbar.html:43
+#: .\templates\includes\navbar.html:38
 msgid "Мои объявления"
 msgstr "My products"
 
-#: .\templates\includes\navbar.html:48
+#: .\templates\includes\navbar.html:43
 msgid "Все мои объявления"
 msgstr "My products"
 
-#: .\templates\includes\navbar.html:54
-#| msgid "Создать объявление"
+#: .\templates\includes\navbar.html:49
 msgid "Создать новое"
 msgstr "Create new"
 
-#: .\templates\includes\navbar.html:62
+#: .\templates\includes\navbar.html:57
 #: .\templates\settingspage\settingspage.html:84
 msgid "Аккаунт"
 msgstr "Account"
 
-#: .\templates\includes\navbar.html:67
+#: .\templates\includes\navbar.html:62
 msgid "Мой профиль"
 msgstr "My profile"
 
-#: .\templates\includes\navbar.html:72
+#: .\templates\includes\navbar.html:67
 #: .\templates\settingspage\settingspage.html:7
 #: .\templates\settingspage\settingspage.html:18
 msgid "Настройки"
 msgstr "Settings"
 
-#: .\templates\profilepage\profilepage.html:35
+#: .\templates\profilepage\profilepage.html:36
 msgid "Изменить изображение"
 msgstr "Change the image"
 
-#: .\templates\profilepage\profilepage.html:45
+#: .\templates\profilepage\profilepage.html:46
 msgid "О себе"
 msgstr "About me"
 
-#: .\templates\profilepage\profilepage.html:49
+#: .\templates\profilepage\profilepage.html:50
 msgid "Изменить"
 msgstr "Change"
+
+#: .\templates\profilepage\profilepage.html:58
+#: .\templates\profilepage\profilepage.html:108
+msgid "No information available"
+msgstr "No information available"
+
+#: .\templates\profilepage\profilepage.html:65
+msgid "Отзывы"
+msgstr "Feedbacks"
+
+#: .\templates\profilepage\profilepage.html:102
+msgid "назад"
+msgstr "ago"
+
+#: .\templates\profilepage\profilepage.html:112
+msgid "Leave a feedback"
+msgstr "Leave a feedback"
 
 #: .\templates\settingspage\settingspage.html:20
 msgid "Безопасность"
@@ -346,3 +365,6 @@ msgstr "Log out"
 #: .\templates\settingspage\settingspage.html:88
 msgid "Удалить аккаунт"
 msgstr "Delete account"
+
+#~ msgid "Подать объявление"
+#~ msgstr "Create a product"

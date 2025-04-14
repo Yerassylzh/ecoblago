@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-31 14:51+0500\n"
-"PO-Revision-Date: 2025-03-31 15:10+0000\n"
+"POT-Creation-Date: 2025-04-14 18:47+0500\n"
+"PO-Revision-Date: 2025-04-14 18:52+0000\n"
 "Last-Translator: Ерасыл Жасуланов <zhasulanov.erasyl@mail.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,18 +19,48 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 "X-Translated-Using: django-rosetta 0.10.1\n"
 
+msgid "years"
+msgstr "жыл"
+
+msgid "months"
+msgstr "ай"
+
+msgid "weeks"
+msgstr "апта"
+
+msgid "days"
+msgstr "күн"
+
+msgid "minute"
+msgstr "минут"
+
+msgid "minutes"
+msgstr "минут"
+
+msgid "year"
+msgstr "жыл"
+
+msgid "month"
+msgstr "ай"
+
+msgid "week"
+msgstr "апта"
+
+msgid "day"
+msgstr "күн"
+
 #: .\authpage\forms.py:17 .\authpage\forms.py:120
-#: .\templates\authpage\authpage.html:42
+#: .\templates\authpage\authpage.html:46
 msgid "Запомнить меня на месяц"
 msgstr "Аккаунтты ай бойы есте сақтау"
 
-#: .\authpage\forms.py:26 .\templates\includes\catalog\create_product.html:90
-#: .\templates\includes\catalog\create_product.html:96
+#: .\authpage\forms.py:26 .\templates\includes\catalog\create_product.html:93
+#: .\templates\includes\catalog\create_product.html:99
 msgid "Номер телефона"
 msgstr "Телефон нөмірі"
 
-#: .\authpage\forms.py:34 .\templates\includes\catalog\create_product.html:101
-#: .\templates\includes\catalog\create_product.html:107
+#: .\authpage\forms.py:34 .\templates\includes\catalog\create_product.html:104
+#: .\templates\includes\catalog\create_product.html:110
 msgid "Почта"
 msgstr "Пошта"
 
@@ -47,12 +77,10 @@ msgid "Хэндл пользователя"
 msgstr "Хэндл"
 
 #: .\authpage\forms.py:66 .\authpage\forms.py:137
-#| msgid "Новый пароль"
 msgid "Пароль"
 msgstr "Жаңа құпиясөз"
 
 #: .\authpage\forms.py:74
-#| msgid "Подтвердите новый пароль"
 msgid "Подтвердите пароль"
 msgstr "Жаңа құпиясөзді растаңыз"
 
@@ -61,7 +89,6 @@ msgid "Имя пользователя"
 msgstr "Пайдаланушы аты"
 
 #: .\authpage\views.py:104
-#| msgid "Подтвердите новый пароль"
 msgid "Неверный логин или пароль"
 msgstr "Логин неменсе құпиясөзді қате"
 
@@ -71,41 +98,41 @@ msgstr "Логин неменсе құпиясөзді қате"
 msgid "Категория"
 msgstr "Категория"
 
-#: .\catalog\forms.py:14 .\templates\includes\catalog\create_product.html:78
+#: .\catalog\forms.py:14 .\templates\includes\catalog\create_product.html:81
 msgid "Регион"
 msgstr "Аймақ"
 
-#: .\catalog\forms.py:15 .\templates\includes\catalog\create_product.html:85
+#: .\catalog\forms.py:15 .\templates\includes\catalog\create_product.html:88
 msgid "Город"
 msgstr "Қала"
 
-#: .\catalog\views.py:193 .\catalog\views.py:357
+#: .\catalog\views.py:196 .\catalog\views.py:422
 msgid "Добавьте как минимум одну картинку"
 msgstr "Кем дегенде бір суретті қосыңыз"
 
-#: .\catalog\views.py:216 .\catalog\views.py:384
+#: .\catalog\views.py:232 .\catalog\views.py:460
 msgid "Unknown error"
 msgstr "Белгісіз қате"
 
-#: .\catalog\views.py:297
+#: .\catalog\views.py:362
 msgid "You are not the seller of this product"
 msgstr "Сіз бұл өнімді сатушы емессіз"
 
 #: .\docs.txt:16 .\templates\catalog\product_details.html:30
-#: .\templates\includes\catalog\create_product.html:61
-#: .\templates\includes\catalog\create_product.html:67
+#: .\templates\includes\catalog\create_product.html:64
+#: .\templates\includes\catalog\create_product.html:70
 msgid "Описание"
 msgstr "Сипаттамасы"
 
-#: .\ecoblago\settings.py:120
+#: .\ecoblago\settings.py:123
 msgid "English"
 msgstr "Ағылшынша"
 
-#: .\ecoblago\settings.py:121
+#: .\ecoblago\settings.py:124
 msgid "Russian"
 msgstr "Орысша"
 
-#: .\ecoblago\settings.py:122
+#: .\ecoblago\settings.py:125
 msgid "Kazakh"
 msgstr "Қазақша"
 
@@ -121,7 +148,16 @@ msgstr "Кіру"
 msgid "Регистрация"
 msgstr "Тіркелу"
 
-#: .\templates\authpage\authpage.html:45
+#: .\templates\authpage\authpage.html:42
+msgid "Я прочитал(а) "
+msgstr "Мен"
+
+#: .\templates\authpage\authpage.html:42
+#| msgid "Имя пользователя"
+msgid "условия использования"
+msgstr "пайдалану шарттарымен таныстым"
+
+#: .\templates\authpage\authpage.html:49
 msgid "Продолжить"
 msgstr "Ары қарай"
 
@@ -143,6 +179,7 @@ msgid "Продавец"
 msgstr "Сатушы"
 
 #: .\templates\catalog\product_details.html:42
+#: .\templates\profilepage\profilepage.html:90
 msgid "На ecoblago с"
 msgstr "Экоблаго да "
 
@@ -191,23 +228,23 @@ msgstr "Фото"
 msgid "Добавить фото"
 msgstr "Фотосурет қосыңыз"
 
-#: .\templates\includes\catalog\create_product.html:72
+#: .\templates\includes\catalog\create_product.html:75
 msgid "Местоположение"
 msgstr "Орналасқан жері"
 
-#: .\templates\includes\catalog\create_product.html:111
+#: .\templates\includes\catalog\create_product.html:114
 msgid "Опубликовать"
 msgstr "Жариялау"
 
-#: .\templates\includes\catalog\filters.html:10
+#: .\templates\includes\catalog\products.html:11
 msgid "Что ищете?"
 msgstr "Не іздеп жүрсіз?"
 
-#: .\templates\includes\catalog\filters.html:21
+#: .\templates\includes\catalog\products.html:17
 msgid "Вся страна"
 msgstr "Бүкіл мемлекет"
 
-#: .\templates\includes\catalog\filters.html:36
+#: .\templates\includes\catalog\products.html:27
 msgid "Поиск"
 msgstr "Іздеу"
 
@@ -244,55 +281,64 @@ msgid "Больше информации об ЭкоБлаго"
 msgstr "Экоблаго туралы қосымша ақпарат"
 
 #: .\templates\includes\navbar.html:24
-#| msgid "Мои объявление"
 msgid "Все объявления"
 msgstr "Барлық өнімдер"
 
-#: .\templates\includes\navbar.html:35
-msgid "Подать объявление"
-msgstr "Өтініш беру"
-
-#: .\templates\includes\navbar.html:43
-#| msgid "Мои объявление"
+#: .\templates\includes\navbar.html:38
 msgid "Мои объявления"
 msgstr "Менің өнімдерім"
 
-#: .\templates\includes\navbar.html:48
-#| msgid "Мои объявление"
+#: .\templates\includes\navbar.html:43
 msgid "Все мои объявления"
 msgstr "Менің өнімдерім"
 
-#: .\templates\includes\navbar.html:54
-#| msgid "Создать объявление"
+#: .\templates\includes\navbar.html:49
 msgid "Создать новое"
 msgstr "Хабарландыру жасаңыз"
 
-#: .\templates\includes\navbar.html:62
+#: .\templates\includes\navbar.html:57
 #: .\templates\settingspage\settingspage.html:84
 msgid "Аккаунт"
 msgstr "Аккаунт"
 
-#: .\templates\includes\navbar.html:67
+#: .\templates\includes\navbar.html:62
 msgid "Мой профиль"
 msgstr "Менің профилім"
 
-#: .\templates\includes\navbar.html:72
+#: .\templates\includes\navbar.html:67
 #: .\templates\settingspage\settingspage.html:7
 #: .\templates\settingspage\settingspage.html:18
 msgid "Настройки"
 msgstr "Параметрлер"
 
-#: .\templates\profilepage\profilepage.html:35
+#: .\templates\profilepage\profilepage.html:36
 msgid "Изменить изображение"
 msgstr "Суретті өзгерту"
 
-#: .\templates\profilepage\profilepage.html:45
+#: .\templates\profilepage\profilepage.html:46
 msgid "О себе"
 msgstr "Өзі туралы"
 
-#: .\templates\profilepage\profilepage.html:49
+#: .\templates\profilepage\profilepage.html:50
 msgid "Изменить"
 msgstr "Өзгерту"
+
+#: .\templates\profilepage\profilepage.html:58
+#: .\templates\profilepage\profilepage.html:108
+msgid "No information available"
+msgstr "Ақпарат жоқ"
+
+#: .\templates\profilepage\profilepage.html:65
+msgid "Отзывы"
+msgstr "Пікірлер"
+
+#: .\templates\profilepage\profilepage.html:102
+msgid "назад"
+msgstr "бұрын"
+
+#: .\templates\profilepage\profilepage.html:112
+msgid "Leave a feedback"
+msgstr "Пікір қалдыру"
 
 #: .\templates\settingspage\settingspage.html:20
 msgid "Безопасность"
@@ -349,3 +395,6 @@ msgstr "Аккаунттан шығу"
 #: .\templates\settingspage\settingspage.html:88
 msgid "Удалить аккаунт"
 msgstr "Аккаунтты жою"
+
+#~ msgid "Подать объявление"
+#~ msgstr "Өтініш беру"

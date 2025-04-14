@@ -6,8 +6,6 @@ class LanguageMiddleware:
         self.get_response = get_response
 
     def __call__(self, request: HttpRequest):
-        language = request.COOKIES.get('lang', 'ru')
+        language = request.COOKIES.get('lang', 'ru')             
         translation.activate(language)
-        response = self.get_response(request)
-
-        return response
+        return self.get_response(request)

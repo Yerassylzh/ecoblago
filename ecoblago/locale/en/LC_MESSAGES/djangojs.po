@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-25 17:07+0500\n"
-"PO-Revision-Date: 2025-03-29 22:35+0000\n"
+"PO-Revision-Date: 2025-04-14 21:44+0000\n"
 "Last-Translator: Ерасыл Жасуланов <zhasulanov.erasyl@mail.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,8 +19,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Translated-Using: django-rosetta 0.10.1\n"
 
-msgid "Вы не можете зарегистрироваться не согласившись условиями использования"
-msgstr ""
+msgid ""
+"Вы не можете зарегистрироваться не согласившись условиями использования"
+msgstr "You cannot register without agreeing to the terms of use"
 
 msgid "Вы точно хотите выйти c аккаунта?"
 msgstr "Are you sure you want to log out of your account?"
@@ -146,6 +147,24 @@ msgstr ""
 "need, helping people and the environment. A convenient service for charity "
 "and resource redistribution. Help easily: place things that you don't need, "
 "but others will need."
+
+msgid "Please, write down your feedback"
+msgstr "Please, write down your feedback"
+
+msgid "Your feedback was successfully saved"
+msgstr "Your feedback was successfully saved"
+
+msgid "Your feedback"
+msgstr "Your feedback"
+
+msgid "Feedback"
+msgstr "Feedback"
+
+msgid "Submit"
+msgstr "Submit"
+
+msgid "Please, write down your feedback"
+msgstr "Please, write down your feedback"
 
 msgid "Ссылки"
 msgstr "Links"

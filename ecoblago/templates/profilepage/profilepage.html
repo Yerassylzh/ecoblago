@@ -108,7 +108,9 @@
                   <p class="nothing-yet">{% trans 'No information available' %}</p>
                 {% endfor %}
               </div>
-              <button style="margin-top: 1rem;" id="add-feedback-btn" class="submit-btn">{% trans 'Leave a feedback' %}</button>
+              {% if request.user != object %}
+                <button style="margin-top: 1rem;" id="add-feedback-btn" class="submit-btn">{% trans 'Leave a feedback' %}</button>
+              {% endif %}
             </div>
           </div>
         </div>   

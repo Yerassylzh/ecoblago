@@ -25,7 +25,6 @@ def get_item_at(lst, index):
 
 @register.filter
 def multiply(value, arg):
-    print(str(float(value) * int(arg)))
     try:
         return str(float(value) * int(arg))
     except (TypeError, ValueError):

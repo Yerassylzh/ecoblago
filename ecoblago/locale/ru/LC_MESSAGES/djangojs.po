@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-25 17:07+0500\n"
-"PO-Revision-Date: 2025-03-27 13:36+0000\n"
+"PO-Revision-Date: 2025-04-14 21:45+0000\n"
 "Last-Translator: Ерасыл Жасуланов <zhasulanov.erasyl@mail.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,8 +19,28 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 "X-Translated-Using: django-rosetta 0.10.1\n"
 
-msgid "Вы не можете зарегистрироваться не согласившись условиями использования"
+msgid "Please, write down your feedback"
+msgstr "Пожалуйста, напишите свой отзыв"
+
+msgid "Your feedback was successfully saved"
+msgstr "Ваш отзыв был успешно сохранен"
+
+msgid "Your feedback"
+msgstr "Ваши отзывы"
+
+msgid "Feedback"
+msgstr "Отзыв"
+
+msgid "Submit"
+msgstr "Подтвердить"
+
+msgid "Please, write down your feedback"
+msgstr "Пожалуйста, напишите свой отзыв"
+
+msgid ""
+"Вы не можете зарегистрироваться не согласившись условиями использования"
 msgstr ""
+"Вы не можете зарегистрироваться не согласившись условиями использования"
 
 msgid "Запомнить меня на месяц"
 msgstr "Запомнить меня на месяц"

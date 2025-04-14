@@ -151,7 +151,7 @@ function getEditableFeedbackHtml() {
 				<input type="radio" id="star1" name="rating" value="1">
 				<label for="star1" class="bi bi-star-fill"></label>
 			</div>
-			<textarea class="form-control" rows="4" id="leave-feedback-textarea" placeholder=${gettext('Feedback')}></textarea>
+			<textarea class="form-control" rows="4" id="leave-feedback-textarea" placeholder="${gettext('Feedback')}"></textarea>
 			<button id="leave-feedback-btn" type="button" class="btn btn-success">${gettext('Submit')}</button>
             <style>
                 #leave-feedback-textarea {
@@ -180,11 +180,11 @@ document.addEventListener("click", (e) => {
 });
 
 document.querySelectorAll('.star-rating:not(.readonly) label').forEach(star => {
-	star.addEventListener('click', function() {
-			this.style.transform = 'scale(1.2)';
-			setTimeout(() => {
-					this.style.transform = 'scale(1)';
-			}, 200);
+	star.addEventListener('click', function () {
+		this.style.transform = 'scale(1.2)';
+		setTimeout(() => {
+			this.style.transform = 'scale(1)';
+		}, 200);
 	});
 });
 
