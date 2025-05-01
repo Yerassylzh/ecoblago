@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "rosetta",
     "django_extensions",
     "policy.apps.PolicyConfig",
+    "serve_media.apps.ServeMediaConfig",
 ]
 
 MIDDLEWARE = [
