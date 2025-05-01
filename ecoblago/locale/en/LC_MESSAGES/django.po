@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-04-14 18:47+0500\n"
-"PO-Revision-Date: 2025-04-14 18:48+0000\n"
+"PO-Revision-Date: 2025-05-01 15:31+0000\n"
 "Last-Translator: Ерасыл Жасуланов <zhasulanov.erasyl@mail.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -48,11 +48,11 @@ msgstr "Handle"
 
 #: .\authpage\forms.py:66 .\authpage\forms.py:137
 msgid "Пароль"
-msgstr "New password"
+msgstr "Password"
 
 #: .\authpage\forms.py:74
 msgid "Подтвердите пароль"
-msgstr "Confirm new password"
+msgstr "Confirm password"
 
 #: .\authpage\forms.py:129
 msgid "Имя пользователя"

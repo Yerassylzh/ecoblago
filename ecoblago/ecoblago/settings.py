@@ -9,7 +9,10 @@ dotenv.load_dotenv(BASE_DIR.parent.joinpath(".env"))
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
-DEBUG = True
+DEBUG = os.getenv(
+    "DJANGO_DEBUG",
+    default=False
+)
 
 ALLOWED_HOSTS = os.getenv(
     "DJANGO_ALLOWED_HOSTS",
@@ -44,6 +47,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "core.middleware.LanguageMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 LOGIN_REQUIRED_IGNORE_PATHS = [
