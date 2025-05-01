@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     "rosetta",
     "django_extensions",
     "policy.apps.PolicyConfig",
-    "serve_media.apps.ServeMediaConfig",
 ]
 
 MIDDLEWARE = [
@@ -50,7 +49,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "core.middleware.LanguageMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 LOGIN_REQUIRED_IGNORE_PATHS = [
